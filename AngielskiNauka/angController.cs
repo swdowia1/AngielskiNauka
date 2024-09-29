@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AngielskiNauka.ModelApi;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,13 +7,22 @@ namespace AngielskiNauka
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class angController : ControllerBase
     {
         // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Test Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = new Test();
+            result.nazwa = "poziom1";
+            result.lista = new List<Question>
+            { new Question()
+            {
+                ang="ang",
+                pol="pol",
+                status=1
+            } };
+            return result;
         }
 
         // GET api/<ValuesController>/5

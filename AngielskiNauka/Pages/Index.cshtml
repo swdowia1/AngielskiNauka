@@ -9,5 +9,31 @@
     <strong>Request ID:</strong> <code>@Model.swsw</code>
 </p>
 <script>
-    all();
+
+    getjson("api/ang", function (data) {
+        alert(data.nazwa)
+        console.log('nazwa', data.nazwa);
+        if (data.status != 'ok') {
+
+           console.log('zapisanoeee', data);
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }, function (data) {
+
+
+
+        console.log(data.message);
+
+    })
 </script>
