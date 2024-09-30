@@ -6,6 +6,12 @@ function all() {
     alert('aa');
 }
 
+function textValue(id) {
+    return $("#" + id + "").val()
+}
+function setValue(id, value) {
+    $("#" + id+"").text(value)
+}
 
 
 postjson = function (n, t, i, r, u) {

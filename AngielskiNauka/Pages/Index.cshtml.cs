@@ -8,7 +8,7 @@ namespace AngielskiNauka.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         AaaswswContext _db;
-        public string swsw { get; set; }
+       
 
         public IndexModel(ILogger<IndexModel> logger, AaaswswContext db)
         {
@@ -18,8 +18,7 @@ namespace AngielskiNauka.Pages
 
         public void OnGet()
         {
-            var ff = _db.Danes.Count();
-            swsw=ff.ToString();
+           
         }
     }
 }

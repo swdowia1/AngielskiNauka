@@ -1,4 +1,5 @@
 ﻿using AngielskiNauka.ModelApi;
+using AngielskiNauka.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,27 +10,50 @@ namespace AngielskiNauka
     [ApiController]
     public class angController : ControllerBase
     {
-        // GET: api/<ValuesController>
+        AaaswswContext _db;
+
+        public angController(AaaswswContext db)
+        {
+            _db = db;
+        }
+
         [HttpGet]
+
         public Test Get()
         {
             var result = new Test();
-            result.nazwa = "poziom1";
-            result.lista = new List<Question>
-            { new Question()
-            {
-                ang="ang",
-                pol="pol",
-                status=1
-            } };
+            
             return result;
         }
+        
 
         // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{poziom}")]
+        public  async Task<ActionResult<Test>> Get(string poziom)
         {
-            return "value";
+           var result = new Test();
+            var listastart = _db.Danes.Where(w => w.Poziom.Nazwa == poziom).OrderBy(j => j.Data).Take(40).ToList();
+            List<int> idlos = listastart.Select(k => k.DaneId).ToList();
+            idlos.Losuj();
+            idlos = idlos.Take(20).ToList();
+
+
+            var lista =
+    (from id in idlos
+     join k in listastart on id equals k.DaneId
+     select
+                 new Slowo()
+                 {
+                     Id = k.DaneId,
+                     Ang = k.Ang,
+                     Pol = k.Pol,
+                     Data = k.Data,
+                     Poziom = k.PoziomId
+                 }).ToList();
+            var ff = classFun.GetSlowos(lista).ToList();
+            result.Slowa = ff.ToArray();
+            return new JsonResult(result);
+           
         }
 
         // POST api/<ValuesController>

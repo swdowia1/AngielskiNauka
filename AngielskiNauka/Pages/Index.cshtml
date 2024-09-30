@@ -4,25 +4,46 @@
     ViewData["Title"] = "Home page";
 }
 
+<h1><span id="ang"></span></h1>
 
-<p>
-    <strong>Request ID:</strong> <code>@Model.swsw</code>
-</p>
+
+<div class="vstack gap-3">
+    <div>
+        <button id="pol0" class="btn btn-warning btn-block custom-btn-size">
+            
+        </button>
+    </div>
+    <div>
+        <button class="btn btn-warning btn-block custom-btn-size" >
+            <span id="pol1"></span>
+        </button>
+    </div>
+    <div>
+        <button class="btn btn-warning btn-block custom-btn-size" >
+            <span id="pol1"></span>
+        </button>
+    </div>
+    <div>
+        <button class="btn btn-warning btn-block custom-btn-size" >
+            slowo.Odpowiedzi[3]
+        </button>
+    </div>
+
+
+</div>
+<h1>Stan :wynik zostało ostalo z slowa.Length </h1>
+<pre id="json"></pre>
 <script>
 
-    getjson("api/ang", function (data) {
-        alert(data.nazwa)
-        console.log('nazwa', data.nazwa);
-        if (data.status != 'ok') {
+    getjson("api/ang/poziom1", function (data) {
+        
+        console.log('nazwa', data);
+        var d = data.slowa[0];
+       
 
-           console.log('zapisanoeee', data);
-
-
-
-
-
-        }
-
+        $('#ang').text(d.ang);
+        $('#pol0').text(d.Odpowiedzi[0]);
+        document.getElementById("json").textContent = JSON.stringify(data.slowa[0], undefined, 2);
 
 
 

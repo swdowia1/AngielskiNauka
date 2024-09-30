@@ -22,6 +22,14 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-app.MapControllers();
+//app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Public}/{action=login}");
+
+    endpoints.MapRazorPages();
+});
 
 app.Run();

@@ -2,8 +2,6 @@
 {
     public class Test
     {
-        public string nazwa { get; set; }
-
-        public List<Question> lista { get; set; }
+        public Slowo[] Slowa { get; set; }
     }
 }
