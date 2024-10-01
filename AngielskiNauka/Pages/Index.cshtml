@@ -1,60 +1,226 @@
 ﻿@page
+
 @model IndexModel
+
 @{
+
     ViewData["Title"] = "Home page";
+
+    string ladowanie = "..ladowanie";
+
 }
 
-<h1><span id="ang"></span></h1>
+<style>
 
+    .btn2 {
 
-<div class="vstack gap-3">
-    <div>
-        <button id="pol0" class="btn btn-warning btn-block custom-btn-size">
-            
-        </button>
-    </div>
-    <div>
-        <button class="btn btn-warning btn-block custom-btn-size" >
-            <span id="pol1"></span>
-        </button>
-    </div>
-    <div>
-        <button class="btn btn-warning btn-block custom-btn-size" >
-            <span id="pol1"></span>
-        </button>
-    </div>
-    <div>
-        <button class="btn btn-warning btn-block custom-btn-size" >
-            slowo.Odpowiedzi[3]
-        </button>
-    </div>
+        width: 200px;
 
+    }
 
-</div>
-<h1>Stan :wynik zostało ostalo z slowa.Length </h1>
-<pre id="json"></pre>
+ 
+
+</style>
+
 <script>
 
-    getjson("api/ang/poziom1", function (data) {
-        
-        console.log('nazwa', data);
-        var d = data.slowa[0];
-       
+    var aktualny = 0;
+
+    var slownik = null;
+
+    function wyslijodpowiedzi() {
+
+     
+
+   postjson("api/ang", slownik, function (data) {
+
+            alert('sss');
+
+
+
+        }, function (data) {
+
+            console.log(data)
+        })
+
+    }
+
+    function answer(id) {
+
+        var slowo = slownik.slowa[aktualny];
+
+        console.log('test', slowo.pol, slowo.odpowiedzi[id])
+
+        if (slowo.pol == slowo.odpowiedzi[id]) {
+
+            console.log('ok');
+
+            slowo.stan = 1;
+
+        }
+
+        else {
+
+            console.log('zle')
+
+            slowo.stan = 2;
+
+        }
+
+        $('#progBar').val(aktualny * 5);
+
+ 
+
+        if (aktualny == 19) {
+
+           wyslijodpowiedzi()
+
+        }
+
+        else {
+
+ 
+
+            aktualny = aktualny + 1;
+
+ 
+
+            showData(aktualny);
+
+        }
+
+    }
+
+      
+
+    function showData(pos) {
+
+        console.log('pozycja', pos);
+
+        var d = slownik.slowa[pos];
+
+      
 
         $('#ang').text(d.ang);
-        $('#pol0').text(d.Odpowiedzi[0]);
-        document.getElementById("json").textContent = JSON.stringify(data.slowa[0], undefined, 2);
 
+        $('#pol0').text(d.odpowiedzi[0]);
 
+        $('#pol1').text(d.odpowiedzi[1]);
 
+        $('#pol2').text(d.odpowiedzi[2]);
 
+        $('#pol3').text(d.odpowiedzi[3]);
 
+        document.getElementById("json").textContent = JSON.stringify(slownik, undefined, 2);
+
+ 
+
+ 
+
+    }
+
+    getjson("api/ang/poziom1", function (data) {
+
+ 
+
+        console.log('nazwa', data);
+
+        slownik = data;
+
+        document.getElementById("json").textContent = JSON.stringify(slownik, undefined, 2);
+
+        showData(0)
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+        $('#progBar').val(0);
+
+ 
+
+ 
+
+ 
+
+ 
 
     }, function (data) {
 
+ 
 
+ 
+
+ 
 
         console.log(data.message);
 
+ 
+
     })
+
 </script>
+
+<h1><span id="ang">@ladowanie</span></h1>
+
+ 
+
+ 
+
+<div class="vstack gap-3">
+
+    <div>
+
+        <button onclick="answer(0)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+            <span id="pol0">@ladowanie</span>
+
+        </button>
+
+    </div>
+
+    <div>
+
+        <button onclick="answer(1)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+            <span id="pol1">@ladowanie</span>
+
+        </button>
+
+    </div>
+
+    <div>
+
+        <button onclick="answer(2)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+            <span id="pol2">@ladowanie</span>
+
+        </button>
+
+    </div>
+
+    <div>
+
+        <button onclick="answer(3)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+            <span id="pol3">@ladowanie</span>
+
+        </button>
+
+    </div>
+
+    <progress id="progBar" max="100" value="0"></progress><br />
+
+ 
+
+</div>
+
+<h1>Stan :wynik zostało ostalo z slowa.Length </h1>
+
+<pre id="json"></pre>

@@ -57,9 +57,13 @@ namespace AngielskiNauka
         }
 
         // POST api/<ValuesController>
+
         [HttpPost]
-        public void Post([FromBody] string value)
+
+        public void Post([FromBody] Test value)
+
         {
+
         }
 
         // PUT api/<ValuesController>/5
