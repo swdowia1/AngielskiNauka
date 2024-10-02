@@ -7,6 +7,7 @@ namespace AngielskiNauka.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        public string poziom ;
         AaaswswContext _db;
        
 
@@ -16,9 +17,10 @@ namespace AngielskiNauka.Pages
             _db = db;
         }
 
-        public void OnGet()
+        public void OnGet(int id=0)
         {
-           
+            
+            poziom = "poziom"+id;
         }
     }
 }
