@@ -52,7 +52,7 @@
 
  
 
-    var aktualny = 1;
+    var aktualny = 0;
 
     var poziom='@Model.poziom';
 
@@ -68,7 +68,7 @@
         console.log('analiza')
         var zrobioneilosc=20-aktualny;
        
-        $('#progBar').val(100);
+        $('#progBar').val(zrobioneilosc*5);
 
         $('#zrobione').text(' '+zrobioneilosc);
 
@@ -79,6 +79,7 @@
         $('#progBardobrze').val(dobrze * 5);
 
         $('#dobrze').text(' ' + dobrze);
+      
 
     }
 
@@ -118,11 +119,20 @@
 
     function answer(id) {
 
- 
+        if (aktualny >= 20) {
+
+
+
+            wyslijodpowiedzi()
+
+
+
+        }
 
         var slowo = slownik.slowa[aktualny];
 
- 
+
+
 
         console.log('test', slowo.pol, slowo.odpowiedzi[id])
 
@@ -159,106 +169,30 @@
         }
 
  
-
-        postep()
-
- 
-
- 
-
- 
-
-        if (aktualny == 19) {
-
- 
-
-           wyslijodpowiedzi()
-
- 
-
-        }
-
- 
-
-        else {
-
- 
-
- 
-
-            aktualny = aktualny + 1;
-
- 
-
- 
+        aktualny=aktualny+1
+        postep() 
 
             showData(aktualny);
-
- 
-
-        }
-
- 
-
+        
     }
-
- 
-
-     
-
  
 
     function showData(pos) {
 
- 
-
-        console.log('pozycja', pos);
-
- 
-
         var d = slownik.slowa[pos];
-
- 
-
-     
-
- 
-
         $('#ang').text(d.ang);
-
- 
-
         $('#pol0').text(d.odpowiedzi[0]);
-
- 
-
         $('#pol1').text(d.odpowiedzi[1]);
-
- 
-
         $('#pol2').text(d.odpowiedzi[2]);
-
- 
-
         $('#pol3').text(d.odpowiedzi[3]);
-
- 
-
         document.getElementById("json").textContent = JSON.stringify(slownik, undefined, 2);
-
- 
-
- 
-
- 
-
     }
 
  
 
     getjson("api/ang/"+poziom, function (data) {
 
- 
+
          postep();
  
 
@@ -274,31 +208,7 @@
 
  
 
-        showData(0)
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
-        $('#progBar').val(0);
-
- 
-
- 
-
- 
-
- 
-
- 
+        showData(0) 
 
     }, function (data) {
 
