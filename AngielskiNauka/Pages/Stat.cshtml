@@ -2,4 +2,35 @@
 @model AngielskiNauka.Pages.StatModel
 @{
 }
-statyska
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Poziom</th>
+            <th>Dzień</th>
+            <th>Procent poprawny</th>
+            <th>postep</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.stat)
+        {
+            <tr>
+                <td>@item.Poziom</td>
+                <td>@item.Data</td>
+                @if (item.Powyzej)
+                {
+                    <td style="background-color:aqua">@item.Ilosc</td>
+                }
+                else
+                {
+                    <td>@item.Ilosc</td>
+                }
+                <td><progress id="progBardobrze" max="100" value="@item.Ilosc"></progress></td>
+
+            </tr>
+
+        }
+
+    </tbody>
+</table>
