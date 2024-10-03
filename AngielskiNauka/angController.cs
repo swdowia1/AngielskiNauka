@@ -1,6 +1,7 @@
 ﻿using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -60,10 +61,33 @@ namespace AngielskiNauka
 
         [HttpPost]
 
-        public void Post([FromBody] Test value)
+        public ActionResult<string> Post([FromBody] Test value)
 
         {
-
+            var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
+            DateTime dataTeraz =poland.UtcDateTime.AddHours(1);
+            List<int> ok = value.Slowa.Where(k => k.stan == Stan.dobrze).Select(j => j.Id).ToList();
+            List<int> zle = value.Slowa.Where(k => k.stan == Stan.zle).Select(j => j.Id).ToList();
+            foreach (var item in ok)
+            {
+                Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item);
+                d.Data = dataTeraz;
+            }
+            foreach (var item1 in zle)
+            {
+                Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item1);
+                d.Data = dataTeraz.AddMonths(-1);
+            }
+            Stat ss = new Stat()
+            {
+                Data = dataTeraz,
+                Ilosc = ok.Count * 5,
+                PoziomId = value.Slowa.FirstOrDefault().Poziom,
+            };
+            _db.Stats.Add(ss);
+            _db.SaveChanges();
+            
+            return new JsonResult("zapisano");
         }
 
         // PUT api/<ValuesController>/5
