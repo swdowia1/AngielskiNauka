@@ -1,5 +1,4 @@
 ﻿using AngielskiNauka.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AngielskiNauka.Pages
@@ -7,9 +6,9 @@ namespace AngielskiNauka.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        public string poziom ;
+        public string poziom;
         AaaswswContext _db;
-       
+
 
         public IndexModel(ILogger<IndexModel> logger, AaaswswContext db)
         {
@@ -17,10 +16,10 @@ namespace AngielskiNauka.Pages
             _db = db;
         }
 
-        public void OnGet(int id=0)
+        public void OnGet(int id = 1)
         {
-            
-            poziom = "poziom"+id;
+
+            poziom = "poziom" + id;
         }
     }
 }

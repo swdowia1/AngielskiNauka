@@ -54,6 +54,8 @@
 
     var aktualny = 1;
 
+    var poziom='@Model.poziom';
+
     var zle = 0;
 
     var dobrze=0;
@@ -63,10 +65,12 @@
     var slownik = null;
 
     function postep() {
+        console.log('analiza')
+        var zrobioneilosc=20-aktualny;
+       
+        $('#progBar').val(100);
 
-        $('#progBar').val(aktualny * 5);
-
-        $('#zrobione').text(' '+aktualny);
+        $('#zrobione').text(' '+zrobioneilosc);
 
         $('#progBarzle').val(zle * 5);
 
@@ -252,10 +256,10 @@
 
  
 
-    getjson("api/ang/poziom1", function (data) {
+    getjson("api/ang/"+poziom, function (data) {
 
  
-
+         postep();
  
 
         console.log('nazwa', data);
@@ -314,7 +318,7 @@
 
     })
 
- 
+
 
 </script>
 
@@ -424,7 +428,7 @@
 
     <tr>
 
-        <td>zrobione:<span id="zrobione"></span></td>
+        <td>zostało:<span id="zrobione"></span></td>
 
         <td> <progress id="progBar" max="100" value="0"></progress><br /></td>
 
