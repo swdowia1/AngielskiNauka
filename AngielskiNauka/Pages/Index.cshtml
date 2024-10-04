@@ -34,191 +34,7 @@
 
 
 
-<script>
 
-
-
-    var aktualny = 0;
-
-    var poziom = '@Model.poziom';
-
-    var zle = 0;
-
-    var dobrze = 0;
-
-
-
-    var slownik = null;
-
-    function postep() {
-        console.log('analiza')
-        var zrobioneilosc = 20 - aktualny;
-
-        $('#progBar').val(zrobioneilosc * 5);
-
-        $('#zrobione').text(' ' + zrobioneilosc);
-
-        $('#progBarzle').val(zle * 5);
-
-        $('#zle').text(' ' + zle);
-
-        $('#progBardobrze').val(dobrze * 5);
-
-        $('#dobrze').text(' ' + dobrze);
-
-
-    }
-
-    function wyslijodpowiedzi() {
-
-
-
-
-
-
-
-        postjson("api/ang", slownik, function (data) {
-
-
-            console.log(data);
-           
-
-
-
-
-
-
-
-        }, function (data) {
-
-
-
-            console.log(data)
-
-        })
-
-
-
-    }
-
-
-
-    function answer(id) {
-
-        if (aktualny >= 20) {
-            alert('koniec wiecej nie ma')
-            return
-        }
-
-        var slowo = slownik.slowa[aktualny];
-
-
-
-
-        console.log('test', slowo.pol, slowo.odpowiedzi[id])
-
-
-
-        if (slowo.pol == slowo.odpowiedzi[id]) {
-
-
-
-            console.log('ok');
-
-            dobrze = dobrze + 1
-
-            slowo.stan = 1;
-
-
-
-        }
-
-
-
-        else {
-
-
-
-            console.log('zle')
-
-            zle = zle + 1
-
-            slowo.stan = 2;
-
-
-
-        }
-
-
-        aktualny = aktualny + 1
-        if (aktualny >= 20) {
-            wyslijodpowiedzi()
-
-
-        }
-        else {
-            postep()
-
-            showData(aktualny);
-        }
-
-    }
-
-
-    function showData(pos) {
-
-        var d = slownik.slowa[pos];
-        $('#ang').text(d.ang);
-        $('#pol0').text(d.odpowiedzi[0]);
-        $('#pol1').text(d.odpowiedzi[1]);
-        $('#pol2').text(d.odpowiedzi[2]);
-        $('#pol3').text(d.odpowiedzi[3]);
-        document.getElementById("json").textContent = JSON.stringify(slownik, undefined, 2);
-    }
-
-
-
-    getjson("api/ang/" + poziom, function (data) {
-
-
-        postep();
-
-
-        console.log('nazwa', data);
-
-
-
-        slownik = data;
-
-
-
-        document.getElementById("json").textContent = JSON.stringify(slownik, undefined, 2);
-
-
-
-        showData(0)
-
-    }, function (data) {
-
-
-
-
-
-
-
-
-
-        console.log(data.message);
-
-
-
-
-
-    })
-
-
-
-</script>
 
 
 <h1>@Model.poziom</h1>
@@ -351,9 +167,208 @@
 </table>
 
 
+<div id="circle">
+    <span id="walsw"></span>
+</div>
 
-<h1>Stan :wynik zostało ostalo z slowa.Length </h1>
+<script>
 
 
 
-<pre id="json"></pre>
+    var aktualny = 0;
+
+    var poziom = '@Model.poziom';
+
+    var zle = 0;
+
+    var dobrze = 0;
+
+
+
+    var slownik = null;
+
+    function postep() {
+        console.log('analiza')
+        var zrobioneilosc = 20 - aktualny;
+
+        $('#progBar').val(zrobioneilosc * 5);
+
+        $('#zrobione').text(' ' + zrobioneilosc);
+
+        $('#progBarzle').val(zle * 5);
+
+        $('#zle').text(' ' + zle);
+
+        $('#progBardobrze').val(dobrze * 5);
+
+        $('#dobrze').text(' ' + dobrze);
+
+
+    }
+
+    function wyslijodpowiedzi() {
+
+
+
+
+
+
+
+        postjson("api/ang", slownik, function (data) {
+
+
+            alert('zapisano')
+
+
+
+
+
+
+
+
+        }, function (data) {
+
+
+
+            console.log(data)
+
+        })
+
+
+
+    }
+
+
+
+    function answer(id) {
+
+        if (aktualny >= 20) {
+            alert('koniec wiecej nie ma')
+            return
+        }
+
+        var slowo = slownik.slowa[aktualny];
+
+
+
+
+        console.log('test', slowo.pol, slowo.odpowiedzi[id])
+
+
+
+        if (slowo.pol == slowo.odpowiedzi[id]) {
+
+
+
+            console.log('ok');
+
+            dobrze = dobrze + 1
+
+            slowo.stan = 1;
+
+
+
+        }
+
+
+
+        else {
+
+
+
+            console.log('zle')
+
+            zle = zle + 1
+
+            slowo.stan = 2;
+
+
+
+        }
+
+
+        aktualny = aktualny + 1
+        if (aktualny >= 20) {
+            alert('koniec testu')
+            wyslijodpowiedzi()
+
+
+        }
+        else {
+            postep()
+
+            showData(aktualny);
+        }
+
+    }
+    function stancircle(stan) {
+        $('#circle').circleProgress({
+            value: stan * 0.05,
+            size: 80,
+            animation: false,
+            fill: {
+                gradient: ["red", "orange"]
+            }
+        })
+            ;
+
+
+    }
+
+    function showData(pos) {
+
+        var d = slownik.slowa[pos];
+        $('#ang').text(d.ang);
+        $('#pol0').text(d.odpowiedzi[0]);
+        $('#pol1').text(d.odpowiedzi[1]);
+        $('#pol2').text(d.odpowiedzi[2]);
+        $('#pol3').text(d.odpowiedzi[3]);
+        
+        stancircle(dobrze)
+    }
+
+
+    
+
+    
+    getjson("api/ang/" + poziom, function (data) {
+
+
+        postep();
+
+
+        console.log('nazwa', data);
+
+
+
+        slownik = data;
+
+
+
+
+
+
+
+        showData(0)
+
+    }, function (data) {
+
+
+
+
+
+
+
+
+
+        console.log(data.message);
+
+
+
+
+
+    })
+
+
+
+</script>
