@@ -1,0 +1,27 @@
+﻿@page
+@model AngielskiNauka.Pages.PoziomModel
+@{
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Poziom</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.lista)
+        {
+            <tr>
+                <td>@item.nazwa</td>
+                <td>
+                    <a href="/Index/@item.id">Home</a>
+
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
