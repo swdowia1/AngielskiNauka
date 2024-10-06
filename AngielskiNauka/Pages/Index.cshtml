@@ -167,13 +167,19 @@
 </table>
 
 
-<div id="circle">
-    <span id="walsw"></span>
+
+
+<div style="position: relative; height: 400px;">
+    <div id="circle">
+    </div>
+    <span id="walsw" style="position: relative;top:-60px;left: 30px;">
+        
+    </span>
 </div>
 
 <script>
 
-
+    "use strict";
 
     var aktualny = 0;
 
@@ -182,6 +188,7 @@
     var zle = 0;
 
     var dobrze = 0;
+    var odpowiedz = 0;
 
 
 
@@ -189,6 +196,7 @@
 
     function postep() {
         console.log('analiza')
+        
         var zrobioneilosc = 20 - aktualny;
 
         $('#progBar').val(zrobioneilosc * 5);
@@ -202,33 +210,21 @@
         $('#progBardobrze').val(dobrze * 5);
 
         $('#dobrze').text(' ' + dobrze);
-
-
+        console.log(dobrze,odpowiedz)
+        if (odpowiedz > 0) {
+            stancircle((dobrze / odpowiedz) * 100)
+        }
     }
 
     function wyslijodpowiedzi() {
 
-
-
-
-
-
-
         postjson("api/ang", slownik, function (data) {
 
 
-            alert('zapisano')
-
-
-
-
-
-
+            alert('wybierz ponownie poziom')
 
 
         }, function (data) {
-
-
 
             console.log(data)
 
@@ -241,17 +237,12 @@
 
 
     function answer(id) {
-
         if (aktualny >= 20) {
             alert('koniec wiecej nie ma')
             return
         }
-
+        odpowiedz = odpowiedz + 1;
         var slowo = slownik.slowa[aktualny];
-
-
-
-
         console.log('test', slowo.pol, slowo.odpowiedzi[id])
 
 
@@ -302,8 +293,10 @@
 
     }
     function stancircle(stan) {
+        console.log('stan',stan)
+        $('#walsw').text(Math.round(stan))
         $('#circle').circleProgress({
-            value: stan * 0.05,
+            value: stan * 0.01,
             size: 80,
             animation: false,
             fill: {
@@ -316,7 +309,7 @@
     }
 
     function showData(pos) {
-
+        
         var d = slownik.slowa[pos];
         $('#ang').text(d.ang);
         $('#pol0').text(d.odpowiedzi[0]);
@@ -324,7 +317,7 @@
         $('#pol2').text(d.odpowiedzi[2]);
         $('#pol3').text(d.odpowiedzi[3]);
         
-        stancircle(dobrze)
+       
     }
 
 
