@@ -37,7 +37,8 @@
 
 
 
-<h1> wybierz tłumaczenie dla :@Model.poziomnazwa</h1>
+<h1> Poziom :@Model.poziomnazwa</h1>
+<span style="color:brown;font-size:x-large" id="info"></span>
 <h1><span id="ang">@ladowanie</span></h1>
 
 
@@ -169,12 +170,13 @@
 
 
 
-<div style="position: relative; height: 400px;">
+<div >
     <div id="circle">
     </div>
     <span id="walsw" style="position: relative;top:-60px;left: 30px;">
         
     </span>
+    
 </div>
 
 <script>
@@ -217,11 +219,12 @@
     }
 
     function wyslijodpowiedzi() {
-
+        infoapp('wyslanie odpowiedzi do bazy czekaj')
         postjson("api/ang", slownik, function (data) {
 
 
-            alert('wybierz ponownie poziom')
+            infoapp('odpowaidaj jeszcze raz')
+            LadujDane(poziom)
 
 
         }, function (data) {
@@ -319,32 +322,27 @@
         
        
     }
+    LadujDane(poziom)
+    function infoapp(tekst) {
+        
+        $('#info').text(tekst)
+    }
+    function LadujDane(poziom) {
+
+        infoapp('Ladowanie slownika nr '+poziom)
 
 
-    
+        getjson("api/ang/" + poziom, function (data) {
 
-    
-    getjson("api/ang/" + poziom, function (data) {
-
-
-        postep();
+            infoapp('Wybierz odpowiedzi')
+            postep();
 
 
-        console.log('nazwa', data);
-
-
-
-        slownik = data;
-
-
-
-
+            console.log('nazwa', data);
 
 
 
-        showData(0)
-
-    }, function (data) {
+            slownik = data;
 
 
 
@@ -352,16 +350,26 @@
 
 
 
+            showData(0)
+
+        }, function (data) {
 
 
-        console.log(data.message);
 
 
 
 
 
-    })
 
+
+            console.log(data.message);
+
+
+
+
+
+        })
+    }
 
 
 </script>

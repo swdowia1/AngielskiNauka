@@ -2,6 +2,30 @@
 @model AngielskiNauka.Pages.StatModel
 @{
 }
+<div>Ilosc powyzej 80%</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Poziom</th>
+            <th>Ilosc</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.pods)
+        {
+            <tr>
+                <td>@item.nazwa</td>
+                <td>@item.ilosc</td>
+               
+
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+<hr />
 <table class="table table-striped">
     <thead>
         <tr>

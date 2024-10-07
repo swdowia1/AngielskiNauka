@@ -8,11 +8,13 @@ namespace AngielskiNauka.Pages
     public class StatModel : PageModel
     {
         public List<StatView> stat;
+        public List<Podsumowanie> pods;
         AaaswswContext _db;
 
         public StatModel(AaaswswContext db)
         {
             _db = db;
+            pods = new List<Podsumowanie>();
         }
 
         public void OnGet()
@@ -28,6 +30,11 @@ namespace AngielskiNauka.Pages
                    Poziom = h.Poziom.Nazwa
                }
            ).ToList();
+
+            var powyzej = stat.Where(h => h.Powyzej).ToList();
+            pods = (from p in powyzej
+                    group p by p.Poziom into g
+                    select new Podsumowanie { nazwa = g.Key, ilosc = g.Count() }).ToList();
         }
     }
 }
