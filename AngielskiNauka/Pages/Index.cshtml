@@ -178,7 +178,7 @@
     </span>
     
 </div>
-
+<div id="json"></div>
 <script>
 
     "use strict";
@@ -226,7 +226,8 @@
 
 
             infoapp('nowa lecja')
-           
+            document.getElementById("json").textContent = JSON.stringify(data, null, 2);
+            console.log(data);
             LadujDane(poziom)
 
 
@@ -359,7 +360,7 @@
 
 
             slownik = data;
-
+           // document.getElementById("json").textContent = JSON.stringify(slownik, null, 2);
             showData(0)
 
         }, function (data) {

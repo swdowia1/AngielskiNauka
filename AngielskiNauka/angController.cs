@@ -31,6 +31,10 @@ namespace AngielskiNauka
         [HttpGet("{poziom}")]
         public async Task<ActionResult<Test>> Get(int poziom)
         {
+            var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
+            DateTime dataTeraz1 = poland.UtcDateTime.AddHours(1);
+            DateTime dataTeraz = poland.UtcDateTime;
+
             var result = new Test();
             var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Data).Take(40).ToList();
             List<int> idlos = listastart.Select(k => k.DaneId).ToList();
@@ -60,7 +64,7 @@ namespace AngielskiNauka
 
         [HttpPost]
 
-        public ActionResult<string> Post([FromBody] Test value)
+        public ActionResult<List<string>> Post([FromBody] Test value)
 
         {
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
@@ -70,12 +74,12 @@ namespace AngielskiNauka
             foreach (var item in ok)
             {
                 Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item);
-                d.Data = dataTeraz;
+                d.Data = dataTeraz.AddMonths(1);
             }
             foreach (var item1 in zle)
             {
                 Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item1);
-                d.Data = dataTeraz.AddMonths(-1);
+                d.Data = dataTeraz.AddMonths(-3);
             }
             Stat ss = new Stat()
             {
@@ -85,8 +89,13 @@ namespace AngielskiNauka
             };
             _db.Stats.Add(ss);
             _db.SaveChanges();
-
-            return new JsonResult("zapisano");
+            if (!zle.Any())
+                return new JsonResult(new List<string>() { "zapisano" });
+            else
+            {
+                var dd = value.Slowa.Where(j => j.stan == Stan.zle).Select(k => k.Ang + ":" + k.Pol).ToList();
+                return new JsonResult(dd);
+            }
         }
 
         // PUT api/<ValuesController>/5
