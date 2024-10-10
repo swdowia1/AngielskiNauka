@@ -16,13 +16,20 @@ namespace Getslowa
             //{
             //    DownloadWebPage(i);
             //}
-            AnalizaHtml(70);
+
+            AnalizaHtml(1);
+            for (int i = 1; i <= 70; i++)
+            {
+                AnalizaHtml(i);
+            }
+
             Console.WriteLine("nacisnsni klawisz");
             Console.ReadKey(true);
         }
 
         private static void AnalizaHtml(int v)
         {
+            Console.WriteLine("analiza " + v);
             string filename = "C:\\dyskD\\wywal\\angHtml\\ang{0}.html";
             string filtetxt = "C:\\dyskD\\wywal\\angHtml\\angtxt{0}.txt";
             string plik = string.Format(filename, v);
@@ -35,9 +42,25 @@ namespace Getslowa
             {
                 if (item.Contains("slowko") && item.EndsWith("</a>"))
                 {
-                    string ang = item;
+                    string ang = item.Trim();
+
+                    int posangstart = ang.IndexOf('>');
+                    int posangskoniec = ang.IndexOf("</a>");
+                    ang = ang.Substring(posangstart + 1, posangskoniec - posangstart - 1);
                     string pol = linie[pos + 3];
-                    File.AppendAllText(Zapiszpliktxt, ang + "||" + pol + Environment.NewLine);
+                    for (int i = 1; i < 30; i++)
+                    {
+                        string pol2 = linie[pos + i].Trim();
+                        if (pol2.StartsWith("<td") && pol2.EndsWith("td>"))
+                        {
+                            pol2 = pol2.Replace("<td>", "");
+                            pol2 = pol2.Replace("</td>", "");
+                            pol = pol2;
+
+                            break;
+                        }
+                    }
+                    File.AppendAllText(Zapiszpliktxt, ang + ";" + pol + Environment.NewLine);
                 }
                 pos++;
 
