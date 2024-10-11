@@ -179,6 +179,21 @@
     
 </div>
 <div id="json"></div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalDeleteProductDelivery">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: fit-content">
+            <div class="modal-header">
+
+
+                <h4 class="modal-title" style="display:flex; gap: 15px; align-items: center"><i class="fas fa-question-circle"></i><span class="n"> Wynik testu</span>  </h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="btnProductNo">OK</button>
+              
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 
     "use strict";
@@ -222,6 +237,7 @@
         var calosc = (dobrze / odpowiedz) * 100;
         stancircle(calosc)
         infoapp('twoj wynik to ' + calosc)
+        $('#modalDeleteProductDelivery').modal('show');
         postjson("api/ang", slownik, function (data) {
 
 
