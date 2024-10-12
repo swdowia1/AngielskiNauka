@@ -5,36 +5,20 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
 jobs:
-  build:
-
-runs-on: ubuntu-latest
-
-steps:
-- uses: actions/checkout@v2
-- name: Setup .NET Core
-  uses: actions/setup-dotnet@v1
-  with:
-    dotnet-version: 8.0.3
-- name: Install dependencies
-  run: dotnet restore
-- name: Build with dotnet
-  run: dotnet build --configuration Release --no-restore
-- name: Test
-  run: dotnet test --no-restore --verbosity normal
-- name: Publish
-  run: dotnet publish AngielskiNauka.sln --configuration Release --framework netcoreapp8.0 --output ./publish --runtime win-x86  --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: FTP Deploy to WP Engine (Staging)
-      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+ build:
+   runs-on: ubuntu-latest
+   steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
       with:
-        server: swsw.somee.com
-        username: ${{ secrets.USER}}
-        password: ${{ secrets.PASSWORD }}
-        local-dir: ./Release/
-        server-dir: www.swsw.somee.com/
+        dotnet-version: 8.0.3
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build with dotnet
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Publish
+      run: dotnet publish AngielskiNauka.sln --configuration Release --framework netcoreapp8.0 --output ./publish --runtime win-x86  --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true
