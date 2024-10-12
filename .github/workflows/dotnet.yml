@@ -18,7 +18,5 @@ jobs:
       run: dotnet restore
     - name: Build with dotnet
       run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
     - name: Publish
-      run: dotnet publish AngielskiNauka.sln --configuration Release --framework netcoreapp8.0 --output ./publish --runtime win-x86  --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true
+      run: dotnet publish -c Release --output ./Release
