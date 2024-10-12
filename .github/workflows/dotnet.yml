@@ -28,10 +28,10 @@ jobs:
     needs: build
     steps:
       - name: FTP Deploy to WP Engine (Staging)
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: swsw.somee.com
           username: '${{ secrets.USER}}'
           password: '${{ secrets.PASSWORD }}'
-          local-dir: Release/
+          local-dir: ./Release/
           server-dir: www.swsw.somee.com/
