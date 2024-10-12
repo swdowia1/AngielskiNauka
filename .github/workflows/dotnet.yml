@@ -21,6 +21,8 @@ jobs:
         run: dotnet build --configuration Release --no-restore
       - name: Publish
         run: dotnet publish -c Release --output ./Release
+      - name: lista plikow
+        run: ls
   deploy:
     runs-on: ubuntu-latest
     needs: build
