@@ -26,13 +26,8 @@ jobs:
       run: dotnet build --no-restore --configuration Release
 
     - name: Publish the build artifacts
-      run: dotnet publish --configuration Release --output ./publish
+      run: dotnet publish --configuration Release --output ./swsw
 
-    - name: Upload the artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: dotnet-app
-        path: ./publish
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -43,5 +38,5 @@ jobs:
         server: swsw.somee.com
         username: ${{ secrets.USER}}
         password: ${{ secrets.PASSWORD }}
-        local-dir: ./publish/
+        local-dir: ./swsw/
         server-dir: www.swsw.somee.com/
