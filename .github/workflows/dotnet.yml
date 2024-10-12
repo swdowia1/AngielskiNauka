@@ -26,3 +26,10 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: FTP Deploy to WP Engine (Staging)
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      with:
+        ftp-server: swsw.somee.com
+        ftp-username: swdowia1
+        ftp-password: ZAQ!2wsxcde3
+        local-dir: ./www.swsw.somee.com/
