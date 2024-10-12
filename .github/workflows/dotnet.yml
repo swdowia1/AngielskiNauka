@@ -29,7 +29,7 @@ jobs:
     - name: FTP Deploy to WP Engine (Staging)
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
-        ftp-server: swsw.somee.com
-        ftp-username: swdowia1
-        ftp-password: ZAQ!2wsxcde3
+        server: swsw.somee.com
+        username: swdowia1
+        password: ZAQ!2wsxcde3
         local-dir: ./www.swsw.somee.com/
