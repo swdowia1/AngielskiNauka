@@ -22,7 +22,7 @@ jobs:
       - name: Publish
         run: dotnet publish -c Release --output ./Release
       - name: lista plikow
-        run: ls
+        run: ls Release
   deploy:
     runs-on: ubuntu-latest
     needs: build
