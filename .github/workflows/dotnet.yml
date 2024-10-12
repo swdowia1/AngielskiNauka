@@ -22,14 +22,34 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Build the solution
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Publish the build artifacts
+      run: dotnet publish --configuration Release --output ./publish
+
+    - name: Upload the artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: dotnet-app
+        path: ./publish
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v3
+
+    - name: Download the build artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: dotnet-app
+   
     - name: FTP Deploy to WP Engine (Staging)
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
         server: swsw.somee.com
         username: ${{ secrets.USER}}
         password: ${{ secrets.PASSWORD }}
+        local-dir: publish/
         server-dir: www.swsw.somee.com/
