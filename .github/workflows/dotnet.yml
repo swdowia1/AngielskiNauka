@@ -32,4 +32,4 @@ jobs:
         server: swsw.somee.com
         username: ${{ secrets.USER}}
         password: ${{ secrets.PASSWORD }}
-        local-dir: www.swsw.somee.com/
+        server-dir: www.swsw.somee.com/
