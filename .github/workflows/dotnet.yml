@@ -27,7 +27,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: FTP Deploy to WP Engine (Staging)
-      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
         ftp-server: swsw.somee.com
         ftp-username: swdowia1
