@@ -33,5 +33,5 @@ jobs:
           server: swsw.somee.com
           username: '${{ secrets.USER}}'
           password: '${{ secrets.PASSWORD }}'
-          local-dir: ./Release/
+          local-dir: Release/
           server-dir: www.swsw.somee.com/
