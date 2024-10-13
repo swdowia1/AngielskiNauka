@@ -12,7 +12,8 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -32,3 +33,4 @@ jobs:
         server: swsw.somee.com
         username: swdowia1
         password: ZAQ!2wsxcde3
+        server-dir: www.swsw.somee.com/
