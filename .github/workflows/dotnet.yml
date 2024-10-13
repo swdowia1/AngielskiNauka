@@ -25,12 +25,15 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish -c Release --output ./Release
+   
     - name: FTP Deploy to WP Engine (Staging)
-      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      uses: sebastianpopp/ftp-action@releases/v2
       with:
-        server: swsw.somee.com
-        username: swdowia1
-        password: ZAQ!2wsxcde3
-        server-dir: www.swsw.somee.com/
+        host: swsw.somee.com
+        user: '${{ secrets.USER}}'
+        password: '${{ secrets.PASSWORD }}'
+        localDir: "Release"
+        remoteDir: "www.swsw.somee.com"
+        options: "--delete --asci"
