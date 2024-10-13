@@ -23,10 +23,6 @@ jobs:
         run: dotnet publish -c Release --output ./Release
       - name: lista plikow
         run: ls Release
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: FTP Deploy to WP Engine (Staging)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
