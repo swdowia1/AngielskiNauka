@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Display the path
-        run: echo %cd%
+        run: dir
         shell: cmd
       - name: unix
         run: pwd
