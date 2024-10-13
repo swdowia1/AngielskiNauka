@@ -31,5 +31,5 @@ jobs:
           server: swsw.somee.com
           username: '${{ secrets.USER}}'
           password: '${{ secrets.PASSWORD }}'
-          local-dir: Release/
+          local-dir: AngielskiNauka/Release/
           server-dir: www.swsw.somee.com/
