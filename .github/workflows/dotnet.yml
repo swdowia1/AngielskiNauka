@@ -22,12 +22,4 @@ jobs:
       - name: Publish
         run: dotnet publish -c Release --output ./Release
       - name: lista plikow
-        run: dir Release
-      - name: Upload from public_html via FTP
-        uses: airvzxf/ftp-deployment-action@latest
-        with:
-          server: swsw.somee.com
-          user: '${{ secrets.USER}}'
-          password: '${{ secrets.PASSWORD }}'
-          local_dir: "./Release/"
-          remote_dir:  "www.swsw.somee.com/"
+        run: cd
