@@ -27,5 +27,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
         server: swsw.somee.com
+        local-dir: ./AngielskiNauka/
+        server-dir: www.swsw.somee.com/
         username: ${{ secrets.USER}}
         password: ${{ secrets.PASSWORD }}
