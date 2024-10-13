@@ -22,4 +22,4 @@ jobs:
       - name: Publish
         run: dotnet publish -c Release --output ./Release
       - name: lista plikow
-        run: cd
+        run: echo %cd% 
