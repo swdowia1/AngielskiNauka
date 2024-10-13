@@ -24,3 +24,11 @@ jobs:
       - name: Display the path
         run: dir Release
         shell: cmd
+      - name: ftp
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: swsw.somee.com
+          username: '${{ secrets.USER}}'
+          password: '${{ secrets.PASSWORD }}'
+          local-dir: ./Release/
+          server-dir: www.swsw.somee.com/
