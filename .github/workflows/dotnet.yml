@@ -23,4 +23,12 @@ jobs:
         run: dotnet publish -c Release --output ./Release
       - name: lista plikow
         run: dir Release
+      - name: FTP Deploy to WP Engine (Staging)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: swsw.somee.com
+          username: '${{ secrets.USER}}'
+          password: '${{ secrets.PASSWORD }}'
+          local-dir: ./Release/
+          server-dir: www.swsw.somee.com/
      
