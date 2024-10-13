@@ -1,6 +1,3 @@
-# This workflow will build a .NET project
-# swswwhttps://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET
 
 on:
@@ -12,8 +9,7 @@ on:
 jobs:
   build:
 
-
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -25,15 +21,12 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Publish
-      run: dotnet publish -c Release --output ./Release
-   
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
     - name: FTP Deploy to WP Engine (Staging)
-      uses: sebastianpopp/ftp-action@releases/v2
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
-        host: swsw.somee.com
-        user: '${{ secrets.USER}}'
-        password: '${{ secrets.PASSWORD }}'
-        localDir: "Release"
-        remoteDir: "www.swsw.somee.com"
-        options: "--delete --asci"
+        server: swsw.somee.com
+        username: ${{ secrets.USER}}
+        password: ${{ secrets.PASSWORD }}
+        server-dir: www.swsw.somee.com/
