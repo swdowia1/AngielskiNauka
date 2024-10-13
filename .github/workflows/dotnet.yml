@@ -25,7 +25,7 @@ jobs:
         run: dir Release
         shell: cmd
       - name: ftp
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0-beta
         with:
           server: swsw.somee.com
           username: '${{ secrets.USER}}'
