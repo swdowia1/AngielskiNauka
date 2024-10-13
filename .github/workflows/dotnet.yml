@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: lista plikow
-        run: ls
+        run: dir
       - name: unix
         run: pwd
 
