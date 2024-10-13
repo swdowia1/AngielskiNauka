@@ -1,3 +1,6 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
 name: .NET
 
 on:
@@ -9,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -21,15 +24,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Publish
-      run: dotnet publish -c Release --output ./Release
-    - name: lista plik
-      run: ls Release
-    - name: ftp
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: FTP Deploy to WP Engine (Staging)
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
-          server: swsw.somee.com
-          username: '${{ secrets.USER}}'
-          password: '${{ secrets.PASSWORD }}'
-          local-dir: Release/
-          server-dir: www.swsw.somee.com/
+        server: swsw.somee.com
+        username: swdowia1
+        password: ZAQ!2wsxcde3
