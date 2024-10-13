@@ -10,8 +10,9 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: lista plikow
-        run: dir
+      - name: Display the path
+        run: echo %PATH%
+        shell: cmd
       - name: unix
         run: pwd
 
