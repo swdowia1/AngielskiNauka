@@ -23,3 +23,5 @@ jobs:
         run: dotnet publish -c Release --output ./Release
       - name: lista plikow
         run: echo %cd% 
+      - name: unix
+        run: pwd 
