@@ -1,0 +1,35 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Publish
+      run: dotnet publish -c Release --output ./Release
+    - name: lista plik
+      run: ls Release
+    - name: ftp
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+          server: swsw.somee.com
+          username: '${{ secrets.USER}}'
+          password: '${{ secrets.PASSWORD }}'
+          local-dir: AngielskiNauka/Release/
+          server-dir: www.swsw.somee.com/
