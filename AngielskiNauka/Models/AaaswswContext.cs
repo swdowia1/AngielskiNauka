@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace AngielskiNauka.Models;
 
@@ -17,12 +15,11 @@ public partial class AaaswswContext : DbContext
 
     public virtual DbSet<Dane> Danes { get; set; }
 
-    public virtual DbSet<Losuj> Losujs { get; set; }
 
-    public virtual DbSet<LosujSlowa> LosujSlowas { get; set; }
 
     public virtual DbSet<Poziom> Pozioms { get; set; }
-
+    //AddNew
+    public virtual DbSet<AddNew> AddNews { get; set; }
     public virtual DbSet<Stat> Stats { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -38,14 +35,7 @@ public partial class AaaswswContext : DbContext
             entity.HasOne(d => d.Poziom).WithMany(p => p.Danes).HasForeignKey(d => d.PoziomId);
         });
 
-        modelBuilder.Entity<LosujSlowa>(entity =>
-        {
-            entity.ToTable("LosujSlowa");
 
-            entity.HasIndex(e => e.LosujId, "IX_LosujSlowa_LosujId");
-
-            entity.HasOne(d => d.Losuj).WithMany(p => p.LosujSlowas).HasForeignKey(d => d.LosujId);
-        });
 
         modelBuilder.Entity<Stat>(entity =>
         {
