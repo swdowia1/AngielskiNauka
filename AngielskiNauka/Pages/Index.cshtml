@@ -178,14 +178,26 @@
     </span>
     
 </div>
-<div id="json"></div>
+
+<table id="myTable" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ang</th>
+            <th>pol</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        
+    </tbody>
+    
+</table>
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalDeleteProductDelivery">
     <div class="modal-dialog modal-sm">
         <div class="modal-content" style="width: fit-content">
             <div class="modal-header">
 
 
-                <h4 class="modal-title" style="display:flex; gap: 15px; align-items: center"><i class="fas fa-question-circle"></i><span class="n"> Wynik testu</span>  </h4>
+                <h4 class="modal-title" style="display:flex; gap: 15px; align-items: center"><i class="fas fa-question-circle"></i><span id="wynik" class="n"> Wynik testu</span>  </h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="btnProductNo">OK</button>
@@ -196,7 +208,7 @@
 </div>
 <script>
 
-    "use strict";
+    
 
     var aktualny = 0;
 
@@ -238,13 +250,23 @@
         var calosc = (dobrze / odpowiedz) * 100;
         stancircle(calosc)
         infoapp('twoj wynik to ' + calosc)
+        var index=0
+        for (index = 0; index < slownik.slowa.length; ++index) {
+            var entry = slownik.slowa[index];
+            if (entry.stan==2) {
+                console.log(entry)
+                $('#tableBody').append('<tr><td>' + entry.ang + '</td><td>' + entry.pol + '</td></tr>');
+            }
+        }
+      
         $('#modalDeleteProductDelivery').modal('show');
+     
+        $('#wynik').text( 'Wynik testu ' + calosc+'%');
         postjson("api/ang", slownik, function (data) {
 
 
             infoapp('nowa lecja')
-            datazle = data;
-            document.getElementById("json").textContent = JSON.stringify(data, null, 2);
+            
             console.log(data);
             LadujDane(poziom)
 
@@ -262,9 +284,9 @@
 
 
     function answer(id) {
-      
+        $("#tableBody").empty();
         if (aktualny >= 20) {
-            console.log('niema odpowiedzi', aktualny)
+            console.log('nie ma odpowiedzi', aktualny)
             infoapp('koniec wiecej nie ma')
             return
         }
@@ -378,7 +400,7 @@
 
 
             slownik = data;
-           // document.getElementById("json").textContent = JSON.stringify(slownik, null, 2);
+        
             showData(0)
 
         }, function (data) {
