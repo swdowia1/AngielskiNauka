@@ -36,7 +36,7 @@ namespace AngielskiNauka
             DateTime dataTeraz = poland.UtcDateTime;
 
             var result = new Test();
-            var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Data).Take(40).ToList();
+            var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Data).Take(25).ToList();
             List<int> idlos = listastart.Select(k => k.DaneId).ToList();
             idlos.Losuj();
             idlos = idlos.Take(20).ToList();
