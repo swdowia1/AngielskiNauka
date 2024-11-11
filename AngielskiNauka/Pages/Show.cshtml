@@ -1,0 +1,26 @@
+﻿@page "{id:int?}"
+@model AngielskiNauka.Pages.ShowModel
+<h1>Liczba słów @Model.slowa.Count</h1>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Ang</th>
+            <th>Pol</th>
+            <th>Data</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.slowa)
+        {
+            <tr>
+                <td>@item.Ang</td>
+                <td>@item.Pol</td>
+                <td>@item.Data</td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
