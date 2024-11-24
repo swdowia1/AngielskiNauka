@@ -1,0 +1,52 @@
+﻿@page "{id:int?}"
+@model AngielskiNauka.Pages.FiszkaModel
+@{
+    //var model = @Html.Raw(Json.Encode(Model));
+}
+
+
+<br />
+<div onclick="dalej()" style="height:100%">
+    <div class="container" onclick="dalej()">
+        <div class="row">
+            <div id="ang" class="fontfiszka col-md-6 h1 bg-warning text-dark">Ang</div>
+
+        </div>
+    </div>
+
+    <div class="container" onclick="dalej()">
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6 h1 bg-primary text-white"><span id="pol" class="fontfiszka pull-right">pol</span></div>
+        </div>
+    </div>
+
+
+    <button onclick="dalej()" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+
+
+        Pokaż
+
+
+
+    </button>
+</div>
+<script>
+
+    var pos = 0;
+    var slowa = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.List));
+
+    function pokaz(pos) {
+        var s = slowa[pos]
+        console.table(s.Ang);
+        $("#ang").html(s.Ang);
+        $("#pol").html(s.Pol);
+    }
+    function dalej() {
+        pos = pos + 1;
+        pokaz(pos);
+
+    }
+    pokaz(pos);
+</script>

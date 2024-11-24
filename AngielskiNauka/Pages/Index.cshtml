@@ -178,7 +178,11 @@
     </span>
     
 </div>
-
+<br />
+<a href="fiszka?id=@Model.poziom">fiszka</a>
+<br />
+<div id="stan"></div>
+<br />
 <table id="myTable" class="table table-striped">
     <thead>
         <tr>
@@ -259,8 +263,8 @@
             }
         }
       
-        $('#modalDeleteProductDelivery').modal('show');
-     
+        //$('#modalDeleteProductDelivery').modal('show');
+        $('#stan').text('koniec twoj wynik to ' + calosc);
         $('#wynik').text( 'Wynik testu ' + calosc+'%');
         postjson("api/ang", slownik, function (data) {
 
