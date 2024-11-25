@@ -1,4 +1,5 @@
 ﻿using AngielskiNauka.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AngielskiNauka.Pages
@@ -6,6 +7,7 @@ namespace AngielskiNauka.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+
         public int poziom;
         public string poziomnazwa;
         AaaswswContext _db;
