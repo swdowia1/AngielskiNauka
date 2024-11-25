@@ -10,6 +10,7 @@ namespace AngielskiNauka.Pages
 
 
         public List<Slowo> List;
+        public int poziom;
         AaaswswContext _db;
 
         public FiszkaModel(AaaswswContext db)
@@ -19,6 +20,7 @@ namespace AngielskiNauka.Pages
 
         public void OnGet(int id = 1)
         {
+            poziom = id;
             List = _db.Danes.ToList().OrderBy(d => d.Data).Where(p => p.PoziomId == id).Select(
                 (j, index) => new Slowo()
                 {
