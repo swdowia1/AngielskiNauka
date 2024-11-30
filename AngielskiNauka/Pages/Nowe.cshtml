@@ -5,5 +5,20 @@
 Dodawanie słówek
 <form method="post" enctype="multipart/form-data">
     <input type="file" asp-for="Upload" />
+    wybierz poziom
+
+    <select name="number">
+
+        @foreach (var item in Model.poziomy)
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+
+
+    </select>
     <input type="submit" />
+
 </form>
+<br/>
+
+Plik w formie CSv pytanie + śrtednik + wynik
