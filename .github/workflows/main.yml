@@ -37,10 +37,10 @@ jobs:
 
     # 6. Wdrożenie (np. na Azure lub inny serwer)
     - name: Deploy to server
-      uses: appleboy/scp-action@v0.1.2
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        host: swsw.somee.com
+        server: ftp://swsw.somee.com
         username: swdowia1
         password: ZAQ!2wsxcde3
-        source: ./publish/
-        target: /www.swsw.somee.com/
+        local-dir: ./publish
+        server-dir: /www.swsw.somee.com
