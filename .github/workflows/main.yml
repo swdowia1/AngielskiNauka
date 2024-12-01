@@ -41,6 +41,6 @@ jobs:
       with:
         server: 155.254.244.40
         username: swdowia1
-        password: ZAQ!2wsxcde3
+        password: ${{ secrets.PASSWORD }}
         local-dir: ./publish/
         server-dir: /www.swsw.somee.com/
