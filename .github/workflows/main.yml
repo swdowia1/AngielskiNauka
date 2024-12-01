@@ -3,10 +3,10 @@ name: Build and Deploy ASP.NET Core
 on:
   push:
     branches:
-      - main # lub inna gałąź, której używasz
+      - master # lub inna gałąź, której używasz
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
