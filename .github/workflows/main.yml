@@ -39,7 +39,7 @@ jobs:
     - name: Deploy to server
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: ftp://swsw.somee.com/www.swsw.somee.com
+        server: ftp://swdowia1.somee.com/
         username: swdowia1
         password: ZAQ!2wsxcde3
         local-dir: ./publish/
