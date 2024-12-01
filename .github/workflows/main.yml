@@ -42,5 +42,5 @@ jobs:
         server: ftp://swsw.somee.com
         username: swdowia1
         password: ZAQ!2wsxcde3
-        local-dir: ./publish
+        local-dir: ./publish/
         server-dir: /www.swsw.somee.com
