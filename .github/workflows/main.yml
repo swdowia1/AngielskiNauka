@@ -14,7 +14,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Zainstaluj .NET Core
+    # 2. Zainstaluj .NET Core swsw
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -40,5 +40,5 @@ jobs:
         username: swdowia1
         password: ${{ secrets.PASSWORD }}
         local-dir: ./publish/
-        exclude:  AngielskiNauka/
+        exclude:  ./AngielskiNauka/
         server-dir: /www.swsw.somee.com/
