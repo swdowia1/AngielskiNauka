@@ -8,7 +8,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.ddd
+// Add services commit
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AaaswswContext>(x => x.UseSqlServer("workstation id=aaaswsw.mssql.somee.com;packet size=4096;user id=swdowia1_SQLLogin_2;pwd=kr62j5x3px;data source=aaaswsw.mssql.somee.com;persist security info=False;initial catalog=aaaswsw;TrustServerCertificate=True"));
 builder.Services.AddSingleton<LocService>();
