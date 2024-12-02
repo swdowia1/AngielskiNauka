@@ -22,7 +22,11 @@
             <div class="col-md-6"><span id="pol" class="fontfiszka">pol</span></div>
         </div>
     </div>
-
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6"><span id="stan" class="fontfiszka"></span></div>
+            </div>
+        </div>
 
 
 </div>
@@ -63,6 +67,7 @@
     }
 
     var slowa = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.List));
+    var slowailosc = slowa.length;
 
     function pokaz(pozycja) {
       
@@ -80,6 +85,7 @@
         console.table(s.Ang);
         $("#ang").html(s.Ang);
         $("#pol").html(s.Pol);
+        $("#stan").html(pozycja+'/'+slowailosc);
     }
     function dalej() {
         pos = pos + 1;
