@@ -40,4 +40,5 @@ jobs:
         username: swdowia1
         password: ${{ secrets.PASSWORD }}
         local-dir: ./publish/
+        exclude:  AngielskiNauka/
         server-dir: /www.swsw.somee.com/
