@@ -23,3 +23,9 @@ body {
 .fontfiszka {
     font-size: 70px !important
 }
+.uwaga {
+    background-color: palegreen;
+    padding: 10px;
+    border-style: solid;
+    border-color: coral;
+}
