@@ -5,6 +5,16 @@ namespace AngielskiNauka
 {
     public static class classFun
     {
+        public static DateTime GetRandomDate(int minYear = 2020, int maxYear = 2050)
+        {
+            Random random = new Random();
+            var year = random.Next(minYear, maxYear);
+            var month = random.Next(1, 12);
+            var noOfDaysInMonth = DateTime.DaysInMonth(year, month);
+            var day = random.Next(1, noOfDaysInMonth);
+
+            return new DateTime(year, month, day);
+        }
         private static string[] LosujOdpiwedzi(Slowo s, List<Slowo> result)
         {
             List<string> odp = new List<string>();
