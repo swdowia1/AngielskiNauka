@@ -34,7 +34,7 @@ jobs:
 
     # 6. Wdrożenie (np. na Azure lub inny serwer)
     - name: Deploy to server
-      uses: SamKirkland/FTP-Deploy-Action@4.3.4
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: 155.254.244.40
         username: swdowia1
