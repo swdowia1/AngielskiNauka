@@ -14,4 +14,5 @@ public partial class Stat
     public int PoziomId { get; set; }
 
     public virtual Poziom Poziom { get; set; } = null!;
+    public string Repeat { get; set; }
 }

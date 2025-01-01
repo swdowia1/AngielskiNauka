@@ -18,8 +18,7 @@ public partial class AaaswswContext : DbContext
 
 
     public virtual DbSet<Poziom> Pozioms { get; set; }
-    //AddNew
-    public virtual DbSet<AddNew> AddNews { get; set; }
+
     public virtual DbSet<Stat> Stats { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
