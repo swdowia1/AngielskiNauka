@@ -52,7 +52,8 @@ namespace AngielskiNauka.Pages
                    Data = h.Data.ToString("MMMM d (dddd)", polish) + " " + h.Data.ToString("HH:mm"),
                    Ilosc = h.Ilosc,
                    Powyzej = h.Ilosc > 80,
-                   Poziom = h.Poziom.Nazwa
+                   Poziom = h.Poziom.Nazwa,
+                   Id = h.Id
                }
            ).ToList();
 
