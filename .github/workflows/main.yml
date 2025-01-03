@@ -14,7 +14,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Zainstaluj .NET Core swsw
+    # 2. Zainstaluj .NET Core
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -34,11 +34,10 @@ jobs:
 
     # 6. Wdrożenie (np. na Azure lub inny serwer)
     - name: Deploy to server
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: 155.254.244.40
         username: swdowia1
         password: ${{ secrets.PASSWORD }}
         local-dir: ./publish/
-        exclude:  ./AngielskiNauka/
         server-dir: /www.swsw.somee.com/

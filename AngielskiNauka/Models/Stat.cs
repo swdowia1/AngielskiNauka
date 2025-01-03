@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngielskiNauka.Models;
+﻿namespace AngielskiNauka.Models;
 
 public partial class Stat
 {
@@ -14,4 +11,6 @@ public partial class Stat
     public int PoziomId { get; set; }
 
     public virtual Poziom Poziom { get; set; } = null!;
+    //do powtórek
+    public string Repeat { get; set; }
 }

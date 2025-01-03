@@ -6,5 +6,6 @@
         public int Ilosc { get; set; }
         public bool Powyzej { get; set; }
         public string Poziom { get; set; }
+        public int Id { get; set; }
     }
 }

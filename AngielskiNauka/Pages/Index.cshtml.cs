@@ -1,5 +1,4 @@
 ﻿using AngielskiNauka.Models;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AngielskiNauka.Pages
@@ -19,7 +18,7 @@ namespace AngielskiNauka.Pages
             _db = db;
         }
 
-        public void OnGet(int id = 1)
+        public void OnGet(int id = 4)
         {
             var Poz = _db.Pozioms.FirstOrDefault(k => k.PoziomId == id);
 
