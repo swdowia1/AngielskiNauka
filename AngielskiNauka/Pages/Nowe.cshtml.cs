@@ -33,16 +33,21 @@ namespace AngielskiNauka.Pages
                 while (reader.Peek() >= 0)
                     line.Add(reader.ReadLine());
             }
+            char[] separators = new char[] { '-',';', (char)8211 };
+
 
             foreach (var item in line)
             {
-                string[] kol = item.Split(";");
-                Dane d = new Dane();
-                d.Ang = kol[0];
-                d.Pol = kol[1];
-                d.PoziomId = Number;//poziom hania
-                d.Data = DateTime.Now.AddMonths(-7);
-                _db.Danes.Add(d);
+                string[] kol = item.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                if (kol.Length == 2)
+                {
+                    Dane d = new Dane();
+                    d.Ang = kol[0];
+                    d.Pol = kol[1];
+                    d.PoziomId = Number;//poziom hania
+                    d.Data = classFun.GetRandomDate();
+                    _db.Danes.Add(d);
+                }
             }
             _db.SaveChanges();
         }

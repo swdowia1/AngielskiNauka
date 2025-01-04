@@ -1,5 +1,7 @@
 ﻿@page
+@using AngielskiNauka.Resources
 @model AngielskiNauka.Pages.StatModel
+@inject LocService SharedLocalizer
 @{
 }
 <div>Ilosc powyzej 80%</div>
@@ -33,10 +35,15 @@
             <th>Dzień</th>
             <th>Procent poprawny</th>
             <th>postep</th>
+            <th>do powtórzenia</th>
 
         </tr>
     </thead>
     <tbody>
+        @*
+
+        <a href="/show/@item.id">@SharedLocalizer.Get("przeglad")</a>
+        *@
         @foreach (var item in Model.stat)
         {
             <tr>
@@ -51,7 +58,9 @@
                     <td>@item.Ilosc</td>
                 }
                 <td><progress id="progBardobrze" max="100" value="@item.Ilosc"></progress></td>
-
+                <td>
+                    <a href="/nauka/@item.Id">@SharedLocalizer.Get("przeglad")</a>
+                </td>
             </tr>
 
         }

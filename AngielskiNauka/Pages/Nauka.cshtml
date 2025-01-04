@@ -1,0 +1,28 @@
+﻿@page "{id:int?}"
+@model AngielskiNauka.Pages.NaukaModel
+@{
+}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Ang</th>
+            <th>Pol</th>
+            
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.powtarzanie)
+        {
+            <tr>
+                <td>@item.Ang</td>
+                <td>@item.Pol</td>
+               
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+<partial name="PoziomView" model="1" />

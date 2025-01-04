@@ -86,7 +86,14 @@ namespace AngielskiNauka
                 Data = dataTeraz,
                 Ilosc = ok.Count * 5,
                 PoziomId = value.Slowa.FirstOrDefault().Poziom,
+                Repeat = ""
             };
+            if (zle.Any())
+            {
+                var lista = value.Slowa.Where(j => j.stan == Stan.zle).Select(k => k.Ang + ":" + k.Pol).ToList();
+
+                ss.Repeat = String.Join("||", lista); ;
+            }
             _db.Stats.Add(ss);
             _db.SaveChanges();
             if (!zle.Any())
