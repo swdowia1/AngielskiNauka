@@ -42,8 +42,8 @@ namespace AngielskiNauka.Pages
                 if (kol.Length == 2)
                 {
                     Dane d = new Dane();
-                    d.Ang = kol[0];
-                    d.Pol = kol[1];
+                    d.Ang = kol[0].Trim();
+                    d.Pol = kol[1].Trim();
                     d.PoziomId = Number;//poziom hania
                     d.Data = classFun.GetRandomDate();
                     _db.Danes.Add(d);

@@ -5,7 +5,7 @@ namespace AngielskiNauka
 {
     public static class classFun
     {
-        public static DateTime GetRandomDate(int minYear = 2020, int maxYear = 2099)
+        public static DateTime GetRandomDate(int minYear = 2025, int maxYear = 2099)
         {
             Random random = new Random();
             var year = random.Next(minYear, maxYear);
