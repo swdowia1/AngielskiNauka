@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using AngielskiNauka.ModelApi
+@using AngielskiNauka.Models
+@inject AaaswswContext db
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,9 +14,12 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js"></script>
     <script src="~/js/circle-progress.min.js"></script>
-
+   
 </head>
 <body>
+    @{
+        List<PoziomName> listPoziomName = db.Pozioms.Select(k => new PoziomName() { id = k.PoziomId, nazwa = k.Nazwa }).ToList();
+    }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -24,15 +30,15 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index" asp-route-id="4">3000</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index" asp-route-id="2">stas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index" asp-route-id="3">hania</a>
-                        </li>
+                        @foreach (var item in @listPoziomName)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index" asp-route-id="@item.id">@item.nazwa</a>
+                            </li>
+                        }
+                       
+                        
+                       
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Stat">statystyka</a>
                         </li>

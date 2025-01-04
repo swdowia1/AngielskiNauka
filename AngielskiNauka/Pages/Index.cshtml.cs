@@ -1,4 +1,5 @@
-﻿using AngielskiNauka.Models;
+﻿using AngielskiNauka.ModelApi;
+using AngielskiNauka.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AngielskiNauka.Pages
@@ -9,6 +10,7 @@ namespace AngielskiNauka.Pages
 
         public int poziom;
         public string poziomnazwa;
+        public List<PoziomName> listPoziomName { get; set; }
         AaaswswContext _db;
 
 
