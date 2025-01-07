@@ -30,10 +30,21 @@
         width: 200px;
     }
 
+    .swsw {
+        font-family: SpaceGrotesk-Light;
+        color: red;
+       
+        font-size: 140px;
+        margin-bottom: 40px;
+    }
+
+   
 </style>
 
 
-
+<div class="swsw">
+   <span id="zostalo">20</span>
+</div>
 
 
 
@@ -238,7 +249,8 @@
         $('#progBar').val(zrobioneilosc * 5);
 
         $('#zrobione').text(' ' + zrobioneilosc);
-
+        
+        $('#zostalo').text('zostało: ' + zrobioneilosc);
         $('#progBarzle').val(zle * 5);
 
         $('#zle').text(' ' + zle);
