@@ -43,7 +43,7 @@
 
 
 <div class="swsw">
-   <span id="zostalo">20</span>
+   <span id="zostalo"> zaczynaj</span>
 </div>
 
 
@@ -236,26 +236,27 @@
     var dobrze = 0;
     var odpowiedz = 0;
 
-
+    var iloscall = 20;
 
     var slownik = null;
     var datazle=null;
 
     function postep() {
       
+        var zmiana=100/iloscall
         
-        var zrobioneilosc = 20 - aktualny;
+        var zrobioneilosc = iloscall - aktualny;
 
-        $('#progBar').val(zrobioneilosc * 5);
+        $('#progBar').val(zrobioneilosc * zmiana);
 
         $('#zrobione').text(' ' + zrobioneilosc);
         
         $('#zostalo').text('zostało: ' + zrobioneilosc);
-        $('#progBarzle').val(zle * 5);
+        $('#progBarzle').val(zle * zmiana);
 
         $('#zle').text(' ' + zle);
 
-        $('#progBardobrze').val(dobrze * 5);
+        $('#progBardobrze').val(dobrze * zmiana);
 
         $('#dobrze').text(' ' + dobrze);
        
@@ -303,7 +304,7 @@
 
     function answer(id) {
         $("#tableBody").empty();
-        if (aktualny >= 20) {
+        if (aktualny >= iloscall) {
             console.log('nie ma odpowiedzi', aktualny)
             infoapp('koniec wiecej nie ma')
             return
@@ -347,7 +348,7 @@
 
         aktualny = aktualny + 1
         console.log('aktualny odp', aktualny)
-        if (aktualny >= 20) {
+        if (aktualny >= iloscall) {
             infoapp('koniec testu')
             wyslijodpowiedzi()
 
@@ -409,7 +410,7 @@
 
         getjson("api/ang/" + poziom, function (data) {
 
-           
+            iloscall = data.slowa.length;
             postep();
 
 
@@ -418,7 +419,7 @@
 
 
             slownik = data;
-        
+            
             showData(0)
 
         }, function (data) {

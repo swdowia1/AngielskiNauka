@@ -31,15 +31,16 @@ namespace AngielskiNauka
         [HttpGet("{poziom}")]
         public async Task<ActionResult<Test>> Get(int poziom)
         {
+            int ilosc = 50;
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
             DateTime dataTeraz1 = poland.UtcDateTime.AddHours(1);
             DateTime dataTeraz = poland.UtcDateTime;
 
             var result = new Test();
-            var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Data).Take(25).ToList();
+            var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Data).Take(ilosc + 10).ToList();
             List<int> idlos = listastart.Select(k => k.DaneId).ToList();
             idlos.Losuj();
-            idlos = idlos.Take(20).ToList();
+            idlos = idlos.Take(ilosc).ToList();
 
 
             var lista =
@@ -56,6 +57,7 @@ namespace AngielskiNauka
                  }).ToList();
             var ff = classFun.GetSlowos(lista).ToList();
             result.Slowa = ff.ToArray();
+            result.Ilosc = ff.Count();
             return new JsonResult(result);
 
         }
@@ -67,6 +69,7 @@ namespace AngielskiNauka
         public ActionResult<List<string>> Post([FromBody] Test value)
 
         {
+
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
             DateTime dataTeraz = poland.UtcDateTime.AddHours(1);
             List<int> ok = value.Slowa.Where(k => k.stan == Stan.dobrze).Select(j => j.Id).ToList();
@@ -84,7 +87,7 @@ namespace AngielskiNauka
             Stat ss = new Stat()
             {
                 Data = dataTeraz,
-                Ilosc = ok.Count * 5,
+                Ilosc = ok.Count * (100 / value.Slowa.Length),
                 PoziomId = value.Slowa.FirstOrDefault().Poziom,
                 Repeat = ""
             };
