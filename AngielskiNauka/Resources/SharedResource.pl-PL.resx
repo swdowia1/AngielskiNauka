@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ang" xml:space="preserve">
+    <value>Angielski</value>
+  </data>
   <data name="fiszka" xml:space="preserve">
     <value>Fiszka</value>
+  </data>
+  <data name="lp" xml:space="preserve">
+    <value>LP</value>
+  </data>
+  <data name="pol" xml:space="preserve">
+    <value>Polski</value>
   </data>
   <data name="przeglad" xml:space="preserve">
     <value>Przegląd</value>
