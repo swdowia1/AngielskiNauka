@@ -28,6 +28,20 @@ namespace AngielskiNauka
             odp.Losuj();
             return odp.ToArray();
         }
+        public static DateTime RandomDateTime()
+        {
+            Random random = new Random();
+            DateTime start = DateTime.Now.AddMonths(4);
+            int range = 30;
+
+            int randomHour = random.Next(0, 24);
+            int randomMinute = random.Next(0, 60);
+            int randomSecond = random.Next(0, 60);
+
+            var randomDate = start.AddDays(random.Next(range));
+
+            return new DateTime(randomDate.Year, randomDate.Month, randomDate.Day, randomHour, randomMinute, randomSecond);
+        }
         public static void Losuj<T>(this IList<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();

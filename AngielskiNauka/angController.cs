@@ -77,7 +77,7 @@ namespace AngielskiNauka
             foreach (var item in ok)
             {
                 Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item);
-                d.Data = dataTeraz.AddMonths(1);
+                d.Data = dataTeraz.AddYears(1);
             }
             foreach (var item1 in zle)
             {
