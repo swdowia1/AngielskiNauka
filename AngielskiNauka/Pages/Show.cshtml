@@ -1,9 +1,13 @@
 ﻿@page "{id:int?}"
 @model AngielskiNauka.Pages.ShowModel
+@{
+    int lp = 1;
+}
 <h1>Liczba słów @Model.slowa.Count</h1>
 <table class="table table-hover">
     <thead>
         <tr>
+            <td>lp</td>
             <th>Ang</th>
             <th>Pol</th>
             <th>Data</th>
@@ -15,6 +19,7 @@
         @foreach (var item in Model.slowa)
         {
             <tr>
+                <td>@(lp++)</td>
                 <td>@item.Ang</td>
                 <td>@item.Pol</td>
                 <td>@item.Data</td>
