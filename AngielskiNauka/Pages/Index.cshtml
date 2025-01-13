@@ -30,10 +30,23 @@
         width: 200px;
     }
 
+    .swsw {
+        font-family: SpaceGrotesk-Light;
+        color: red;
+       
+        font-size: 140px;
+        margin-bottom: 40px;
+    }
+
+   
 </style>
 
 
-
+<div class="swsw">
+   <span id="zostalo"> zaczynaj</span>
+    <img src="~/img/number_1.jpg" />
+    <img src="~/img/number_4.jpg" />
+</div>
 
 
 
@@ -225,25 +238,27 @@
     var dobrze = 0;
     var odpowiedz = 0;
 
-
+    var iloscall = 20;
 
     var slownik = null;
     var datazle=null;
 
     function postep() {
       
+        var zmiana=100/iloscall
         
-        var zrobioneilosc = 20 - aktualny;
+        var zrobioneilosc = iloscall - aktualny;
 
-        $('#progBar').val(zrobioneilosc * 5);
+        $('#progBar').val(zrobioneilosc * zmiana);
 
         $('#zrobione').text(' ' + zrobioneilosc);
-
-        $('#progBarzle').val(zle * 5);
+        
+        $('#zostalo').text('zostało: ' + zrobioneilosc);
+        $('#progBarzle').val(zle * zmiana);
 
         $('#zle').text(' ' + zle);
 
-        $('#progBardobrze').val(dobrze * 5);
+        $('#progBardobrze').val(dobrze * zmiana);
 
         $('#dobrze').text(' ' + dobrze);
        
@@ -291,7 +306,7 @@
 
     function answer(id) {
         $("#tableBody").empty();
-        if (aktualny >= 20) {
+        if (aktualny >= iloscall) {
             console.log('nie ma odpowiedzi', aktualny)
             infoapp('koniec wiecej nie ma')
             return
@@ -335,7 +350,7 @@
 
         aktualny = aktualny + 1
         console.log('aktualny odp', aktualny)
-        if (aktualny >= 20) {
+        if (aktualny >= iloscall) {
             infoapp('koniec testu')
             wyslijodpowiedzi()
 
@@ -397,7 +412,7 @@
 
         getjson("api/ang/" + poziom, function (data) {
 
-           
+            iloscall = data.slowa.length;
             postep();
 
 
@@ -406,7 +421,7 @@
 
 
             slownik = data;
-        
+            
             showData(0)
 
         }, function (data) {

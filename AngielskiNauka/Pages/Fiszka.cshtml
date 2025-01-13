@@ -8,17 +8,17 @@
 <br />
 <div onclick="dalej()" style="height:100%">
    
-    Klawisz: <-- --> lub w góre w dół idzie do pozycji pierwszej
+    Klawisz: <-- --> w dół idz do pierwszego w góry pokaż tłumaczenie
     <br />    <br />    <br />
     <div class="container" onclick="dalej()">
         <div class="row">
             <div id="ang" class="fontfiszka col-md-6 h1 bg-warning text-dark">Ang</div>
-
+              
         </div>
     </div>
-
+     
     <div class="container" onclick="dalej()">
-        <div class="row">
+        <div id="divpol" class="row">
             <div class="col-md-6"><span id="pol" class="fontfiszka">pol</span></div>
         </div>
     </div>
@@ -30,10 +30,19 @@
 
 
 </div>
+<button onclick="divshow()">Pokaz</button>
 <hr />
 <partial name="PoziomView" model="@Model.poziom" />
 <script>
     var pos = 0;
+
+
+    $('#divpol').hide();
+    function divshow() {
+        console.log('ddd')
+        $('#divpol').show();
+
+    }
     document.addEventListener("keydown", function (event) {
         var code;
         if (event.key !== undefined) {
@@ -48,7 +57,8 @@
     });
 
     function handleArrow(code) {
-        console.log('pozycja',pos)
+        console.log('pozycja',pos,code)
+        $('#divpol').hide();
         switch (code) {
             case 'ArrowLeft':
                 pos = pos - 1;
@@ -57,6 +67,11 @@
             case 'ArrowRight':
                 pos = pos + 1;
                 pokaz(pos);
+                break;
+                
+            case 'ArrowUp':
+                $('#divpol').show();
+               
                 break;
             default:
                 pos = 0;
