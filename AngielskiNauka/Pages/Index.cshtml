@@ -38,15 +38,48 @@
         margin-bottom: 40px;
     }
 
+    .timer-container {
+        text-align: center;
+        background: linear-gradient(to right, #ff7e5f, #feb47b);
+        padding: 20px 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .time-fields {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .field {
+        text-align: center;
+        margin: 0 10px;
+    }
+
+        .field span {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+
+        .field label {
+            font-size: 14px;
+            color: #777;
+        }
+
+    .separator {
+        font-size: 48px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
    
 </style>
 
-
-<div class="swsw">
-   <span id="zostalo"> zaczynaj</span>
-    <img src="~/img/number_1.jpg" />
-    <img src="~/img/number_4.jpg" />
-</div>
 
 
 
@@ -61,7 +94,27 @@
 
 
 <div class="vstack gap-3">
-
+    <div class="timer-container">
+              <div class="time-fields">
+            <div class="field">
+                <span id="minutes">00</span>
+                <label>Minuty</label>
+            </div>
+            <div class="separator">:</div>
+            <div class="field">
+                <span id="seconds">00</span>
+                <label>Sekundy</label>
+            </div>
+            <div class="field">
+                <span id="zostalo">00</span>
+                <label>Zostało</label>
+            </div>
+            <div class="field">
+                <span id="stan">00</span>
+                <label>stan</label>
+            </div>
+        </div>
+    </div>
 
 
     <div>
@@ -162,14 +215,7 @@
 
     </tr>
 
-    <tr>
-
-        <td>Żle:<span id="zle"></span></td>
-
-        <td> <progress id="progBarzle" max="100" value="0"></progress><br /></td>
-
-    </tr>
-
+   
     <tr>
 
         <td>Dobrze:<span id="dobrze"></span></td>
@@ -181,18 +227,6 @@
 </table>
 
 
-
-
-<div >
-    <div id="circle">
-    </div>
-    <span id="walsw" style="position: relative;top:-60px;left: 30px;">
-        
-    </span>
-    
-</div>
-<br />
-<a href="fiszka?id=@Model.poziom">fiszka</a>
 <br />
 <div id="stan"></div>
 <br />
@@ -224,7 +258,7 @@
     </div>
 </div>
 <hr />
-<partial name="PoziomView" model="@Model.poziom" />
+
 <script>
 
     
@@ -253,10 +287,9 @@
 
         $('#zrobione').text(' ' + zrobioneilosc);
         
-        $('#zostalo').text('zostało: ' + zrobioneilosc);
-        $('#progBarzle').val(zle * zmiana);
+        $('#zostalo').text(zrobioneilosc);
 
-        $('#zle').text(' ' + zle);
+       
 
         $('#progBardobrze').val(dobrze * zmiana);
 
@@ -264,6 +297,8 @@
        
         if (odpowiedz > 0) {
             stancircle((dobrze / odpowiedz) * 100)
+            var stan = (dobrze / odpowiedz) * 100;
+            $('#stan').text(parseInt(stan, 10));
         }
     }
 
@@ -390,6 +425,24 @@
         
        
     }
+    function startTimer() {
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+
+        let totalSeconds = 0;
+
+        function updateTimer() {
+            const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+            const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+
+            minutesElement.textContent = minutes;
+            secondsElement.textContent = seconds;
+
+            totalSeconds++;
+        }
+
+        setInterval(updateTimer, 1000);
+    }
     LadujDane(poziom)
     function infoapp(tekst) {
         
@@ -418,7 +471,7 @@
 
             
 
-
+            startTimer();
 
             slownik = data;
             
