@@ -3,7 +3,7 @@
 
 
 @model IndexModel
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 @{
@@ -90,92 +90,105 @@
 
 
 
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="vstack gap-3">
 
 
 
-<div class="vstack gap-3">
-  
-
-
-    <div>
+                <div>
 
 
 
-        <button onclick="answer(0)" class="btn2 btn btn-warning btn-block custom-btn-size">
+                    <button onclick="answer(0)" class="btn2 btn btn-warning btn-block custom-btn-size">
 
 
 
-            <span id="pol0">@ladowanie</span>
+                        <span id="pol0">@ladowanie</span>
 
 
 
-        </button>
+                    </button>
 
 
 
+                </div>
+
+
+
+                <div>
+
+
+
+                    <button onclick="answer(1)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+
+
+                        <span id="pol1">@ladowanie</span>
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+                <div>
+
+
+
+                    <button onclick="answer(2)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+
+
+                        <span id="pol2">@ladowanie</span>
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+                <div>
+
+
+
+                    <button onclick="answer(3)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+
+
+                        <span id="pol3">@ladowanie</span>
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+        <div class="col-6 text-left">
+            <canvas id="myChart" width="400" height="200"></canvas>
+        </div>
+      
     </div>
-
-
-
-    <div>
-
-
-
-        <button onclick="answer(1)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-            <span id="pol1">@ladowanie</span>
-
-
-
-        </button>
-
-
-
-    </div>
-
-
-
-    <div>
-
-
-
-        <button onclick="answer(2)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-            <span id="pol2">@ladowanie</span>
-
-
-
-        </button>
-
-
-
-    </div>
-
-
-
-    <div>
-
-
-
-        <button onclick="answer(3)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-            <span id="pol3">@ladowanie</span>
-
-
-
-        </button>
-
-
-
-    </div>
-
-
 
     <div class="timer-container">
         <div class="time-fields">
@@ -198,12 +211,10 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 </div>
+
+
+
 
 
 
@@ -241,6 +252,46 @@
 <hr />
 
 <script>
+    // Pobierz element canvas
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    // Utwórz początkowy wykres
+    const myChart = new Chart(ctx, {
+        type: 'line', // Typ wykresu
+        data: {
+            labels: ['start'], // Początkowe etykiety
+            datasets: [{
+                label: 'Sprzedaż',
+                data: [00], // Początkowe dane
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4, // Dodaje gładkie krzywe
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Funkcja dodawania punktów
+    function addPoint(x,y) {
+        
+            // Dodaj etykietę i wartość do wykresu
+            myChart.data.labels.push(x);
+            myChart.data.datasets[0].data.push(y);
+
+            // Odśwież wykres
+            myChart.update();
+
+        
+    }
+
     let intervalId; // Przechowuje ID interwału
     
 
@@ -275,12 +326,19 @@
         $('#progBardobrze').val(dobrze * zmiana);
 
         $('#dobrze').text(' ' + dobrze);
-       
+        var procent = (dobrze / odpowiedz) * 100;
         if (odpowiedz > 0) {
-            stancircle((dobrze / odpowiedz) * 100)
-            var stan = (dobrze / odpowiedz) * 100;
-            $('#stan').text(parseInt(stan, 10));
+            
+            stancircle(procent)
+            ;
+            $('#stan').text(parseInt(procent, 10));
         }
+        addPoint(aktualny, procent)
+    }
+    function deleteAllPoints() {
+        myChart.data.labels = []; // Clear all labels
+        myChart.data.datasets[0].data = []; // Clear all data
+        myChart.update(); // Update the chart to reflect changes
     }
 
     function wyslijodpowiedzi() {
@@ -302,7 +360,7 @@
         $('#wynik').text( 'Wynik testu ' + calosc+'%');
         postjson("api/ang", slownik, function (data) {
 
-
+            deleteAllPoints();
             infoapp('nowa lecja')
             
             console.log(data);
