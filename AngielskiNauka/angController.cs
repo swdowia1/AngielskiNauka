@@ -31,7 +31,7 @@ namespace AngielskiNauka
         [HttpGet("{poziom}")]
         public async Task<ActionResult<Test>> Get(int poziom)
         {
-            int ilosc = 10;
+            int ilosc = 50;
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
             DateTime dataTeraz1 = poland.UtcDateTime.AddHours(1);
             DateTime dataTeraz = poland.UtcDateTime;
