@@ -15,11 +15,13 @@ namespace AngielskiNauka.Pages
         public void OnGet(int id = 1)
         {
             slowa = _db.Danes.Where(j => j.PoziomId == id).OrderBy(k => k.Stan)
+                .ThenBy(j => j.Data)
                 .Select(n => new Dane()
                 {
                     Ang = n.Ang,
                     Pol = n.Pol,
-                    Data = n.Data
+                    Data = n.Data,
+                    Stan = n.Stan
                 }).ToList();
         }
     }
