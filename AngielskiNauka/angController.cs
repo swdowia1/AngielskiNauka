@@ -33,16 +33,15 @@ namespace AngielskiNauka
         {
             int ilosc = 50;
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
-            DateTime dataTeraz1 = poland.UtcDateTime.AddHours(1);
-            DateTime dataTeraz = poland.UtcDateTime;
+
 
             var result = new Test();
             var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Stan)
                 .ThenBy(jj => jj.Data)
-                .Take(ilosc + 10).ToList();
+                .Take(ilosc).ToList();
             List<int> idlos = listastart.Select(k => k.DaneId).ToList();
             idlos.Losuj();
-            idlos = idlos.Take(ilosc).ToList();
+            //idlos = idlos.Take(ilosc).ToList();
 
 
             var lista =
