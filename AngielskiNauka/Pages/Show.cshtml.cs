@@ -14,7 +14,7 @@ namespace AngielskiNauka.Pages
         }
         public void OnGet(int id = 1)
         {
-            slowa = _db.Danes.Where(j => j.PoziomId == id).OrderBy(k => k.Data)
+            slowa = _db.Danes.Where(j => j.PoziomId == id).OrderBy(k => k.Stan)
                 .Select(n => new Dane()
                 {
                     Ang = n.Ang,

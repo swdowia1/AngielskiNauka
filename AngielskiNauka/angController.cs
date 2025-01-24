@@ -37,7 +37,9 @@ namespace AngielskiNauka
             DateTime dataTeraz = poland.UtcDateTime;
 
             var result = new Test();
-            var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Data).Take(ilosc + 10).ToList();
+            var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Stan)
+                .ThenBy(jj => jj.Data)
+                .Take(ilosc + 10).ToList();
             List<int> idlos = listastart.Select(k => k.DaneId).ToList();
             idlos.Losuj();
             idlos = idlos.Take(ilosc).ToList();
@@ -78,11 +80,19 @@ namespace AngielskiNauka
             {
                 Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item);
                 d.Data = dataTeraz.AddYears(1);
+                int stan = d.Stan + 1;
+                if (stan > 10)
+                    stan = 10;
+                d.Stan = stan;
             }
             foreach (var item1 in zle)
             {
                 Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item1);
+                int stan = d.Stan - 1;
+                if (stan < -10)
+                    stan = -10;
                 d.Data = dataTeraz.AddMonths(-3);
+                d.Stan = stan;
             }
             Stat ss = new Stat()
             {
