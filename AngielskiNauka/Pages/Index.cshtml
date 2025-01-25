@@ -209,6 +209,10 @@
                 <span id="stan">00</span>
                 <label>stan</label>
             </div>
+            <div class="field">
+                <span id="zle">00</span>
+                <label>Żle</label>
+            </div>
         </div>
     </div>
 </div>
@@ -332,6 +336,7 @@
             stancircle(procent)
             ;
             $('#stan').text(parseInt(procent, 10));
+            $('#zle').text(parseInt(zle, 10));
         }
         addPoint(aktualny, procent)
     }
