@@ -1,10 +1,13 @@
 ﻿@page "{id:int?}"
 @model AngielskiNauka.Pages.ShowModel
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @inject LocService ls
 @{
     int lp = 1;
 }
-<h1>Liczba słów @Model.slowa.Count</h1>
+<h1>Liczba słów: @Model.slowa.Count nie przerobiono @Model.slowa.Where(j=>j.Stan==0).Count()</h1>
+<canvas id="myChart"></canvas>
+<hr />
 <table class="table table-hover">
     <thead>
         <tr>
@@ -34,3 +37,75 @@
 
     </tbody>
 </table>
+<script>
+    var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.grupa.Select(x =>x.Stan)));
+    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.grupa.Select(x => x.Ilosc)));
+
+    tabela('myChart', 'Dłuhość', labels, data)
+    function tabela(divName, title, x, y) {
+
+        // Render the chart
+        var ctx = document.getElementById(divName).getContext('2d');
+        ctx.width = 200;
+        ctx.height = 200;
+        var salesChart = new Chart(ctx, {
+            type: 'bar', // Change to 'line', 'pie', etc., if needed
+            data: {
+                labels: x,
+                datasets: [{
+                    label: title,
+                    data: y, // Values for each slice
+                    backgroundColor: [
+                        '#FF6384', // Red
+                        '#36A2EB', // Blue
+                        '#FFCE56', // Yellow
+                        '#4BC0C0'  // Teal
+                    ],
+                    hoverBackgroundColor: [
+                        '#FF6384AA', // Semi-transparent red
+                        '#36A2EBAA', // Semi-transparent blue
+                        '#FFCE56AA', // Semi-transparent yellow
+                        '#4BC0C0AA'  // Semi-transparent teal
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                tooltipTemplate: "<%= value %>",
+                maintainAspectRatio: true, // Allow custom aspect ratio
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true,
+                    }
+                }
+            },
+            plugins: [{
+                id: 'customText',
+                afterDatasetsDraw(chart, args, options) {
+                    const { ctx, data, chartArea: { top, left, right, bottom, width, height } } = chart;
+
+                    chart.data.datasets.forEach((dataset, datasetIndex) => {
+                        const meta = chart.getDatasetMeta(datasetIndex);
+
+                        meta.data.forEach((bar, index) => {
+                            const value = dataset.data[index];
+                            const x = bar.x;
+                            const y = bar.y;
+
+                            ctx.save();
+                            ctx.font = '12px Arial';
+                            ctx.fillStyle = 'black';
+                            ctx.textAlign = 'center';
+                            ctx.fillText(value, x, y - 5); // Draw text above the bar
+                            ctx.restore();
+                        });
+                    });
+                }
+            }]
+        });
+
+    }
+</script>

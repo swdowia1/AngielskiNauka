@@ -1,3 +1,4 @@
+using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -6,6 +7,7 @@ namespace AngielskiNauka.Pages
     public class ShowModel : PageModel
     {
         public List<Dane> slowa { get; set; }
+        public List<StatPodsumowanie> grupa { get; set; }
         AaaswswContext _db;
 
         public ShowModel(AaaswswContext db)
@@ -22,6 +24,12 @@ namespace AngielskiNauka.Pages
                     Pol = n.Pol,
                     Data = n.Data,
                     Stan = n.Stan
+                }).ToList();
+            grupa = slowa.Where(w => w.Stan != 0).GroupBy(j => j.Stan)
+                .Select(k => new StatPodsumowanie()
+                {
+                    Stan = k.Key,
+                    Ilosc = k.Count()
                 }).ToList();
         }
     }
