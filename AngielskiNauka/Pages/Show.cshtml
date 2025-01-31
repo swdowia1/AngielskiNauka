@@ -5,7 +5,7 @@
 @{
     int lp = 1;
 }
-<h1>Liczba słów: @Model.slowa.Count nie przerobiono @Model.slowa.Where(j=>j.Stan==0).Count()</h1>
+<h1>Liczba słów: @Model.slowa.Count nie przerobiono @Model.slowa.Where(j => j.Stan == 0).Count() do powtórzenie @Model.slowa.Where(j => j.Stan <0).Count()</h1>
 <canvas id="myChart"></canvas>
 <hr />
 <table class="table table-hover">
