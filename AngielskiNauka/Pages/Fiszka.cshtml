@@ -8,7 +8,7 @@
 <br />
 <div onclick="dalej()" style="height:100%">
    
-    Klawisz: <-- --> w dół idz do pierwszego w góry pokaż tłumaczenie
+    Klawisz: <-- --> w dół idz do pierwszego
     <br />    <br />    <br />
     <div class="container" onclick="dalej()">
         <div class="row">
@@ -37,10 +37,10 @@
     var pos = 0;
 
 
-    $('#divpol').hide();
+    //$('#divpol').hide();
     function divshow() {
         console.log('ddd')
-        $('#divpol').show();
+        //$('#divpol').show();
 
     }
     document.addEventListener("keydown", function (event) {
@@ -58,7 +58,7 @@
 
     function handleArrow(code) {
         console.log('pozycja',pos,code)
-        $('#divpol').hide();
+       // $('#divpol').hide();
         switch (code) {
             case 'ArrowLeft':
                 pos = pos - 1;
@@ -69,10 +69,10 @@
                 pokaz(pos);
                 break;
                 
-            case 'ArrowUp':
-                $('#divpol').show();
+            // case 'ArrowUp':
+            //     $('#divpol').show();
                
-                break;
+            //     break;
             default:
                 pos = 0;
                 pokaz(pos);
