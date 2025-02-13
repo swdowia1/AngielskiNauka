@@ -25,7 +25,7 @@ namespace AngielskiNauka.Pages
                     Data = n.Data,
                     Stan = n.Stan
                 }).ToList();
-            grupa = slowa.Where(w => w.Stan != 0).GroupBy(j => j.Stan)
+            grupa = slowa.Where(w => w.Stan < 0).GroupBy(j => j.Stan)
                 .Select(k => new StatPodsumowanie()
                 {
                     Stan = k.Key,
