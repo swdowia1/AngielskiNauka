@@ -7,22 +7,25 @@ namespace AngielskiNauka.Pages
     public class KursModel : PageModel
     {
         public int poziom;
+        public string waluta;
         public ExchangeRateResponse exchangeRateResponse;
-        public async void OnGet(int id, string? wal)
+        public async void OnGet(int? id, string? wal)
         {
             exchangeRateResponse = new ExchangeRateResponse() { rates = new List<Rate>() };
-            poziom = id;
+            poziom = id ?? 100;
             if (wal == null)
             {
-                wal = "USD";
+                waluta = "USD";
             }
-            exchangeRateResponse = LoadCurrencyData(id, wal).Result;
+            else
+                waluta = wal;
+            exchangeRateResponse = LoadCurrencyData(poziom, waluta).Result;
 
 
         }
         private async Task<ExchangeRateResponse> LoadCurrencyData(int zakres, string wal = "USD")
         {
-            string apiUrl = $"https://api.nbp.pl/api/exchangerates/rates/A/{wal}/last/{zakres}/?format=json";
+            string apiUrl = $"https://api.nbp.pl/api/exchangerates/rates/c/{wal}/last/{zakres}/?format=json";
             try
             {
                 using HttpClient client = new HttpClient();

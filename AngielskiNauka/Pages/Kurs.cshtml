@@ -3,15 +3,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @{
 }
+<h1>Kurs waluty @Model.waluta za ostatnie @Model.poziom notowan (od @Model.exchangeRateResponse.rates.Min(k=>k.effectiveDate))</h1>
 <canvas id="myChart"></canvas>
-<h1>@Model.exchangeRateResponse.rates.Count</h1>
+
 <script>
     var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.effectiveDate)));
-    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.mid)));
+    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.bid)));
+    var ask = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.ask)));
     console.log(data);
     let maxVal = Math.min(...data);
     console.log(maxVal);
-    tabela('myChart', 'Dłuhość', labels, data, maxVal)
+    tabela('myChart', 'Sprzedaz', labels, data, maxVal)
     function tabela(divName, title, x, y,min) {
         const average = y.reduce((a, b) => a + b, 0) / y.length;
         // Render the chart
@@ -29,12 +31,10 @@
                     tension: 0.4 // Ustawienie wartości napięcia dla łagodnej krzywej
                 },
                 {
-                    label: 'Średnia',
-                    data: Array(y.length).fill(average),
+                    label: 'Kupno',
+                    data: ask,
                     borderWidth: 2,
-                    borderDash: [10, 5],
-                    fill: false,
-                    tension: 0
+                    tension: 0.4 // Ustawienie wartości napięcia dla łagodnej krzywej
                 }]
             },
             options: {
