@@ -8,9 +8,11 @@
 <script>
     var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.effectiveDate)));
     var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.mid)));
-
-    tabela('myChart', 'Dłuhość', labels, data)
-    function tabela(divName, title, x, y) {
+    console.log(data);
+    let maxVal = Math.min(...data);
+    console.log(maxVal);
+    tabela('myChart', 'Dłuhość', labels, data, maxVal)
+    function tabela(divName, title, x, y,min) {
         const average = y.reduce((a, b) => a + b, 0) / y.length;
         // Render the chart
         var ctx = document.getElementById(divName).getContext('2d');
@@ -24,13 +26,11 @@
                     label: title,
                     data: y, // Values for each slice
                     borderWidth: 2,
-                    fill: true,
                     tension: 0.4 // Ustawienie wartości napięcia dla łagodnej krzywej
                 },
                 {
                     label: 'Średnia',
                     data: Array(y.length).fill(average),
-                    borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 2,
                     borderDash: [10, 5],
                     fill: false,
@@ -49,7 +49,7 @@
                         beginAtZero: true
                     },
                     y: {
-                        beginAtZero: true
+                        suggestedMin: min,
                     }
                 }
             }
