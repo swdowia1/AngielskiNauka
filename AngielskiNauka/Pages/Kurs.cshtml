@@ -1,0 +1,60 @@
+﻿@page "{id:int?}/{wal?}"
+@model AngielskiNauka.Pages.KursModel
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@{
+}
+<canvas id="myChart"></canvas>
+<h1>@Model.exchangeRateResponse.rates.Count</h1>
+<script>
+    var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.effectiveDate)));
+    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.mid)));
+
+    tabela('myChart', 'Dłuhość', labels, data)
+    function tabela(divName, title, x, y) {
+        const average = y.reduce((a, b) => a + b, 0) / y.length;
+        // Render the chart
+        var ctx = document.getElementById(divName).getContext('2d');
+        ctx.width = 200;
+        ctx.height = 200;
+        var salesChart = new Chart(ctx, {
+            type: 'line', // Change to 'line', 'pie', etc., if needed
+            data: {
+                labels: x,
+                datasets: [{
+                    label: title,
+                    data: y, // Values for each slice
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4 // Ustawienie wartości napięcia dla łagodnej krzywej
+                },
+                {
+                    label: 'Średnia',
+                    data: Array(y.length).fill(average),
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    borderDash: [10, 5],
+                    fill: false,
+                    tension: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+
+        });
+
+    }
+</script>
