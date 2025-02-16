@@ -41,3 +41,4 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         local-dir: ./publish/
         server-dir: /www.swsw.somee.com/
+        dangerous-clean-slate: true  # This will delete old files before deploying
