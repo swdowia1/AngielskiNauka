@@ -34,20 +34,42 @@
 <br />
 
 <script>
+    var salesChart;
     var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.effectiveDate)));
+
     var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.bid)));
     var ask = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.ask)));
-    console.log(data);
+    var iloscpoint=data.length;
     let maxVal = Math.min(...data);
     console.log(maxVal);
     tabela('myChart', 'Sprzedaz', labels, data, maxVal)
+    function addNewLineFromPoint(startIndex,wartosc) {
+        let newLabel = wartosc;
+
+        
+        let newData = Array(iloscpoint).fill(wartosc);
+        let newDataset = {
+            label: newLabel,
+            data: newData,
+            borderColor: "green", // Line color
+            borderWidth: 2, // Line thickness
+            fill: false, // Ensures no area fill
+            borderDash: [], // Ensures a solid line
+            pointRadius: 0, // Removes dots from the line
+            pointHoverRadius: 0 // Ensures no dots appear on hover
+  
+        };
+
+        salesChart.data.datasets.push(newDataset); // Add new dataset
+        salesChart.update(); // Update chart
+    }
     function tabela(divName, title, x, y,min) {
         const average = y.reduce((a, b) => a + b, 0) / y.length;
         // Render the chart
         var ctx = document.getElementById(divName).getContext('2d');
         ctx.width = 200;
         ctx.height = 200;
-        var salesChart = new Chart(ctx, {
+        salesChart = new Chart(ctx, {
             type: 'line', // Change to 'line', 'pie', etc., if needed
             data: {
                 labels: x,
@@ -66,6 +88,7 @@
             },
             options: {
                 responsive: true,
+
                 plugins: {
                     legend: {
                         display: true
@@ -77,6 +100,22 @@
                     },
                     y: {
                         suggestedMin: min,
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                       
+                        let datasetIndex = elements[0].datasetIndex;
+                        
+                        console.log('ss', datasetIndex);
+                        let index = elements[0].index;
+                       
+                        let datasetLabel = salesChart.data.datasets[datasetIndex].label;
+                        let value = salesChart.data.datasets[datasetIndex].data[index];
+                        let label = salesChart.data.labels[index];
+
+                        console.log(`Clicked on ${datasetLabel} - ${label}: ${value}`);
+                        addNewLineFromPoint(index,value);
                     }
                 }
             }
