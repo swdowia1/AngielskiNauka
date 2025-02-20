@@ -13,6 +13,10 @@ jobs:
     # 1. Pobierz kod źródłowy
     - name: Checkout code
       uses: actions/checkout@v3
+    - name: Modify appsettings.json
+      run: |
+          jq '.Data = "Updated_Connection_String"' appsettings.json > temp.json && mv temp.json appsettings.json
+
 
     # 2. Zainstaluj .NET Core
     - name: Setup .NET
