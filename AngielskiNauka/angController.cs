@@ -79,7 +79,7 @@ namespace AngielskiNauka
             {
                 Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item);
                 d.Data = dataTeraz.AddYears(1);
-                int stan = d.Stan + 1;
+                int stan = d.Stan + 2;
                 if (stan > 10)
                     stan = 10;
                 d.Stan = stan;
