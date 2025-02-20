@@ -1,5 +1,7 @@
 ﻿@using AngielskiNauka.ModelApi
 @using AngielskiNauka.Models
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 @inject AaaswswContext db
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +21,8 @@
 <body>
     @{
         List<PoziomName> listPoziomName = db.Pozioms.Select(k => new PoziomName() { id = k.PoziomId, nazwa = k.Nazwa }).ToList();
+        string data = $"{Configuration["Data"]}";
+
     }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -69,6 +73,6 @@
   
     @await RenderSectionAsync("Scripts", required: false)
     <br />
-    Wersja 4 stycznia
+    Wersja @data
 </body>
 </html>
