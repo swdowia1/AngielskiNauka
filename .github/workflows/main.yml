@@ -31,10 +31,15 @@ jobs:
     # 5. Opublikuj projekt
     - name: Publish project
       run: dotnet publish -c Release -o ./publish
+    - name: Set current DateTime as an environment variable
+      run: echo "CURRENT_DATETIME=$(date --iso-8601=seconds)" >> $GITHUB_ENV
     - name: Update appsettings.json
-      run: |
-       jq '.ConnectionStrings.ss = "aa"' appsettings.json > temp.json && mv temp.json appsettings.json
-       jq '.ApiKey = "vv' appsettings.json > temp.json && mv temp.json appsettings.json
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: 'publish/appsettings.json'  # Make sure this path is correct
+      env:
+        ConnectionStrings.DefaultConnection: ${{ secrets.DB_CONNECTION }}
+        Data: ${{ env.CURRENT_DATETIME }}
 
 
     # 6. Wdrożenie (np. na Azure lub inny serwer)
