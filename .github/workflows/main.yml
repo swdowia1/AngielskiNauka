@@ -31,6 +31,11 @@ jobs:
     # 5. Opublikuj projekt
     - name: Publish project
       run: dotnet publish -c Release -o ./publish
+    - name: Update appsettings.json
+      run: |
+       jq '.ConnectionStrings.ss = "aa"' appsettings.json > temp.json && mv temp.json appsettings.json
+       jq '.ApiKey = "vv' appsettings.json > temp.json && mv temp.json appsettings.json
+
 
     # 6. Wdrożenie (np. na Azure lub inny serwer)
     - name: Deploy to server
