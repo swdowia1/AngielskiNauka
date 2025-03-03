@@ -1,5 +1,6 @@
 using AngielskiNauka.Models;
 using AngielskiNauka.Resources;
+using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -12,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AaaswswContext>(x => x.UseSqlServer("workstation id=aaaswsw.mssql.somee.com;packet size=4096;user id=swdowia1_SQLLogin_2;pwd=kr62j5x3px;data source=aaaswsw.mssql.somee.com;persist security info=False;initial catalog=aaaswsw;TrustServerCertificate=True"));
 builder.Services.AddSingleton<LocService>();
+builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<AngService>();  //Localizations languages
+//IDataCache
+
+//IFunVMS
+builder.Services.AddScoped<IFunVMS, FunVMS>();
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 builder.Services.Configure<RequestLocalizationOptions>(

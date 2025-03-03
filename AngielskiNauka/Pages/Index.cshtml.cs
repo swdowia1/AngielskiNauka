@@ -1,5 +1,5 @@
 ﻿using AngielskiNauka.ModelApi;
-using AngielskiNauka.Models;
+using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AngielskiNauka.Pages
@@ -11,10 +11,10 @@ namespace AngielskiNauka.Pages
         public int poziom;
         public string poziomnazwa;
         public List<PoziomName> listPoziomName { get; set; }
-        AaaswswContext _db;
+        AngService _db;
 
 
-        public IndexModel(ILogger<IndexModel> logger, AaaswswContext db)
+        public IndexModel(ILogger<IndexModel> logger, AngService db)
         {
             _logger = logger;
             _db = db;
@@ -22,7 +22,7 @@ namespace AngielskiNauka.Pages
 
         public void OnGet(int id = 4)
         {
-            var Poz = _db.Pozioms.FirstOrDefault(k => k.PoziomId == id);
+            var Poz = _db.GetPoziom(id);
 
 
             //var ff = System.IO.File.ReadAllLines(@"C:\dyskD\wywal\hania.csv");
