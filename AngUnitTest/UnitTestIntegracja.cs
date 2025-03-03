@@ -3,18 +3,25 @@
     public class UnitTestIntegracja : DBPrawdziwa
     {
         [Fact]
-        public void Test1()
+        public void GetPoziomTest()
         {
+            // Act
             var p = _AngService.GetPoziom(3);
+
+            // Assert
             Assert.Equal(p.Nazwa, "Poziom1");
 
         }
         [Fact]
         public void AddPoziom()
         {
-            string nazwa = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6);
+            // Act
+            string nazwa = classFun.GetTextRandom();
             var p = _AngService.AddPoziom(nazwa);
-            Assert.Equal(p, 1);
+
+            // Assert
+            var testdb = _db.Pozioms.OrderBy(j => j.PoziomId).Last();
+            Assert.True(testdb.PoziomId == p.KeyInt);
 
         }
 

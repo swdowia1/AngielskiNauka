@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using AngielskiNauka.Models;
+using System.Linq.Expressions;
 
 namespace AngielskiNauka.Unit
 {
@@ -13,7 +14,7 @@ namespace AngielskiNauka.Unit
         T GetByIdIncluding<T>(int id, params Expression<Func<T, object>>[] includes) where T : class;
 
         T GetByIdIncluding<T>(long id, params Expression<Func<T, object>>[] includes) where T : class;
-        int Add<T>(T entity) where T : class;
+        AddResult Add<T>(T entity) where T : class;
         void Update<T>(T entity) where T : class;
         void Delete<T>(int id) where T : class;
         void Delete<T>(long id) where T : class;

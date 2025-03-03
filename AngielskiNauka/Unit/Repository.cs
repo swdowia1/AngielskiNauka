@@ -56,13 +56,31 @@ namespace AngielskiNauka.Unit
             }
             return query.FirstOrDefault(e => EF.Property<int>(e, "Id") == id);
         }
-        public int Add<T>(T entity) where T : class
+        public AddResult Add<T>(T entity) where T : class
         {
+            AddResult result = new AddResult();
             _db.Set<T>().Add(entity);
             SaveChanges();
-            // Assuming the entity has an "Id" property
-            var property = entity.GetType().GetProperty("Id");
-            return property != null ? (int)property.GetValue(entity) : 0;
+            // Retrieve the primary key property name using metadata from the model
+            var keyProperty = _db.Model.FindEntityType(typeof(T))
+                .FindPrimaryKey()
+                .Properties
+                .FirstOrDefault();
+
+            // Get the value of the primary key
+            var primaryKeyValue = keyProperty != null ? keyProperty.PropertyInfo.GetValue(entity) : null;
+
+            var propertyType = keyProperty?.ClrType;
+
+            if (propertyType == typeof(int))
+            {
+                result.KeyInt = (int)primaryKeyValue;
+            }
+            else if (propertyType == typeof(long))
+            {
+                result.KeyLong = (long)primaryKeyValue;
+            }
+            return result;
         }
 
         public void Update<T>(T entity) where T : class
