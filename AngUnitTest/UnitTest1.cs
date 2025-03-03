@@ -24,7 +24,7 @@ namespace AngUnitTest
         public void Test1()
         {
             var p = _AngService.GetPoziom(1);
-            Assert.Equal(p.Nazwa, "wywala");
+            Assert.Equal(p.Nazwa, "test");
 
         }
         [Fact]
