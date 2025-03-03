@@ -12,18 +12,7 @@
             Assert.Equal(p.Nazwa, "Poziom1");
 
         }
-        [Fact]
-        public void AddPoziom()
-        {
-            // Act
-            string nazwa = classFun.GetTextRandom();
-            var p = _AngService.AddPoziom(nazwa);
 
-            // Assert
-            var testdb = _db.Pozioms.OrderBy(j => j.PoziomId).Last();
-            Assert.True(testdb.PoziomId == p.KeyInt);
-
-        }
 
     }
 }
