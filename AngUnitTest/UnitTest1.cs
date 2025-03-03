@@ -11,6 +11,7 @@ namespace AngUnitTest
         public readonly Mock<IFunVMS> _mockIFunVMS;
         public UnitTest1()
         {
+            //
             _mockRepository = new Mock<IRepository>();
             _mockIFunVMS = new Mock<IFunVMS>();
             _mockIFunVMS.Setup(f => f.GetDataCacheOrder()).Returns(new List<string>() { "a", "sss", "ddd" });
