@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngielskiNauka", "AngielskiNauka\AngielskiNauka.csproj", "{6A616D46-8475-4735-B91C-4893B92E5274}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngUnitTest", "AngUnitTest\AngUnitTest.csproj", "{5794D493-CC3F-424A-A34A-E1727839186E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngUnitTest", "AngUnitTest\AngUnitTest.csproj", "{5794D493-CC3F-424A-A34A-E1727839186E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

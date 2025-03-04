@@ -9,7 +9,7 @@
             var p = _AngService.GetPoziom(3);
 
             // Assert
-            Assert.Equal(p.Nazwa, "Poziom1");
+            Assert.Equal(p.Nazwa, "Stas");
 
         }
 

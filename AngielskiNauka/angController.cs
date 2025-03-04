@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AngielskiNauka
 {
     [Route("api/[controller]")]
+    //[Route("api/ang")]
     [ApiController]
     public class angController : ControllerBase
     {
@@ -65,6 +66,7 @@ namespace AngielskiNauka
 
         // POST api/<ValuesController>
 
+
         [HttpPost]
 
         public ActionResult<List<string>> Post([FromBody] Test value)
@@ -116,6 +118,8 @@ namespace AngielskiNauka
                 return new JsonResult(dd);
             }
         }
+
+
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]

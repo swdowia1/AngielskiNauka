@@ -221,7 +221,7 @@ var assemblies = [
   {
     "name": "AngielskiNauka",
     "classes": [
-      { "name": "AngielskiNauka.Unit.AngService", "rp": "AngielskiNauka_AngService.html", "cl": 25, "ucl": 0, "cal": 25, "tl": 48, "cb": 4, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "AngielskiNauka.Unit.AngService", "rp": "AngielskiNauka_AngService.html", "cl": 44, "ucl": 5, "cal": 49, "tl": 108, "cb": 20, "tb": 20, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
 ];
 
@@ -230,9 +230,17 @@ var metrics = [{ "name": "Crap Score", "abbreviation": "crp", "explanationUrl": 
 var historicCoverageExecutionTimes = [];
 
 var riskHotspotMetrics = [
+      { "name": "Crap Score", "explanationUrl": "https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" },
+      { "name": "Cyclomatic complexity", "explanationUrl": "https://en.wikipedia.org/wiki/Cyclomatic_complexity" },
 ];
 
 var riskHotspots = [
+  {
+    "assembly": "AngielskiNauka", "class": "AngielskiNauka.Unit.AngService", "reportPath": "AngielskiNauka_AngService.html", "methodName": "StatusOrder(System.Int32,System.Nullable`1<System.Int32>,System.Nullable`1<System.Int32>,System.Int32,System.Boolean)", "methodShortName": "StatusOrder(...)", "fileIndex": 0, "line": 49,
+    "metrics": [
+      { "value": 16, "exceeded": false },
+      { "value": 16, "exceeded": true },
+    ]},
 ];
 
 var branchCoverageAvailable = true;
