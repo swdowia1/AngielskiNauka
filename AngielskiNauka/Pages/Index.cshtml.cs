@@ -10,6 +10,7 @@ namespace AngielskiNauka.Pages
 
         public int poziom;
         public string poziomnazwa;
+
         public List<PoziomName> listPoziomName { get; set; }
         AngService _db;
 

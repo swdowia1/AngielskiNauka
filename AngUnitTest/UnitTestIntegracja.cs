@@ -3,6 +3,7 @@
     public class UnitTestIntegracja : DBPrawdziwa
     {
         [Fact]
+
         public void GetPoziomTest()
         {
             // Act

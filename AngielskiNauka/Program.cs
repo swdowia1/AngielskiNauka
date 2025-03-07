@@ -1,3 +1,4 @@
+using AngielskiNauka;
 using AngielskiNauka.Models;
 using AngielskiNauka.Resources;
 using AngielskiNauka.Unit;
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AaaswswContext>(x => x.UseSqlServer("workstation id=aaaswsw.mssql.somee.com;packet size=4096;user id=swdowia1_SQLLogin_2;pwd=kr62j5x3px;data source=aaaswsw.mssql.somee.com;persist security info=False;initial catalog=aaaswsw;TrustServerCertificate=True"));
 builder.Services.AddSingleton<LocService>();
+builder.Services.AddSingleton<ConfigGlobal>();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<AngService>();  //Localizations languages
 //IDataCache

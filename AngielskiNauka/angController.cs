@@ -12,10 +12,11 @@ namespace AngielskiNauka
     public class angController : ControllerBase
     {
         AaaswswContext _db;
-
-        public angController(AaaswswContext db)
+        ConfigGlobal _config;
+        public angController(AaaswswContext db, ConfigGlobal config)
         {
             _db = db;
+            _config = config;
         }
 
         [HttpGet]
@@ -32,7 +33,7 @@ namespace AngielskiNauka
         [HttpGet("{poziom}")]
         public async Task<ActionResult<Test>> Get(int poziom)
         {
-            int ilosc = 50;
+            int ilosc = _config.Ile();
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
 
 
