@@ -1,4 +1,5 @@
 ﻿using AngielskiNauka.ModelApi;
+using AngielskiNauka.Serwisy;
 using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -7,6 +8,7 @@ namespace AngielskiNauka.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        private RabbitMQSend _RabbitMqService;
 
         public int poziom;
         public string poziomnazwa;
@@ -15,14 +17,16 @@ namespace AngielskiNauka.Pages
         AngService _db;
 
 
-        public IndexModel(ILogger<IndexModel> logger, AngService db)
+        public IndexModel(ILogger<IndexModel> logger, AngService db, RabbitMQSend rabbitMqService)
         {
             _logger = logger;
             _db = db;
+            _RabbitMqService = rabbitMqService;
         }
 
         public void OnGet(int id = 4)
         {
+
             var Poz = _db.GetPoziom(id);
 
 

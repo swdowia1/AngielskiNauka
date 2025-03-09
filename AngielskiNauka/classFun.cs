@@ -72,5 +72,15 @@ namespace AngielskiNauka
             return result;
 
         }
+
+        internal static string DateToString()
+        {
+            return DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
+        }
+
+        internal static string Poloczenie()
+        {
+            return "workstation id=aaaswsw.mssql.somee.com;packet size=4096;user id=swdowia1_SQLLogin_2;pwd=kr62j5x3px;data source=aaaswsw.mssql.somee.com;persist security info=False;initial catalog=aaaswsw;TrustServerCertificate=True";
+        }
     }
 }

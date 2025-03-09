@@ -44,6 +44,13 @@ namespace AngielskiNauka.Unit
             var idNew = _repository.Add(p);
             return idNew;
         }
+        public AddResult AddSlowo(string slowo)
+        {
+            var p = new Dane() { Ang = slowo, Pol = "", PoziomId = 27 };
+            var idNew = _repository.Add(p);
+
+            return idNew;
+        }
 
         public string StatusOrder(int isonninenpl, int? max_realization, int? stsQue, int statussap, bool isZDS)
         {
