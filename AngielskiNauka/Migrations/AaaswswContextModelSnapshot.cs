@@ -22,28 +22,6 @@ namespace AngielskiNauka.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AngielskiNauka.Models.AddNew", b =>
-                {
-                    b.Property<Guid>("AddNewId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Ang")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Pol")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Poziom")
-                        .HasColumnType("int");
-
-                    b.HasKey("AddNewId");
-
-                    b.ToTable("AddNews");
-                });
-
             modelBuilder.Entity("AngielskiNauka.Models.Dane", b =>
                 {
                     b.Property<int>("DaneId")
@@ -64,6 +42,9 @@ namespace AngielskiNauka.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PoziomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Stan")
                         .HasColumnType("int");
 
                     b.HasKey("DaneId");

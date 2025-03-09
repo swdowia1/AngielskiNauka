@@ -1,0 +1,78 @@
+﻿@page "{id:int?}"
+@model AngielskiNauka.Pages.FullModel
+@inject LocService ls
+@{
+}
+<partial name="PoziomView" model="@Model.poziom" />
+<script>
+
+
+
+    var aktualny = 0;
+
+    var poziom = '@Model.poziom';
+
+    var zle = 0;
+
+    var dobrze = 0;
+    var odpowiedz = 0;
+
+    var iloscall = 20;
+
+    var slownik = null;
+    var datazle = null;
+
+   
+  
+
+
+    function LadujDane(poziom) {
+        aktualny = 0;
+        console.log('aktualny', aktualny)
+        var poziom = '@Model.poziom';
+
+
+        zle = 0;
+
+
+        dobrze = 0;
+
+        odpowiedz = 0;
+
+
+
+        getjson("api/ang/" + poziom, function (data) {
+
+            iloscall = data.slowa.length;
+            
+
+
+
+
+
+
+            slownik = data;
+
+          
+
+        }, function (data) {
+
+
+
+
+
+
+
+
+
+            console.log(data.message);
+
+
+
+
+
+        })
+    }
+
+    LadujDane(poziom)
+</script>
