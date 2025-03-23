@@ -18,8 +18,9 @@ builder.Services.AddSingleton<LocService>();
 builder.Services.AddSingleton<ConfigGlobal>();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<AngService>();  //Localizations languages
+builder.Services.AddScoped<TaskService>();  //Localizations languages
 builder.Services.AddSingleton<RabbitMQSend>();
-builder.Services.AddHostedService<RabbitMqBackgroundConsumer>();
+//builder.Services.AddHostedService<RabbitMqBackgroundConsumer>();
 //IDataCache
 
 //IFunVMS

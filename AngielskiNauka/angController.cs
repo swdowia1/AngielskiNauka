@@ -1,6 +1,5 @@
 ﻿using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
-using AngielskiNauka.Serwisy;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,29 +13,21 @@ namespace AngielskiNauka
     {
         AaaswswContext _db;
         ConfigGlobal _config;
-        RabbitMQSend _RabbitMqService;
-        public angController(AaaswswContext db, ConfigGlobal config, RabbitMQSend rabbitMqService)
+
+        public angController(AaaswswContext db, ConfigGlobal config)
         {
             _db = db;
             _config = config;
-            _RabbitMqService = rabbitMqService;
+
         }
 
-        [HttpGet]
-
-        public Test Get()
-        {
-            var result = new Test();
-
-            return result;
-        }
 
 
         // GET api/<ValuesController>/5
         [HttpGet("{poziom}")]
         public async Task<ActionResult<Test>> Get(int poziom)
         {
-            _RabbitMqService.SendMessage("poziom" + poziom);
+            // _RabbitMqService.SendMessage("poziom" + poziom);
             int ilosc = _config.Ile();
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
 

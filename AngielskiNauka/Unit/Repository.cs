@@ -12,11 +12,21 @@ namespace AngielskiNauka.Unit
         {
             _db = db;
         }
+        // Execute stored procedure for non-query operations (insert, update, delete)
+        public async Task<int> RunStoredProcedureNonQuery(string storedProcedure, params object[] parameters)
+        {
+            return await _db.Database.ExecuteSqlRawAsync(storedProcedure, parameters);
+        }
 
         public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate) where T : class
         {
 
             return _db.Set<T>().Where(predicate).ToList();
+        }
+        public Task<List<T>> GetAll<T>() where T : class
+        {
+
+            return _db.Set<T>().ToListAsync();
         }
 
         public IEnumerable<T> GetAllIncluding<T>(params Expression<Func<T, object>>[] includes) where T : class

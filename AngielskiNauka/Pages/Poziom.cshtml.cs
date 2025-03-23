@@ -7,16 +7,16 @@ namespace AngielskiNauka.Pages
     public class PoziomModel : PageModel
     {
         public List<PoziomName> lista { get; set; }
-        AaaswswContext _db;
+        AaaswswContext _service;
 
-        public PoziomModel(AaaswswContext db)
+        public PoziomModel(AaaswswContext service)
         {
-            _db = db;
+            _service = service;
         }
 
         public void OnGet()
         {
-            lista = _db.Pozioms.Select(j => new PoziomName()
+            lista = _service.Pozioms.Select(j => new PoziomName()
             {
                 id = j.PoziomId,
                 nazwa = j.Nazwa,

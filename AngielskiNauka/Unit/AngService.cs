@@ -25,6 +25,12 @@ namespace AngielskiNauka.Unit
             return dane.Sum(k => (Math.Floor(k * 100) / 100));
         }
 
+        public List<Dane> DaneFiszka(int id)
+        {
+            return _repository.GetAll<Dane>(k => k.PoziomId == id).ToList();
+        }
+
+
         public int LogikaBiznesowa()
 
         {

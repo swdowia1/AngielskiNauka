@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
+﻿using AngielskiNauka.Unit;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AngielskiNauka
 {
@@ -8,7 +8,24 @@ namespace AngielskiNauka
     [ApiController]
     public class gitController : ControllerBase
     {
+        private readonly TaskService _taskService;
+
+        public gitController(TaskService taskService)
+        {
+            _taskService = taskService;
+        }
+
         [HttpPost]
+
+        public ActionResult<string> Post([FromBody] string value)
+
+        {
+            _taskService.RegisterTaskAsync(value);
+            return "ok";
+        }
+
+        /*
+         [HttpPost]
 
         public ActionResult<string> Post([FromBody] string value)
 
@@ -37,6 +54,7 @@ namespace AngielskiNauka
             }
             return "ok";
         }
+         */
 
     }
 

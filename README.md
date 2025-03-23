@@ -1,7 +1,7 @@
 # Projekt Nazwa
 
 ## Opis
-Projekt **Nazwa** to [krótki opis projektu]. Celem projektu jest [główne założenia i funkcjonalności].
+Projekt **Angielski słówka** aplikacja wspiera naukę słówek z angielskiego i nie tylko.
 
 ## Spis treści
 - [Instalacja](#instalacja)
