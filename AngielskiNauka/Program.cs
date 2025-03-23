@@ -1,5 +1,8 @@
+using AngielskiNauka;
 using AngielskiNauka.Models;
 using AngielskiNauka.Resources;
+using AngielskiNauka.Serwisy;
+using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -10,8 +13,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.ddd
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<AaaswswContext>(x => x.UseSqlServer("workstation id=aaaswsw.mssql.somee.com;packet size=4096;user id=swdowia1_SQLLogin_2;pwd=kr62j5x3px;data source=aaaswsw.mssql.somee.com;persist security info=False;initial catalog=aaaswsw;TrustServerCertificate=True"));
+builder.Services.AddDbContext<AaaswswContext>(x => x.UseSqlServer(classFun.Poloczenie()));
 builder.Services.AddSingleton<LocService>();
+builder.Services.AddSingleton<ConfigGlobal>();
+builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<AngService>();  //Localizations languages
+builder.Services.AddScoped<TaskService>();  //Localizations languages
+builder.Services.AddSingleton<RabbitMQSend>();
+//builder.Services.AddHostedService<RabbitMqBackgroundConsumer>();
+//IDataCache
+
+//IFunVMS
+builder.Services.AddScoped<IFunVMS, FunVMS>();
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 builder.Services.Configure<RequestLocalizationOptions>(

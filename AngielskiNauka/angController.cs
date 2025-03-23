@@ -7,40 +7,38 @@ using Microsoft.AspNetCore.Mvc;
 namespace AngielskiNauka
 {
     [Route("api/[controller]")]
+    //[Route("api/ang")]
     [ApiController]
     public class angController : ControllerBase
     {
         AaaswswContext _db;
+        ConfigGlobal _config;
 
-        public angController(AaaswswContext db)
+        public angController(AaaswswContext db, ConfigGlobal config)
         {
             _db = db;
+            _config = config;
+
         }
 
-        [HttpGet]
-
-        public Test Get()
-        {
-            var result = new Test();
-
-            return result;
-        }
 
 
         // GET api/<ValuesController>/5
         [HttpGet("{poziom}")]
         public async Task<ActionResult<Test>> Get(int poziom)
         {
-            int ilosc = 50;
+            // _RabbitMqService.SendMessage("poziom" + poziom);
+            int ilosc = _config.Ile();
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
-            DateTime dataTeraz1 = poland.UtcDateTime.AddHours(1);
-            DateTime dataTeraz = poland.UtcDateTime;
+
 
             var result = new Test();
-            var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Data).Take(ilosc + 10).ToList();
+            var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Stan)
+                .ThenBy(jj => jj.Data)
+                .Take(ilosc).ToList();
             List<int> idlos = listastart.Select(k => k.DaneId).ToList();
             idlos.Losuj();
-            idlos = idlos.Take(ilosc).ToList();
+            //idlos = idlos.Take(ilosc).ToList();
 
 
             var lista =
@@ -64,6 +62,7 @@ namespace AngielskiNauka
 
         // POST api/<ValuesController>
 
+
         [HttpPost]
 
         public ActionResult<List<string>> Post([FromBody] Test value)
@@ -77,12 +76,20 @@ namespace AngielskiNauka
             foreach (var item in ok)
             {
                 Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item);
-                d.Data = dataTeraz.AddMonths(1);
+                d.Data = dataTeraz.AddYears(1);
+                int stan = d.Stan + 2;
+                if (stan > 10)
+                    stan = 10;
+                d.Stan = stan;
             }
             foreach (var item1 in zle)
             {
                 Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item1);
+                int stan = d.Stan - 1;
+                if (stan < -10)
+                    stan = -10;
                 d.Data = dataTeraz.AddMonths(-3);
+                d.Stan = stan;
             }
             Stat ss = new Stat()
             {
@@ -107,6 +114,8 @@ namespace AngielskiNauka
                 return new JsonResult(dd);
             }
         }
+
+
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]

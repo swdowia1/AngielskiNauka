@@ -13,7 +13,7 @@ jobs:
     # 1. Pobierz kod źródłowy
     - name: Checkout code
       uses: actions/checkout@v3
-
+   
     # 2. Zainstaluj .NET Core
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
@@ -27,10 +27,22 @@ jobs:
     # 4. Zbuduj projekt
     - name: Build project
       run: dotnet build --configuration Release
-
+    
+    - name: Run Unit Tests
+      run: dotnet test AngUnitTest/AngUnitTest.csproj --no-restore --logger "console;verbosity=minimal"
     # 5. Opublikuj projekt
     - name: Publish project
       run: dotnet publish -c Release -o ./publish
+    - name: Set current DateTime as an environment variable
+      run: echo "CURRENT_DATETIME=$(date '+%A, %Y-%m-%dT%H:%M:%S%z')" >> $GITHUB_ENV
+    - name: aktualizacja data
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: 'publish/appsettings.json'  # Make sure this path is correct
+      env:
+        ConnectionStrings.DefaultConnection: ${{ secrets.DB_CONNECTION }}
+        Data: ${{ env.CURRENT_DATETIME }}
+
 
     # 6. Wdrożenie (np. na Azure lub inny serwer)
     - name: Deploy to server
@@ -41,3 +53,4 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         local-dir: ./publish/
         server-dir: /www.swsw.somee.com/
+        dangerous-clean-slate: true  # This will delete old files before deploying

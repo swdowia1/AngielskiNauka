@@ -28,6 +28,20 @@ namespace AngielskiNauka
             odp.Losuj();
             return odp.ToArray();
         }
+        public static DateTime RandomDateTime()
+        {
+            Random random = new Random();
+            DateTime start = DateTime.Now.AddMonths(4);
+            int range = 30;
+
+            int randomHour = random.Next(0, 24);
+            int randomMinute = random.Next(0, 60);
+            int randomSecond = random.Next(0, 60);
+
+            var randomDate = start.AddDays(random.Next(range));
+
+            return new DateTime(randomDate.Year, randomDate.Month, randomDate.Day, randomHour, randomMinute, randomSecond);
+        }
         public static void Losuj<T>(this IList<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
@@ -57,6 +71,16 @@ namespace AngielskiNauka
 
             return result;
 
+        }
+
+        internal static string DateToString()
+        {
+            return DateTime.Now.ToString("yyyyMMdd HH:mm:ss");
+        }
+
+        internal static string Poloczenie()
+        {
+            return "workstation id=aaaswsw.mssql.somee.com;packet size=4096;user id=swdowia1_SQLLogin_2;pwd=kr62j5x3px;data source=aaaswsw.mssql.somee.com;persist security info=False;initial catalog=aaaswsw;TrustServerCertificate=True";
         }
     }
 }

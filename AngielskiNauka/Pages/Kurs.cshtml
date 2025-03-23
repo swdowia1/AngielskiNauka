@@ -1,0 +1,126 @@
+﻿@page "{wal?}/{id:int?}"
+@model AngielskiNauka.Pages.KursModel
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@{
+}
+<h1>Kurs waluty @Model.waluta za ostatnie @Model.poziom notowan (od @Model.exchangeRateResponse.rates.Min(k=>k.effectiveDate))</h1>
+<canvas id="myChart"></canvas>
+
+<a href="/kurs/USD">dolar amerykański</a>
+<br />
+<a href="/kurs/AUD">dolar australijski</a>
+<br />
+<a href="/kurs/CAD">dolar kanadyjski</a>
+<br />
+<a href="/kurs/EUR">euro</a>
+<br />
+<a href="/kurs/HUF">forint (Węgry)</a>
+<br />
+<a href="/kurs/CHF">frank szwajcarski</a>
+<br />
+<a href="/kurs/GBP">funt szterling</a>
+<br />
+<a href="/kurs/JPY">jen (Japonia)</a>
+<br />
+<a href="/kurs/CZK">korona czeska</a>
+<br />
+<a href="/kurs/DKK"></a>
+<br />
+<a href="/kurs/NOK">korona duńska</a>
+<br />
+<a href="/kurs/SEK">korona norweska</a>
+<br />
+<a href="/kurs/XDR">SDR (MFW)</a>
+<br />
+
+<script>
+    var salesChart;
+    var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.effectiveDate)));
+
+    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.bid)));
+    var ask = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.ask)));
+    var iloscpoint=data.length;
+    let maxVal = Math.min(...data);
+    console.log(maxVal);
+    tabela('myChart', 'Sprzedaz', labels, data, maxVal)
+    function addNewLineFromPoint(startIndex,wartosc) {
+        let newLabel = wartosc;
+
+        
+        let newData = Array(iloscpoint).fill(wartosc);
+        let newDataset = {
+            label: newLabel,
+            data: newData,
+            borderColor: "green", // Line color
+            borderWidth: 2, // Line thickness
+            fill: false, // Ensures no area fill
+            borderDash: [], // Ensures a solid line
+            pointRadius: 0, // Removes dots from the line
+            pointHoverRadius: 0 // Ensures no dots appear on hover
+  
+        };
+
+        salesChart.data.datasets.push(newDataset); // Add new dataset
+        salesChart.update(); // Update chart
+    }
+    function tabela(divName, title, x, y,min) {
+        const average = y.reduce((a, b) => a + b, 0) / y.length;
+        // Render the chart
+        var ctx = document.getElementById(divName).getContext('2d');
+        ctx.width = 200;
+        ctx.height = 200;
+        salesChart = new Chart(ctx, {
+            type: 'line', // Change to 'line', 'pie', etc., if needed
+            data: {
+                labels: x,
+                datasets: [{
+                    label: title,
+                    data: y, // Values for each slice
+                    borderWidth: 2,
+                    tension: 0.4 // Ustawienie wartości napięcia dla łagodnej krzywej
+                },
+                {
+                    label: 'Kupno',
+                    data: ask,
+                    borderWidth: 2,
+                    tension: 0.4 // Ustawienie wartości napięcia dla łagodnej krzywej
+                }]
+            },
+            options: {
+                responsive: true,
+
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        suggestedMin: min,
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                       
+                        let datasetIndex = elements[0].datasetIndex;
+                        
+                        console.log('ss', datasetIndex);
+                        let index = elements[0].index;
+                       
+                        let datasetLabel = salesChart.data.datasets[datasetIndex].label;
+                        let value = salesChart.data.datasets[datasetIndex].data[index];
+                        let label = salesChart.data.labels[index];
+
+                        console.log(`Clicked on ${datasetLabel} - ${label}: ${value}`);
+                        addNewLineFromPoint(index,value);
+                    }
+                }
+            }
+
+        });
+
+    }
+</script>

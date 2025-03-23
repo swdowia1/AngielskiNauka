@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngielskiNauka.Models;
+﻿namespace AngielskiNauka.Models;
 
 public partial class Dane
 {
@@ -12,6 +9,7 @@ public partial class Dane
     public string Pol { get; set; } = null!;
 
     public DateTime Data { get; set; }
+    public int Stan { get; set; }
 
     public int PoziomId { get; set; }
 

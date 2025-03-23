@@ -3,7 +3,7 @@
 
 
 @model IndexModel
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 @{
@@ -38,15 +38,48 @@
         margin-bottom: 40px;
     }
 
+    .timer-container {
+        text-align: left;
+        background: linear-gradient(to right, #ff7e5f, #feb47b);
+      
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .time-fields {
+        display: flex;
+        align-items: center;
+       
+        margin-top: 20px;
+    }
+
+    .field {
+        text-align: center;
+        margin: 0 10px;
+    }
+
+        .field span {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+
+        .field label {
+            font-size: 14px;
+            color: #777;
+        }
+
+    .separator {
+        font-size: 48px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
    
 </style>
 
-
-<div class="swsw">
-   <span id="zostalo"> zaczynaj</span>
-    <img src="~/img/number_1.jpg" />
-    <img src="~/img/number_4.jpg" />
-</div>
 
 
 
@@ -57,142 +90,137 @@
 
 
 
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="vstack gap-3">
 
 
 
-<div class="vstack gap-3">
+                <div>
 
 
 
-    <div>
+                    <button onclick="answer(0)" class="btn2 btn btn-warning btn-block custom-btn-size">
 
 
 
-        <button onclick="answer(0)" class="btn2 btn btn-warning btn-block custom-btn-size">
+                        <span id="pol0">@ladowanie</span>
 
 
 
-            <span id="pol0">@ladowanie</span>
+                    </button>
 
 
 
-        </button>
+                </div>
 
 
 
+                <div>
+
+
+
+                    <button onclick="answer(1)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+
+
+                        <span id="pol1">@ladowanie</span>
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+                <div>
+
+
+
+                    <button onclick="answer(2)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+
+
+                        <span id="pol2">@ladowanie</span>
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+                <div>
+
+
+
+                    <button onclick="answer(3)" class="btn2 btn btn-warning btn-block custom-btn-size">
+
+
+
+                        <span id="pol3">@ladowanie</span>
+
+
+
+                    </button>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+       
+      
     </div>
 
-
-
-    <div>
-
-
-
-        <button onclick="answer(1)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-            <span id="pol1">@ladowanie</span>
-
-
-
-        </button>
-
-
-
-    </div>
-
-
-
-    <div>
-
-
-
-        <button onclick="answer(2)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-            <span id="pol2">@ladowanie</span>
-
-
-
-        </button>
-
-
-
-    </div>
-
-
-
-    <div>
-
-
-
-        <button onclick="answer(3)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-            <span id="pol3">@ladowanie</span>
-
-
-
-        </button>
-
-
-
-    </div>
-
-
-
-
-
-
-
-
-
+    <div class="timer-container">
+        <div class="time-fields">
+            <div class="field">
+                <span id="minutes">00</span>
+                <label>Minuty</label>
+            </div>
+            <div class="separator">:</div>
+            <div class="field">
+                <span id="seconds">00</span>
+                <label>Sekundy</label>
+            </div>
+            <div class="field">
+                <span id="zostalo">00</span>
+                <label>Zostało</label>
+            </div>
+            <div class="field">
+                <span id="stan">00</span>
+                <label>stan</label>
+            </div>
+            <div class="field">
+                <span id="zle">00</span>
+                <label>Żle</label>
+            </div>
+        </div>
+    </div><canvas id="myChart" width="400" height="200"></canvas>
 </div>
 
-<table>
-
-    <tr>
-
-        <td>zostało:<span id="zrobione"></span></td>
-
-        <td> <progress id="progBar" max="100" value="0"></progress><br /></td>
-
-    </tr>
-
-    <tr>
-
-        <td>Żle:<span id="zle"></span></td>
-
-        <td> <progress id="progBarzle" max="100" value="0"></progress><br /></td>
-
-    </tr>
-
-    <tr>
-
-        <td>Dobrze:<span id="dobrze"></span></td>
-
-        <td> <progress id="progBardobrze" max="100" value="0"></progress><br /></td>
-
-    </tr>
-
-</table>
 
 
 
 
-<div >
-    <div id="circle">
-    </div>
-    <span id="walsw" style="position: relative;top:-60px;left: 30px;">
-        
-    </span>
-    
-</div>
-<br />
-<a href="fiszka?id=@Model.poziom">fiszka</a>
+
+
 <br />
 <div id="stan"></div>
 <br />
@@ -224,9 +252,49 @@
     </div>
 </div>
 <hr />
-<partial name="PoziomView" model="@Model.poziom" />
-<script>
 
+<script>
+    // Pobierz element canvas
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    // Utwórz początkowy wykres
+    const myChart = new Chart(ctx, {
+        type: 'line', // Typ wykresu
+        data: {
+            labels: [''], // Początkowe etykiety
+            datasets: [{
+                label: 'Stan',
+                data: [], // Początkowe dane
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4, // Dodaje gładkie krzywe
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Funkcja dodawania punktów
+    function addPoint(x,y) {
+        
+            // Dodaj etykietę i wartość do wykresu
+            myChart.data.labels.push(x);
+            myChart.data.datasets[0].data.push(y);
+
+            // Odśwież wykres
+            myChart.update();
+
+        
+    }
+
+    let intervalId; // Przechowuje ID interwału
     
 
     var aktualny = 0;
@@ -253,22 +321,32 @@
 
         $('#zrobione').text(' ' + zrobioneilosc);
         
-        $('#zostalo').text('zostało: ' + zrobioneilosc);
-        $('#progBarzle').val(zle * zmiana);
+        $('#zostalo').text(zrobioneilosc);
 
-        $('#zle').text(' ' + zle);
+       
 
         $('#progBardobrze').val(dobrze * zmiana);
 
         $('#dobrze').text(' ' + dobrze);
-       
+        var procent = (dobrze / odpowiedz) * 100;
         if (odpowiedz > 0) {
-            stancircle((dobrze / odpowiedz) * 100)
+            
+            stancircle(procent)
+            ;
+            $('#stan').text(parseInt(procent, 10));
+            $('#zle').text(parseInt(zle, 10));
         }
+        addPoint(aktualny, procent)
+    }
+    function deleteAllPoints() {
+        myChart.data.labels = []; // Clear all labels
+        myChart.data.datasets[0].data = []; // Clear all data
+        myChart.update(); // Update the chart to reflect changes
     }
 
     function wyslijodpowiedzi() {
         var calosc = (dobrze / odpowiedz) * 100;
+        clearInterval(intervalId); // Zatrzymuje interwał
         stancircle(calosc)
         infoapp('twoj wynik to ' + calosc)
         var index=0
@@ -281,11 +359,11 @@
         }
       
         //$('#modalDeleteProductDelivery').modal('show');
-        $('#stan').text('koniec twoj wynik to ' + calosc);
+        $('#stan').text('koniec twoj wynik to ' + parseInt(calosc, 10));
         $('#wynik').text( 'Wynik testu ' + calosc+'%');
         postjson("api/ang", slownik, function (data) {
 
-
+            deleteAllPoints();
             infoapp('nowa lecja')
             
             console.log(data);
@@ -390,6 +468,24 @@
         
        
     }
+    function startTimer() {
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+
+        let totalSeconds = 0;
+
+        function updateTimer() {
+            const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+            const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+
+            minutesElement.textContent = minutes;
+            secondsElement.textContent = seconds;
+
+            totalSeconds++;
+        }
+
+        intervalId = setInterval(updateTimer, 1000);
+    }
     LadujDane(poziom)
     function infoapp(tekst) {
         
@@ -418,7 +514,7 @@
 
             
 
-
+            startTimer();
 
             slownik = data;
             

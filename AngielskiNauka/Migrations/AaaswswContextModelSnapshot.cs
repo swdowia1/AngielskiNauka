@@ -22,28 +22,6 @@ namespace AngielskiNauka.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AngielskiNauka.Models.AddNew", b =>
-                {
-                    b.Property<Guid>("AddNewId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Ang")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Pol")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Poziom")
-                        .HasColumnType("int");
-
-                    b.HasKey("AddNewId");
-
-                    b.ToTable("AddNews");
-                });
-
             modelBuilder.Entity("AngielskiNauka.Models.Dane", b =>
                 {
                     b.Property<int>("DaneId")
@@ -64,6 +42,9 @@ namespace AngielskiNauka.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PoziomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Stan")
                         .HasColumnType("int");
 
                     b.HasKey("DaneId");
@@ -118,6 +99,57 @@ namespace AngielskiNauka.Migrations
                     b.ToTable("Stats");
                 });
 
+            modelBuilder.Entity("AngielskiNauka.Models.SubtaskModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("Subtasks");
+                });
+
+            modelBuilder.Entity("AngielskiNauka.Models.TaskModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tasks");
+                });
+
             modelBuilder.Entity("AngielskiNauka.Models.Dane", b =>
                 {
                     b.HasOne("AngielskiNauka.Models.Poziom", "Poziom")
@@ -140,11 +172,27 @@ namespace AngielskiNauka.Migrations
                     b.Navigation("Poziom");
                 });
 
+            modelBuilder.Entity("AngielskiNauka.Models.SubtaskModel", b =>
+                {
+                    b.HasOne("AngielskiNauka.Models.TaskModel", "Task")
+                        .WithMany("Subtasks")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Task");
+                });
+
             modelBuilder.Entity("AngielskiNauka.Models.Poziom", b =>
                 {
                     b.Navigation("Danes");
 
                     b.Navigation("Stats");
+                });
+
+            modelBuilder.Entity("AngielskiNauka.Models.TaskModel", b =>
+                {
+                    b.Navigation("Subtasks");
                 });
 #pragma warning restore 612, 618
         }

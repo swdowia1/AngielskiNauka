@@ -1,6 +1,5 @@
 using AngielskiNauka.ModelApi;
-using AngielskiNauka.Models;
-using Microsoft.AspNetCore.Mvc;
+using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AngielskiNauka.Pages
@@ -11,17 +10,18 @@ namespace AngielskiNauka.Pages
 
         public List<Slowo> List;
         public int poziom;
-        AaaswswContext _db;
+        AngService _service;
 
-        public FiszkaModel(AaaswswContext db)
+        public FiszkaModel(AngService service)
         {
-            _db = db;
+            _service = service;
         }
 
         public void OnGet(int id = 1)
         {
             poziom = id;
-            List = _db.Danes.ToList().OrderBy(d => d.Data).Where(p => p.PoziomId == id).Select(
+
+            List = _service.DaneFiszka(id).Select(
                 (j, index) => new Slowo()
                 {
                     Id = index + 1,
