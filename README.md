@@ -1,22 +1,12 @@
-# Projekt Nazwa
+# Projekt Angielski słówka
 
 ## Opis
 Projekt **Angielski słówka** aplikacja wspiera naukę słówek z angielskiego i nie tylko.
 
-## Spis treści
-- [Instalacja](#instalacja)
-- [Użycie](#użycie)
-- [Wymagania](#wymagania)
-- [Kontrybucja](#kontrybucja)
-- [Licencja](#licencja)
+## Co jest użyte w projekcie
+- Code first
+- Repozytorium generyczne w C#. Jest to wzorzec projektowy, który upraszcza operacje na danych w aplikacjach, szczególnie w połączeniu z Entity Framework (EF).
+- Aktializacja danyc bez przeładowania strony
+- Testy jednostkowe integracyjen
+- Dependency Injection (DI) w C# to wzorzec, który pozwala na wstrzykiwanie zależności do obiektów zamiast tworzenia ich wewnątrz klas. Jest to kluczowa część nowoczesnych aplikacji .NET, szczególnie w ASP.NET Core.
 
-## Instalacja
-Aby zainstalować projekt, wykonaj następujące kroki:
-
-```bash
-# Klonowanie repozytorium
-git clone https://github.com/user/nazwa-projektu.git
-cd nazwa-projektu
-
-# Instalacja zależności
-npm install  # lub pip install -r requirements.txt (dla Pythona)

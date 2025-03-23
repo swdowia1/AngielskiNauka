@@ -4,12 +4,12 @@ using Moq;
 
 namespace AngUnitTest
 {
-    public class TestBezBazy
+    public class TestUnit
     {
         public readonly AngService _AngService;
         public readonly Mock<IRepository> _mockRepository;
         public readonly Mock<IFunVMS> _mockIFunVMS;
-        public TestBezBazy()
+        public TestUnit()
         {
             //
             _mockRepository = new Mock<IRepository>();
