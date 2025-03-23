@@ -1,6 +1,6 @@
 ﻿namespace AngUnitTest
 {
-    public class UnitTestIntegracja : DBPrawdziwa
+    public class TestIntegration : DBPrawdziwa
     {
         [Fact]
 
@@ -13,7 +13,5 @@
             Assert.Equal(p.Nazwa, "Stas");
 
         }
-
-
     }
 }
