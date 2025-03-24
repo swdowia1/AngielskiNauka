@@ -6,6 +6,12 @@ namespace AngielskiNauka.Unit
     public interface IRepository
     {
         IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate) where T : class;
+        IEnumerable<T> GetAll<T>(
+    Expression<Func<T, bool>> predicate,
+    Expression<Func<T, object>> orderBy = null,
+    bool descending = false,
+    int? take = null)
+    where T : class;
         Task<List<T>> GetAll<T>() where T : class;
         IEnumerable<T> GetAllIncluding<T>(params Expression<Func<T, object>>[] includes) where T : class;
         T GetById<T>(int id) where T : class;
@@ -22,6 +28,6 @@ namespace AngielskiNauka.Unit
         void Delete<T>(Expression<Func<T, bool>> predicate) where T : class;
         bool Any<T>(Expression<Func<T, bool>> predicate) where T : class;
         int SaveChanges();
-        Task<int> RunStoredProcedureNonQuery(string storedProcedure, params object[] parameters);
+        Task<int> RunStoredProcedureNonQuery(string storedProcedure, Dictionary<string, object> parameters);
     }
 }

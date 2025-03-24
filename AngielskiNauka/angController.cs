@@ -1,5 +1,5 @@
 ﻿using AngielskiNauka.ModelApi;
-using AngielskiNauka.Models;
+using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,12 +11,12 @@ namespace AngielskiNauka
     [ApiController]
     public class angController : ControllerBase
     {
-        AaaswswContext _db;
+        AngService _service;
         ConfigGlobal _config;
 
-        public angController(AaaswswContext db, ConfigGlobal config)
+        public angController(AngService service, ConfigGlobal config)
         {
-            _db = db;
+            _service = service;
             _config = config;
 
         }
@@ -33,9 +33,8 @@ namespace AngielskiNauka
 
 
             var result = new Test();
-            var listastart = _db.Danes.Where(w => w.PoziomId == poziom).OrderBy(j => j.Stan)
-                .ThenBy(jj => jj.Data)
-                .Take(ilosc).ToList();
+
+            var listastart = _service.DaneNauka(poziom, ilosc);
             List<int> idlos = listastart.Select(k => k.DaneId).ToList();
             idlos.Losuj();
             //idlos = idlos.Take(ilosc).ToList();
@@ -68,44 +67,20 @@ namespace AngielskiNauka
         public ActionResult<List<string>> Post([FromBody] Test value)
 
         {
+            int PoziomId = value.Slowa.FirstOrDefault().Poziom;
 
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
             DateTime dataTeraz = poland.UtcDateTime.AddHours(1);
             List<int> ok = value.Slowa.Where(k => k.stan == Stan.dobrze).Select(j => j.Id).ToList();
-            List<int> zle = value.Slowa.Where(k => k.stan == Stan.zle).Select(j => j.Id).ToList();
-            foreach (var item in ok)
-            {
-                Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item);
-                d.Data = dataTeraz.AddYears(1);
-                int stan = d.Stan + 2;
-                if (stan > 10)
-                    stan = 10;
-                d.Stan = stan;
-            }
-            foreach (var item1 in zle)
-            {
-                Dane d = _db.Danes.FirstOrDefault(l => l.DaneId == item1);
-                int stan = d.Stan - 1;
-                if (stan < -10)
-                    stan = -10;
-                d.Data = dataTeraz.AddMonths(-3);
-                d.Stan = stan;
-            }
-            Stat ss = new Stat()
-            {
-                Data = dataTeraz,
-                Ilosc = ok.Count * (100 / value.Slowa.Length),
-                PoziomId = value.Slowa.FirstOrDefault().Poziom,
-                Repeat = ""
-            };
-            if (zle.Any())
-            {
-                var lista = value.Slowa.Where(j => j.stan == Stan.zle).Select(k => k.Ang + ":" + k.Pol).ToList();
+            string resultOK = string.Join(',', value.Slowa.Where(k => k.stan == Stan.dobrze).Select(j => j.Id));
+            string resultZLE = string.Join(',', value.Slowa.Where(k => k.stan == Stan.zle).Select(j => j.Id));
 
-                ss.Repeat = String.Join("||", lista); ;
-            }
-            _db.Stats.Add(ss);
-            _db.SaveChanges();
+
+
+            _service.AddStat(resultOK, resultZLE, PoziomId);
+            List<int> zle = value.Slowa.Where(k => k.stan == Stan.zle).Select(j => j.Id).ToList();
+
+
             if (!zle.Any())
                 return new JsonResult(new List<string>() { "zapisano" });
             else

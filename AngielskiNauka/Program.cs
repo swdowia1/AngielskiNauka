@@ -13,12 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.ddd
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<AaaswswContext>(x => x.UseSqlServer(classFun.Poloczenie()));
+
+builder.Services.AddDbContext<AaaswswContext>(options =>
+    options.UseSqlServer(classFun.Poloczenie()));
 builder.Services.AddSingleton<LocService>();
 builder.Services.AddSingleton<ConfigGlobal>();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<AngService>();  //Localizations languages
-builder.Services.AddScoped<TaskService>();  //Localizations languages
+//builder.Services.AddScoped<TaskService>();  //Localizations languages
 builder.Services.AddSingleton<RabbitMQSend>();
 //builder.Services.AddHostedService<RabbitMqBackgroundConsumer>();
 //IDataCache
