@@ -14,6 +14,19 @@ namespace AngielskiNauka.Unit
             _funVMS = funVMS;
         }
 
+        public async Task<int> AddStat(string ok, string zle, int poziom)
+        {
+            var parameters = new Dictionary<string, object>
+{
+    { "@oklist", ok },  // Zakładając, że oklist to ciąg wartości
+    { "@zlelist",zle } ,
+                {"@poziomid",poziom }
+};
+            await _repository.RunStoredProcedureNonQuery("[dbo].[AddStat]", parameters);
+
+            return 1;
+        }
+
         public Poziom GetPoziom(int id)
         {
 
@@ -30,6 +43,14 @@ namespace AngielskiNauka.Unit
             return _repository.GetAll<Dane>(k => k.PoziomId == id).ToList();
         }
 
+        public List<Dane> DaneNauka(int id, int ilosc = 20)
+        {
+            return _repository.GetAll<Dane>(
+       w => w.PoziomId == id,
+       orderBy: w => w.Stan,
+       descending: false,
+       take: ilosc).ToList();
+        }
 
         public int LogikaBiznesowa()
 

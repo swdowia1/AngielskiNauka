@@ -1,5 +1,7 @@
 ﻿using AngielskiNauka.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Linq.Expressions;
 
 namespace AngielskiNauka.Unit
@@ -12,12 +14,66 @@ namespace AngielskiNauka.Unit
         {
             _db = db;
         }
-        // Execute stored procedure for non-query operations (insert, update, delete)
-        public async Task<int> RunStoredProcedureNonQuery(string storedProcedure, params object[] parameters)
+        public IEnumerable<T> GetAll<T>(
+    Expression<Func<T, bool>> predicate,
+    Expression<Func<T, object>> orderBy = null,
+    bool descending = false,
+    int? take = null)
+    where T : class
         {
-            return await _db.Database.ExecuteSqlRawAsync(storedProcedure, parameters);
+            IQueryable<T> query = _db.Set<T>().Where(predicate);
+
+            if (orderBy != null)
+            {
+                query = descending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
+            }
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.ToList();
         }
 
+        // Execute stored procedure for non-query operations (insert, update, delete)
+        public async Task<int> RunStoredProcedureNonQuery2(string storedProcedure, Dictionary<string, object> parameters)
+        {
+            try
+            {
+
+
+                int result = _db.Database.ExecuteSqlRawAsync(storedProcedure, parameters).Result;
+
+
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Błąd SQL: {ex.Message}");
+                return 0;
+            }
+        }
+        public async Task<int> RunStoredProcedureNonQuery(string storedProcedure, Dictionary<string, object> parameters)
+        {
+            try
+            {
+                string joinedKeys = string.Join(",", parameters.Keys);
+                // Tworzymy tablicę parametrów SQL z dictionary
+                var sqlParameters = parameters.Select(p => new SqlParameter(p.Key, p.Value)).ToArray();
+                // await _repository.RunStoredProcedureNonQuery("EXEC [dbo].[AddStat] @oklist, @zlelist", parameters);
+                // Wywołanie procedury składowanej z parametrami
+                int result = _db.Database.ExecuteSqlRawAsync("EXEC " + storedProcedure + " " + joinedKeys, sqlParameters).Result;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Błąd SQL: {ex.Message}");
+                return 0;
+            }
+        }
         public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate) where T : class
         {
 
