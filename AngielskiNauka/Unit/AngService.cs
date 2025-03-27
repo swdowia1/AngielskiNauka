@@ -43,6 +43,11 @@ namespace AngielskiNauka.Unit
             return _repository.GetAll<Dane>(k => k.PoziomId == id).ToList();
         }
 
+        public List<Job> Zadania()
+        {
+            return _repository.GetAllIncluding<Job>(j=> j.TaskTimes).ToList();
+        }
+
         public List<Dane> DaneNauka(int id, int ilosc = 20)
         {
             return _repository.GetAll<Dane>(
