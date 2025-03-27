@@ -331,7 +331,7 @@
         var procent = (dobrze / odpowiedz) * 100;
         if (odpowiedz > 0) {
             
-            stancircle(procent)
+           
             ;
             $('#stan').text(parseInt(procent, 10));
             $('#zle').text(parseInt(zle, 10));
@@ -347,7 +347,7 @@
     function wyslijodpowiedzi() {
         var calosc = (dobrze / odpowiedz) * 100;
         clearInterval(intervalId); // Zatrzymuje interwał
-        stancircle(calosc)
+      
         infoapp('twoj wynik to ' + calosc)
         var index=0
         for (index = 0; index < slownik.slowa.length; ++index) {
@@ -441,21 +441,7 @@
         }
 
     }
-    function stancircle(stan) {
-      
-        $('#walsw').text(Math.round(stan))
-        $('#circle').circleProgress({
-            value: stan * 0.01,
-            size: 80,
-            animation: false,
-            fill: {
-                gradient: ["red", "orange"]
-            }
-        })
-            ;
-
-
-    }
+  
 
     function showData(pos) {
         

@@ -1,0 +1,167 @@
+﻿@page
+@model AngielskiNauka.Pages.JobModel
+@inject LocService ls
+@{
+    int lp = 1;
+
+}
+@{
+}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fb;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        color: #333;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        width: 70%;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 10px 15px;
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px 0;
+    }
+
+    li {
+        background-color: white;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        li span {
+            font-size: 18px;
+            color: #555;
+        }
+
+        li button {
+            background-color: #f44336;
+            margin-left: 10px;
+        }
+
+            li button:hover {
+                background-color: #e41f1f;
+            }
+
+    .completed {
+        text-decoration: line-through;
+        color: #888;
+    }
+
+</style>
+<h2>Tasks</h2>
+
+<form method="post">
+    <input type="text" name="NewTaskText" placeholder="Enter task" required />
+    <button type="submit">Add Task</button>
+</form>
+
+<ul>
+    @foreach (var task in Model.Tasks)
+    {
+        <li class="@((task.Completed) ? "completed" : "")">
+            <span>@task.Text</span>
+            <button onclick="() => AddTime(task.Id)">Add Time</button>
+            <button onclick="() => MarkCompleted(task.Id)">Mark Completed</button>
+            <button onclick="() => DeleteTask(task.Id)">Delete</button>
+
+            <ul>
+                @foreach (var time in task.TaskTimes)
+                {
+                    <li>
+                        <span>@time.StartTime.ToString("HH:mm") - @time.EndTime?.ToString("HH:mm")</span>
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+</ul>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>@ls.Get("lp")</th>
+            <th>@ls.Get("ang")</th>
+            <th>@ls.Get("pol")</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Tasks)
+        {
+            <tr>
+                <td>@(lp++)</td>
+                <td>
+                    <ul>
+                        @foreach (var time in item.TaskTimes)
+                        {
+                            <li>
+                                <span>@time.StartTime.ToString("HH:mm") - @time.EndTime?.ToString("HH:mm")</span>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>@item.Text</td>
+
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+<script>
+
+   
+    getjson("api/zad/jobs", function (data) {
+        console.log(data);
+      
+    }, function (data) {
+
+        console.log(data.message);
+
+
+
+
+
+    })
+</script>
