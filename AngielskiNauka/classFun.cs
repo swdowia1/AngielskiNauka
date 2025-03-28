@@ -82,5 +82,11 @@ namespace AngielskiNauka
         {
             return "workstation id=aaaswsw.mssql.somee.com;packet size=4096;user id=swdowia1_SQLLogin_2;pwd=kr62j5x3px;data source=aaaswsw.mssql.somee.com;persist security info=False;initial catalog=aaaswsw;TrustServerCertificate=True";
         }
+
+        internal static string TimeJobString(int totalSeconds)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(totalSeconds);
+            return $"{(int)time.TotalHours:D2}:{time.Minutes:D2}";
+        }
     }
 }

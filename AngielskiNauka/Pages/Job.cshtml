@@ -88,40 +88,21 @@
     }
 
 </style>
-<h2>Tasks</h2>
+<h2>@ls.Get("tasks")</h2>
 
-<form method="post">
-    <input type="text" name="NewTaskText" placeholder="Enter task" required />
-    <button type="submit">Add Task</button>
-</form>
 
-<ul>
-    @foreach (var task in Model.Tasks)
-    {
-        <li class="@((task.Completed) ? "completed" : "")">
-            <span>@task.Text</span>
-            <button onclick="() => AddTime(task.Id)">Add Time</button>
-            <button onclick="() => MarkCompleted(task.Id)">Mark Completed</button>
-            <button onclick="() => DeleteTask(task.Id)">Delete</button>
+<input type="text" name="NewTaskText" placeholder="Enter task" required />
+<button onclick="addTask()" type="submit">@ls.Get("taskadd")</button>
 
-            <ul>
-                @foreach (var time in task.TaskTimes)
-                {
-                    <li>
-                        <span>@time.StartTime.ToString("HH:mm") - @time.EndTime?.ToString("HH:mm")</span>
-                    </li>
-                }
-            </ul>
-        </li>
-    }
-</ul>
+
+
 
 <table class="table table-hover">
     <thead>
         <tr>
-            <th>@ls.Get("lp")</th>
-            <th>@ls.Get("ang")</th>
-            <th>@ls.Get("pol")</th>
+            <th>@ls.Get("taskName")</th>
+            <th>@ls.Get("time")</th>
+            <th>@ls.Get("")</th>
 
 
         </tr>
@@ -130,19 +111,11 @@
         @foreach (var item in Model.Tasks)
         {
             <tr>
-                <td>@(lp++)</td>
-                <td>
-                    <ul>
-                        @foreach (var time in item.TaskTimes)
-                        {
-                            <li>
-                                <span>@time.StartTime.ToString("HH:mm") - @time.EndTime?.ToString("HH:mm")</span>
-                            </li>
-                        }
-                    </ul>
-                </td>
-                <td>@item.Text</td>
 
+
+                <td>@item.Name</td>
+                <td>@item.TimeJob</td>
+                <td> <button onclick="() => AddTime(task.Id)">Add Time</button></td>
             </tr>
 
         }
@@ -150,18 +123,33 @@
     </tbody>
 </table>
 <script>
+    function addTask() {
+        var taskText = $('input[name="NewTaskText"]').val();
+       
+        postjson("api/zad/addtask", taskText, function (data) {
 
-   
-    getjson("api/zad/jobs", function (data) {
-        console.log(data);
-      
-    }, function (data) {
-
-        console.log(data.message);
+            window.location.reload();
 
 
 
+        }, function (data) {
+
+            console.log(data)
+
+        })
+
+    }
+
+    // getjson("api/zad/jobs", function (data) {
+    //     console.log(data);
+
+    // }, function (data) {
+
+    //     console.log(data.message);
 
 
-    })
+
+
+
+    // })
 </script>

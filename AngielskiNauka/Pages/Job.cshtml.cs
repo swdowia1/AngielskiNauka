@@ -9,6 +9,7 @@ namespace AngielskiNauka.Pages
     public class JobModel : PageModel
     {
         AngService _service;
+        public List<JobView> Tasks;
 
         public JobModel(AngService service            )
         {
@@ -18,7 +19,7 @@ namespace AngielskiNauka.Pages
         [BindProperty]
         public string NewTaskText { get; set; }
 
-        public IList<Job> Tasks { get; set; }
+ 
 
         public async Task OnGetAsync()
         {
@@ -27,12 +28,7 @@ namespace AngielskiNauka.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            //if (!string.IsNullOrEmpty(NewTaskText))
-            //{
-            //    var newTask = new Task { Text = NewTaskText, Completed = false };
-            //    _context.Tasks.Add(newTask);
-            //    await _context.SaveChangesAsync();
-            //}
+          
 
             return RedirectToPage();
         }

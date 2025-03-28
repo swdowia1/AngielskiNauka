@@ -132,4 +132,10 @@
   <data name="przeglad" xml:space="preserve">
     <value>Przegląd</value>
   </data>
+  <data name="taskadd" xml:space="preserve">
+    <value>Dodaj zadanie</value>
+  </data>
+  <data name="tasks" xml:space="preserve">
+    <value>Zadania</value>
+  </data>
 </root>
