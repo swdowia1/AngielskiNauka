@@ -36,6 +36,13 @@ namespace AngielskiNauka
             int wynik = _service.AddTask(val);
             return new JsonResult(wynik);
         }
+        // Czwarta metoda GET zwracająca listę Job
+        [HttpPost("update")]
+        public async Task<ActionResult<int>> update([FromBody] int val)
+        {
+            int wynik = _service.updateTask(val);
+            return new JsonResult(wynik);
+        }
     }
    
 }

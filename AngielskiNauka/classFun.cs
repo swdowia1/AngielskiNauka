@@ -85,7 +85,7 @@ namespace AngielskiNauka
 
         internal static string TimeJobString(int totalSeconds)
         {
-            TimeSpan time = TimeSpan.FromSeconds(totalSeconds);
+            TimeSpan time = TimeSpan.FromMinutes(totalSeconds);
             return $"{(int)time.TotalHours:D2}:{time.Minutes:D2}";
         }
     }

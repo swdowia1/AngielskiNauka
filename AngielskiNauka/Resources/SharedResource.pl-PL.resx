@@ -138,4 +138,7 @@
   <data name="tasks" xml:space="preserve">
     <value>Zadania</value>
   </data>
+  <data name="time" xml:space="preserve">
+    <value>Czas pracy(HH:mm)</value>
+  </data>
 </root>

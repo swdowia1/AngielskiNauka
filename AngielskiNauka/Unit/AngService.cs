@@ -58,6 +58,7 @@ namespace AngielskiNauka.Unit
             foreach (var item in jobs)
             {
                 item.TimeJob = classFun.TimeJobString(item.JobTime.Sum(k => k.Minute));
+                item.Work = item.JobTime.Any(k => !k.End.HasValue)==true?1:0;
             }
             return jobs;
         }
@@ -163,6 +164,25 @@ order-status-transport99  Czekam na wystawienie w kolejce
             Job j = new Job() { Text = val };
             var r=_repository.Add(j);
             return r.KeyInt; 
+        }
+
+        internal int updateTask(int jobId)
+        {
+            var t = _repository.GetAll<JobTime>(k=>k.JobId == jobId&&!k.EndTime.HasValue).ToList();
+            if (t.Any())
+            {
+                var tt = t[0];
+                tt.EndTime = DateTime.Now;
+                _repository.Update(tt);
+
+            }
+            else
+            {
+                JobTime add = new JobTime() { JobId = jobId, StartTime = DateTime.Now };
+                _repository.Add(add);
+            }
+
+            return 0;
         }
     }
 }
