@@ -16,7 +16,8 @@ namespace AngielskiNauka.Resources
 
         public LocalizedString Get(string key)
         {
-            return _localizer[key];
+            var result = _localizer[key];
+            return result;
         }
     }
 }

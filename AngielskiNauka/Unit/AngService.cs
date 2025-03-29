@@ -43,9 +43,24 @@ namespace AngielskiNauka.Unit
             return _repository.GetAll<Dane>(k => k.PoziomId == id).ToList();
         }
 
-        public List<Job> Zadania()
+        public List<JobView> Zadania()
         {
-            return _repository.GetAllIncluding<Job>(j=> j.TaskTimes).ToList();
+            var lista=_repository.GetAllIncluding<Job>(j=> j.TaskTimes).ToList();
+
+            List<JobView> jobs = lista.Select(k => new JobView()
+            {
+                Id = k.Id,
+                Name = k.Text,
+                JobTime = k.TaskTimes.Select(j => new JobTimeView(j.StartTime, j.EndTime)).ToList()
+
+            }).ToList();
+
+            foreach (var item in jobs)
+            {
+                item.TimeJob = classFun.TimeJobString(item.JobTime.Sum(k => k.Minute));
+                item.Work = item.JobTime.Any(k => !k.End.HasValue)==true?1:0;
+            }
+            return jobs;
         }
 
         public List<Dane> DaneNauka(int id, int ilosc = 20)
@@ -142,6 +157,32 @@ order-status-transport99  Czekam na wystawienie w kolejce
             }
 
             return "";
+        }
+
+        public int AddTask(string val)
+        {
+            Job j = new Job() { Text = val };
+            var r=_repository.Add(j);
+            return r.KeyInt; 
+        }
+
+        internal int updateTask(int jobId)
+        {
+            var t = _repository.GetAll<JobTime>(k=>k.JobId == jobId&&!k.EndTime.HasValue).ToList();
+            if (t.Any())
+            {
+                var tt = t[0];
+                tt.EndTime = DateTime.Now;
+                _repository.Update(tt);
+
+            }
+            else
+            {
+                JobTime add = new JobTime() { JobId = jobId, StartTime = DateTime.Now };
+                _repository.Add(add);
+            }
+
+            return 0;
         }
     }
 }

@@ -25,8 +25,23 @@ namespace AngielskiNauka
         [HttpGet("jobs")]
         public async Task<ActionResult<List<JobView>>> Get()
         {
-            List<JobView> jobs = _service.Zadania().Select(k => new JobView() { Id = k.Id, Name = k.Text }).ToList(); // Zakładając, że AngService ma taką metodę
-            return new JsonResult(jobs);
+           
+            return new JsonResult(_service.Zadania());
+        }
+
+        // Czwarta metoda GET zwracająca listę Job
+        [HttpPost("addtask")]
+        public async Task<ActionResult<int>> addtask([FromBody] string val)
+        {
+            int wynik = _service.AddTask(val);
+            return new JsonResult(wynik);
+        }
+        // Czwarta metoda GET zwracająca listę Job
+        [HttpPost("update")]
+        public async Task<ActionResult<int>> update([FromBody] int val)
+        {
+            int wynik = _service.updateTask(val);
+            return new JsonResult(wynik);
         }
     }
    
