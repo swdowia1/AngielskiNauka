@@ -40,7 +40,7 @@ namespace AngielskiNauka.Unit
 
         public List<Dane> DaneFiszka(int id)
         {
-            return _repository.GetAll<Dane>(k => k.PoziomId == id).ToList();
+            return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k=>k.Stan).ToList();
         }
 
         public List<JobView> Zadania()
