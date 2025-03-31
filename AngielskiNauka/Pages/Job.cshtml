@@ -114,7 +114,7 @@
 
 
                 <td>@item.Name</td>
-                <td>@item.TimeJob</td>
+                <td id="@($"tab{item.Id}")">@item.TimeJob</td>
                 <td>
                     @if (item.Work == 0)
                     {
@@ -147,6 +147,8 @@
     </tbody>
 </table>
 <script>
+    var jobid='@Model.JobId';
+    console.log(jobid);
     function toggleStrokeColor(event) {     
        
 

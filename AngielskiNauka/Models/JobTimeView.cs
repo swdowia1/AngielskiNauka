@@ -6,7 +6,13 @@
         {
             Start = start;
             End = end;
-            Minute = end.HasValue ? (int)(end.Value - start).TotalMinutes : 0;
+            if (end.HasValue)
+                Minute = (int)(end.Value - start).TotalMinutes;
+            else
+            {
+                Minute = (int)(DateTime.Now - start).TotalMinutes;
+            }
+           
         }
 
         public DateTime Start { get; set; }

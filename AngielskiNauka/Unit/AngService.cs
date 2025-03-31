@@ -58,6 +58,7 @@ namespace AngielskiNauka.Unit
             foreach (var item in jobs)
             {
                 item.TimeJob = classFun.TimeJobString(item.JobTime.Sum(k => k.Minute));
+                item.TotalMInute = item.JobTime.Sum(k => k.Minute);
                 item.Work = item.JobTime.Any(k => !k.End.HasValue)==true?1:0;
             }
             return jobs;

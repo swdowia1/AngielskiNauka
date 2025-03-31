@@ -10,6 +10,7 @@ namespace AngielskiNauka.Pages
     {
         AngService _service;
         public List<JobView> Tasks;
+        public int JobId;
 
         public JobModel(AngService service            )
         {
@@ -24,6 +25,11 @@ namespace AngielskiNauka.Pages
         public async Task OnGetAsync()
         {
             Tasks = _service.Zadania();
+            var t = Tasks.FirstOrDefault(k => k.Work == 1);
+            if (t != null)
+            {
+                JobId = t.Id;
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
