@@ -11,6 +11,7 @@ namespace AngielskiNauka.Pages
         AngService _service;
         public List<JobView> Tasks;
         public int JobId;
+        public int TotalMinute;
 
         public JobModel(AngService service            )
         {
@@ -29,6 +30,7 @@ namespace AngielskiNauka.Pages
             if (t != null)
             {
                 JobId = t.Id;
+                TotalMinute = t.TotalMInute;
             }
         }
 
