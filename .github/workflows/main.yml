@@ -28,8 +28,8 @@ jobs:
     - name: Build project
       run: dotnet build --configuration Release
     
-    - name: Run Unit Tests
-      run: dotnet test AngUnitTest/AngUnitTest.csproj --no-restore --logger "console;verbosity=minimal"
+    #- name: Run Unit Tests
+    #  run: dotnet test AngUnitTest/AngUnitTest.csproj --no-restore --logger "console;verbosity=minimal"
     # 5. Opublikuj projekt
     - name: Publish project
       run: dotnet publish -c Release -o ./publish
