@@ -88,7 +88,7 @@
     }
 
 </style>
-<h2>@ls.Get("tasks")</h2>
+<h2>@ls.Get("tasks testujemy")</h2>
 
 
 <input type="text" name="NewTaskText" placeholder="Enter task" required />
@@ -160,6 +160,8 @@
             let hours = String(Math.floor(counter / 3600)).padStart(2, '0');
             let minutes = String(Math.floor((counter % 3600) / 60)).padStart(2, '0');
             let sec = String(counter % 60).padStart(2, '0');
+
+            console.log(hours, minutes, sec)
 
             document.getElementById("tab" + tabId).textContent = `${hours}:${minutes}:${sec}`;
             counter++;
