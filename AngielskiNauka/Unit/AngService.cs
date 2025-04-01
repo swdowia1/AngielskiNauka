@@ -40,7 +40,7 @@ namespace AngielskiNauka.Unit
 
         public List<Dane> DaneFiszka(int id)
         {
-            return _repository.GetAll<Dane>(k => k.PoziomId == id).ToList();
+            return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k=>k.Stan).ToList();
         }
 
         public List<JobView> Zadania()
@@ -58,6 +58,7 @@ namespace AngielskiNauka.Unit
             foreach (var item in jobs)
             {
                 item.TimeJob = classFun.TimeJobString(item.JobTime.Sum(k => k.Minute));
+                item.TotalMInute = item.JobTime.Sum(k => k.Minute);
                 item.Work = item.JobTime.Any(k => !k.End.HasValue)==true?1:0;
             }
             return jobs;
