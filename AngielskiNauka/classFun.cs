@@ -15,6 +15,13 @@ namespace AngielskiNauka
 
             return new DateTime(year, month, day);
         }
+        public static DateTime CurrentTimePoland()
+        {
+            TimeZoneInfo warsawTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+            DateTime warsawTime = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, warsawTimeZone);
+            return warsawTime;
+
+        }
         private static string[] LosujOdpiwedzi(Slowo s, List<Slowo> result)
         {
             List<string> odp = new List<string>();

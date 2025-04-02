@@ -10,7 +10,7 @@
                 Minute = (int)(end.Value - start).TotalMinutes;
             else
             {
-                Minute = (int)(DateTime.Now - start).TotalMinutes;
+                Minute = (int)(classFun.CurrentTimePoland()- start).TotalMinutes;
             }
            
         }

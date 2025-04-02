@@ -173,13 +173,13 @@ order-status-transport99  Czekam na wystawienie w kolejce
             if (t.Any())
             {
                 var tt = t[0];
-                tt.EndTime = DateTime.Now;
+                tt.EndTime = classFun.CurrentTimePoland();
                 _repository.Update(tt);
 
             }
             else
             {
-                JobTime add = new JobTime() { JobId = jobId, StartTime = DateTime.Now };
+                JobTime add = new JobTime() { JobId = jobId, StartTime =classFun.CurrentTimePoland() };
                 _repository.Add(add);
             }
 

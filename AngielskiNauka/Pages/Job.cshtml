@@ -88,7 +88,7 @@
     }
 
 </style>
-<h2>@ls.Get("tasks")</h2>
+<h2>@ls.Get("tasks testujemy")</h2>
 
 
 <input type="text" name="NewTaskText" placeholder="Enter task" required />
@@ -128,16 +128,19 @@
                                      transform="scale(0.5)" />
 
                         </svg>
+
                     }
                     else
                     {
-                        <svg width="50" height="50" viewBox="0 0 50 50" onclick="toggleStrokeColor(@item.Id)" xmlns="http://www.w3.org/2000/svg">
+                      @*   <svg width="50" height="50" viewBox="0 0 50 50" onclick="toggleStrokeColor(@item.Id)" xmlns="http://www.w3.org/2000/svg">
                             <rect x="10" y="5" width="12" height="40" fill="red" />
                             <rect x="28" y="5" width="12" height="40" fill="red" />
-                        </svg>
+                        </svg> *@
+
+
+
+                        <img onclick="toggleStrokeColor(@item.Id)" width="50" height="50" src="~/img/zegar.gif" />
                     }
-
-
 
                 </td>
             </tr>
@@ -147,19 +150,21 @@
     </tbody>
 </table>
 <script>
-    var jobid='@Model.JobId';
+    var jobid = '@Model.JobId';
     console.log(jobid);
     if (jobid > 0) {
         console.log("Job ID jest większe od 0");
         startTimer(@Model.TotalMinute, jobid); // Rozpo
     }
-    function startTimer(seconds,tabId) {
-        let counter = seconds*60;
+    function startTimer(seconds, tabId) {
+        let counter = seconds * 60;
 
         function updateTimer() {
             let hours = String(Math.floor(counter / 3600)).padStart(2, '0');
             let minutes = String(Math.floor((counter % 3600) / 60)).padStart(2, '0');
             let sec = String(counter % 60).padStart(2, '0');
+
+            console.log(hours, minutes, sec)
 
             document.getElementById("tab" + tabId).textContent = `${hours}:${minutes}:${sec}`;
             counter++;
@@ -168,9 +173,9 @@
         updateTimer();
         setInterval(updateTimer, 1000);
     }
-    
-    function toggleStrokeColor(event) {     
-       
+
+    function toggleStrokeColor(event) {
+
 
         postjson("api/zad/update", event, function (data) {
 
