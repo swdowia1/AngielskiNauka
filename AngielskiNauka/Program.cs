@@ -1,4 +1,5 @@
 using AngielskiNauka;
+using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
 using AngielskiNauka.Resources;
 using AngielskiNauka.Serwisy;
@@ -25,7 +26,10 @@ builder.Services.AddSingleton<RabbitMQSend>();
 //builder.Services.AddHostedService<RabbitMqBackgroundConsumer>();
 //IDataCache
 
-//IFunVMS
+builder.Services.AddSignalR();
+
+
+
 builder.Services.AddScoped<IFunVMS, FunVMS>();
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -64,7 +68,7 @@ builder.Services.AddMvc()
 
 
 var app = builder.Build();
-
+app.MapHub<TaskHub>("/taskHub");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

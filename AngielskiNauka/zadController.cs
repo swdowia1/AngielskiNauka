@@ -4,6 +4,8 @@ using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
 
 namespace AngielskiNauka
 {
@@ -14,11 +16,13 @@ namespace AngielskiNauka
     {
         AngService _service;
         ConfigGlobal _config;
+        private readonly IHubContext<TaskHub> _hubContext;
 
-        public zadController(AngService service, ConfigGlobal config)
+        public zadController(AngService service, ConfigGlobal config, IHubContext<TaskHub> hubContext)
         {
             _service = service;
             _config = config;
+            _hubContext = hubContext;
         }
 
         // Czwarta metoda GET zwracająca listę Job
@@ -34,6 +38,8 @@ namespace AngielskiNauka
         public async Task<ActionResult<int>> addtask([FromBody] string val)
         {
             int wynik = _service.AddTask(val);
+            await _hubContext.Clients.All.SendAsync("NewTaskNotification", val, "opis");
+
             return new JsonResult(wynik);
         }
         // Czwarta metoda GET zwracająca listę Job
