@@ -29,7 +29,7 @@ namespace AngielskiNauka
         {
             try
             {
-                _logger.LogInformation("zaczynamy " + poziom);
+                _logger.LogInformation("swswsw" + poziom);
 
                 // _RabbitMqService.SendMessage("poziom" + poziom);
                 int ilosc = _config.Ile();
@@ -69,6 +69,8 @@ namespace AngielskiNauka
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
+                _logger.LogError("Wystąpił błąd: {ErrorMessage}, Stack Trace: {StackTrace}", ex.Message, ex.StackTrace);
+
                 return new JsonResult(null);
             }
 
