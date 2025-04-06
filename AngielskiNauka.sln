@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngielskiNauka", "Angielski
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngUnitTest", "AngUnitTest\AngUnitTest.csproj", "{5794D493-CC3F-424A-A34A-E1727839186E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zadania", "Zadania\Zadania.csproj", "{B46E3019-A847-49E0-903D-8A103D3EF99C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zadania", "Zadania\Zadania.csproj", "{B46E3019-A847-49E0-903D-8A103D3EF99C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

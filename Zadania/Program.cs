@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Zadania.Models;
+using Zadania.Repozytorium;
 
 var builder = WebApplication.CreateBuilder(args);
 // Dodaj DbContext z konfiguracj¹ z appsettings.json
 builder.Services.AddDbContext<AaaonninenContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddScoped<IRepository, Repository>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 
@@ -23,5 +24,14 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Public}/{action=login}");
+
+    endpoints.MapRazorPages();
+});
+
 
 app.Run();

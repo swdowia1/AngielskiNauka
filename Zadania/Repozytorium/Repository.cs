@@ -65,6 +65,14 @@ namespace Zadania.Repozytorium
             return query.ToList();
         }
 
-
+        public T GetById<T>(int id, params Expression<Func<T, object>>[] includes) where T : class
+        {
+            IQueryable<T> query = _db.Set<T>();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query.FirstOrDefault(e => EF.Property<int>(e, "Id") == id);
+        }
     }
 }
