@@ -29,18 +29,18 @@ namespace AngielskiNauka
         {
             try
             {
-                _logger.LogInformation("swswsw" + poziom);
+            
 
                 // _RabbitMqService.SendMessage("poziom" + poziom);
                 int ilosc = _config.Ile();
-                _logger.LogInformation("zaczynamy1" + poziom);
+           
                 var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
-                _logger.LogInformation("zaczynamy2" + poziom);
+            
 
                 var result = new Test();
 
                 var listastart = _service.DaneNauka(poziom, ilosc);
-                _logger.LogInformation("zaczynamy3" + poziom);
+               
              
                 List<int> idlos = listastart.Select(k => k.DaneId).ToList();
                 idlos.Losuj();
