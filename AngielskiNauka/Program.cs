@@ -7,10 +7,16 @@ using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using NLog.Web;
 using System.Globalization;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+// Set up NLog for Dependency Injection
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
+builder.Host.UseNLog();  // Enable NLog
+
 
 // Add services to the container.ddd
 builder.Services.AddRazorPages();

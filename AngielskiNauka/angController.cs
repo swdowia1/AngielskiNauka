@@ -13,12 +13,12 @@ namespace AngielskiNauka
     {
         AngService _service;
         ConfigGlobal _config;
-
-        public angController(AngService service, ConfigGlobal config)
+        private readonly ILogger<angController> _logger;
+        public angController(AngService service, ConfigGlobal config, ILogger<angController> logger)
         {
             _service = service;
             _config = config;
-
+            _logger = logger;
         }
 
 
@@ -27,35 +27,47 @@ namespace AngielskiNauka
         [HttpGet("{poziom}")]
         public async Task<ActionResult<Test>> Get(int poziom)
         {
-            // _RabbitMqService.SendMessage("poziom" + poziom);
-            int ilosc = _config.Ile();
-            var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
+            try
+            {
+                _logger.LogInformation("zaczynamy " + poziom);
+
+                // _RabbitMqService.SendMessage("poziom" + poziom);
+                int ilosc = _config.Ile();
+                var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
 
 
-            var result = new Test();
+                var result = new Test();
 
-            var listastart = _service.DaneNauka(poziom, ilosc);
-            List<int> idlos = listastart.Select(k => k.DaneId).ToList();
-            idlos.Losuj();
-            //idlos = idlos.Take(ilosc).ToList();
+                var listastart = _service.DaneNauka(poziom, ilosc);
+                List<int> idlos = listastart.Select(k => k.DaneId).ToList();
+                idlos.Losuj();
+                //idlos = idlos.Take(ilosc).ToList();
 
 
-            var lista =
-    (from id in idlos
-     join k in listastart on id equals k.DaneId
-     select
-                 new Slowo()
-                 {
-                     Id = k.DaneId,
-                     Ang = k.Ang,
-                     Pol = k.Pol,
-                     Data = k.Data,
-                     Poziom = k.PoziomId
-                 }).ToList();
-            var ff = classFun.GetSlowos(lista).ToList();
-            result.Slowa = ff.ToArray();
-            result.Ilosc = ff.Count();
-            return new JsonResult(result);
+                var lista =
+        (from id in idlos
+         join k in listastart on id equals k.DaneId
+         select
+                     new Slowo()
+                     {
+                         Id = k.DaneId,
+                         Ang = k.Ang,
+                         Pol = k.Pol,
+                         Data = k.Data,
+                         Poziom = k.PoziomId
+                     }).ToList();
+                var ff = classFun.GetSlowos(lista).ToList();
+                result.Slowa = ff.ToArray();
+                result.Ilosc = ff.Count();
+
+
+                return new JsonResult(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new JsonResult(null);
+            }
 
         }
 
