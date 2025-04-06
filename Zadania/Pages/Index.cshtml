@@ -1,12 +1,5 @@
 ﻿@page
-@model AngielskiNauka.Pages.JobModel
-@inject LocService ls
-@{
-    int lp = 1;
-
-}
-@{
-}
+@model Zadania.Pages.IndexModel
 <style>
     body {
         font-family: 'Arial', sans-serif;
@@ -88,11 +81,11 @@
     }
 
 </style>
-<h2>@ls.Get("tasks testujemy")</h2>
+<h2>Zadania</h2>
 
 
 <input type="text" name="NewTaskText" placeholder="Enter task" required />
-<button onclick="addTask()" type="submit">@ls.Get("taskadd")</button>
+<button onclick="addTask()" type="submit">Dodaj</button>
 
 
 
@@ -100,15 +93,15 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th>@ls.Get("taskName")</th>
-            <th>@ls.Get("time")</th>
-            <th>@ls.Get("")</th>
+            <th>Zadania</th>
+            <th>czas</th>
+            <th></th>
 
 
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Tasks)
+        @foreach (var item in Model.jobs)
         {
             <tr>
 
@@ -132,10 +125,10 @@
                     }
                     else
                     {
-                      @*   <svg width="50" height="50" viewBox="0 0 50 50" onclick="toggleStrokeColor(@item.Id)" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="10" y="5" width="12" height="40" fill="red" />
-                            <rect x="28" y="5" width="12" height="40" fill="red" />
-                        </svg> *@
+                        @*   <svg width="50" height="50" viewBox="0 0 50 50" onclick="toggleStrokeColor(@item.Id)" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="5" width="12" height="40" fill="red" />
+                <rect x="28" y="5" width="12" height="40" fill="red" />
+                </svg> *@
 
 
 

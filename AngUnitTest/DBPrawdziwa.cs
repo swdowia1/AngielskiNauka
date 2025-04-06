@@ -17,7 +17,7 @@ namespace AngUnitTest
             .Options;
 
             _db = new AaaswswContext(options);
-            _AngService = new AngService(new Repository(_db), new FunVMS());
+            _AngService = new AngService(new Repository(_db), new FunVMS(),null);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace AngUnitTest
             //    File.AppendAllText(@"C:\dyskD\wywal\MOCK\mail_log.txt", $"{DateTime.Now}: SendMail called{Environment.NewLine}");
             //});
             _mockRepository.Setup(db => db.GetById<Poziom>(It.IsAny<int>())).Returns(new Poziom() { PoziomId = 1, Nazwa = "test" });
-            _AngService = new AngService(_mockRepository.Object, _mockIFunVMS.Object);
+            _AngService = new AngService(_mockRepository.Object, _mockIFunVMS.Object,null);
 
         }
         [Fact]

@@ -1,4 +1,5 @@
 using AngielskiNauka;
+using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
 using AngielskiNauka.Resources;
 using AngielskiNauka.Serwisy;
@@ -6,10 +7,16 @@ using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using NLog.Web;
 using System.Globalization;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+// Set up NLog for Dependency Injection
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
+builder.Host.UseNLog();  // Enable NLog
+
 
 // Add services to the container.ddd
 builder.Services.AddRazorPages();
@@ -25,7 +32,10 @@ builder.Services.AddSingleton<RabbitMQSend>();
 //builder.Services.AddHostedService<RabbitMqBackgroundConsumer>();
 //IDataCache
 
-//IFunVMS
+builder.Services.AddSignalR();
+
+
+
 builder.Services.AddScoped<IFunVMS, FunVMS>();
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -64,7 +74,7 @@ builder.Services.AddMvc()
 
 
 var app = builder.Build();
-
+//app.MapHub<TaskHub>("/taskHub");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
