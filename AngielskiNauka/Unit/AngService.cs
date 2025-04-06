@@ -7,11 +7,13 @@ namespace AngielskiNauka.Unit
     {
         IRepository _repository;
         IFunVMS _funVMS;
+        private readonly ILogger<AngService> _logger; // Add a logger field
 
-        public AngService(IRepository repository, IFunVMS funVMS)
+        public AngService(IRepository repository, IFunVMS funVMS, ILogger<AngService> logger)
         {
             _repository = repository;
             _funVMS = funVMS;
+            _logger = logger;
         }
 
         public async Task<int> AddStat(string ok, string zle, int poziom)
@@ -66,11 +68,21 @@ namespace AngielskiNauka.Unit
 
         public List<Dane> DaneNauka(int id, int ilosc = 20)
         {
+            try
+            {
+
+           
             return _repository.GetAll<Dane>(
        w => w.PoziomId == id,
        orderBy: w => w.Stan,
        descending: false,
        take: ilosc).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("DaneNauka "+ex.Message);
+                return null;
+            }
         }
 
         public int LogikaBiznesowa()
