@@ -256,19 +256,19 @@
 <hr />
 
 <script>
-    const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/taskHub")
-        .build();
+    // const connection = new signalR.HubConnectionBuilder()
+    //     .withUrl("/taskHub")
+    //     .build();
 
-    // Nasłuchiwanie powiadomień o nowych zadaniach
-    connection.on("NewTaskNotification", (title, description) => {
-        alert(`Nowe zadanie: ${title} - ${description}`);
-        // Możesz tu dodać np. odświeżenie listy zadań
-    });
+    // // Nasłuchiwanie powiadomień o nowych zadaniach
+    // connection.on("NewTaskNotification", (title, description) => {
+    //     alert(`Nowe zadanie: ${title} - ${description}`);
+    //     // Możesz tu dodać np. odświeżenie listy zadań
+    // });
 
-    connection.start().then(() => {
-        console.log("Połączono z hubem.");
-    });
+    // connection.start().then(() => {
+    //     console.log("Połączono z hubem.");
+    // });
     // Pobierz element canvas
     const ctx = document.getElementById('myChart').getContext('2d');
 

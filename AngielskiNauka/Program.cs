@@ -68,7 +68,7 @@ builder.Services.AddMvc()
 
 
 var app = builder.Build();
-app.MapHub<TaskHub>("/taskHub");
+//app.MapHub<TaskHub>("/taskHub");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
