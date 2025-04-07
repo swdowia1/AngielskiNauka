@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Zadania.Models;
+using Zadania.DB;
+
 using Zadania.Repozytorium;
 
 var builder = WebApplication.CreateBuilder(args);
 // Dodaj DbContext z konfiguracj¹ z appsettings.json
-builder.Services.AddDbContext<AaaonninenContext>(options =>
+builder.Services.AddDbContext<DBTaskContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IRepository, Repository>();
 // Add services to the container.

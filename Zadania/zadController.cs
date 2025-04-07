@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Zadania.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Zadania.DB;
 using Zadania.Repozytorium;
 
 namespace Zadania
@@ -32,8 +30,8 @@ namespace Zadania
         [HttpPost("update")]
         public async Task<ActionResult<int>> update([FromBody] int jobId)
         {
-            var t = _repository.GetById<Job>(jobId, k => k.JobTimes);
-            var jt = t.JobTimes.FirstOrDefault(k => !k.EndTime.HasValue);
+            var t = _repository.GetById<Job>(jobId, k => k.TaskTimes);
+            var jt = t.TaskTimes.FirstOrDefault(k => !k.EndTime.HasValue);
             if (jt != null)
             {
                 jt.EndTime = classFun.DateNow();
