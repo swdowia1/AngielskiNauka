@@ -2,19 +2,21 @@
 @model Zadania.Pages.IndexModel
 
 <link rel="stylesheet" href="~/css/zadania.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 
 <div class="task-app-form">
     <h2>📝 Dodaj nowe zadanie</h2>
-    <form class="form">
+    <div class="form">
         <label>Tytuł zadania</label>
         <input type="text" name="NewTaskText" required placeholder="np. Naucz się ASP.NET" />
 
 
         <button onclick="addTask()" type="submit">🚀 Zapisz zadanie</button>
 
-      
-    
-    </form>
+
+
+    </div>
 </div>
 
 <div class="task-list">
@@ -28,21 +30,16 @@
 
 
                 <span id="@($"tab{zadanie.Id}")" class="deadline">@zadanie.TimeJob (HH:mm)</span>
-                
+
             </div>
-          
+
             @if (zadanie.Work == 0)
             {
-                <svg width="50" height="50" viewBox="0 0 100 100" onclick="toggleStrokeColor(@zadanie.Id)" style="cursor: pointer;">
-                    <defs>
-                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="black" />
-                        </filter>
-                    </defs>
-                    <polygon points="30,10 90,50 30,90" fill="none" stroke="black" stroke-width="2" filter="url(#shadow)"
-                             transform="scale(0.5)" />
+                <span>
 
-                </svg>
+                    <i onclick="toggleStrokeColor(@zadanie.Id)" class="bi bi-play-circle fs-1"></i>
+                    <i class="bi bi-archive fs-1"></i>
+                </span>
 
             }
             else
@@ -123,7 +120,7 @@
     }
     function addTask() {
         var taskText = $('input[name="NewTaskText"]').val();
-        alert(taskText);
+
 
         postjson("api/zad/addtask", taskText, function (data) {
 
