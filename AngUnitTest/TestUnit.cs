@@ -1,7 +1,10 @@
 using AngielskiNauka.Models;
 using AngielskiNauka.Unit;
+using Azure;
 using Moq;
+using Newtonsoft.Json;
 using System.Text;
+using System.Text.Json;
 
 namespace AngUnitTest
 {
@@ -36,7 +39,7 @@ namespace AngUnitTest
         [Fact]
         public  async void ang()
         {
-            string text = "splendid";
+            string text = "superficial";
             string sourceLang = "en";
             string targetLang = "pl";
 
@@ -44,9 +47,12 @@ namespace AngUnitTest
 
             using (HttpClient client = new HttpClient())
             {
-                string result = await client.GetStringAsync(url);
+              
+
+                string json = await client.GetStringAsync(url);
+                Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(json);
                 Console.WriteLine("Wynik t³umaczenia:");
-                Console.WriteLine(result);
+        
             }
             Assert.Equal(1,1);
         }
