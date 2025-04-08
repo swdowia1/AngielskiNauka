@@ -42,6 +42,7 @@ jobs:
       env:
         ConnectionStrings.DefaultConnection: ${{ secrets.DB_CONNECTION }}
         Data: ${{ env.CURRENT_DATETIME }}
+        Ile: 20
 
 
     # 6. Wdrożenie (np. na Azure lub inny serwer)
