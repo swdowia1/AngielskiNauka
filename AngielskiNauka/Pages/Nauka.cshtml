@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>@ls.Get("lp")</th>
+            <th>@ls.Get("id")</th>
             <th>@ls.Get("ang")</th>
             <th>@ls.Get("pol")</th>
             
@@ -21,7 +22,10 @@
         {
             <tr>
                 <td>@(lp++)</td>
-                <td>@item.Ang</td>
+                <td>@item.DaneId</td>
+                <td>@item.Ang
+                    <a href="/daneedit/@item.DaneId">@item.Ang</a>
+                </td>
                 <td>@item.Pol</td>
                
             </tr>

@@ -21,7 +21,7 @@ namespace AngielskiNauka.Pages
             foreach (var item in pow)
             {
                 string[] kol = item.Split(':');
-                Dane d = new Dane() { Ang = kol[0], Pol = kol[1] };
+                Dane d = new Dane() {DaneId=int.Parse(kol[0]), Ang = kol[1], Pol = kol[2] };
                 powtarzanie.Add(d);
             }
         }

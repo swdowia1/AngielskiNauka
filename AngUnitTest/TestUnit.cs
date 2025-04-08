@@ -1,6 +1,10 @@
 using AngielskiNauka.Models;
 using AngielskiNauka.Unit;
+using Azure;
 using Moq;
+using Newtonsoft.Json;
+using System.Text;
+using System.Text.Json;
 
 namespace AngUnitTest
 {
@@ -32,6 +36,27 @@ namespace AngUnitTest
             Assert.Equal(p.Nazwa, "test");
 
         }
+        [Fact]
+        public  async void ang()
+        {
+            string text = "superficial";
+            string sourceLang = "en";
+            string targetLang = "pl";
+
+            string url = $"https://api.mymemory.translated.net/get?q={Uri.EscapeDataString(text)}&langpair={sourceLang}|{targetLang}";
+
+            using (HttpClient client = new HttpClient())
+            {
+              
+
+                string json = await client.GetStringAsync(url);
+                Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(json);
+                Console.WriteLine("Wynik t³umaczenia:");
+        
+            }
+            Assert.Equal(1,1);
+        }
+
         [Fact]
         public void FakturaTest()
         {

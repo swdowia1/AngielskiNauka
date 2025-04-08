@@ -1,0 +1,42 @@
+﻿@page "{id:int?}"
+@inject LocService ls
+@model AngielskiNauka.Pages.DaneEditModel
+@{
+}
+
+
+<div class="word-container">
+    <div class="word-item">
+       <img src="~/img/ang.png" class="flag" />
+        <span class="word">@Model.d.Ang</span>
+    </div>
+    <div class="word-item">
+        <img src="~/img/pol.png" class="flag" />
+        <span class="word">@Model.d.Pol</span>
+    </div>
+</div>
+
+<style>
+    .word-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .word-item {
+        text-align: center;
+        background-color:aliceblue
+    }
+
+    .flag {
+        width: 50px;
+        height: 30px;
+        margin-bottom: 10px;
+    }
+
+    .word {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+</style>
