@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Zadania.Models;
+using Zadania.DB;
+
 
 namespace Zadania.Repozytorium
 {
     public class Repository : IRepository
     {
-        private readonly AaaonninenContext _db;
+        private readonly DBTaskContext _db;
 
-        public Repository(AaaonninenContext db)
+        public Repository(DBTaskContext db)
         {
             _db = db;
         }

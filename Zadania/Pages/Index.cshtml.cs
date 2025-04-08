@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
-using Zadania.Models;
+using Zadania.DB;
 using Zadania.Repozytorium;
 using Zadania.VM;
 
@@ -23,14 +22,14 @@ namespace Zadania.Pages
 
         public void OnGet()
         {
-            var lista = _repository.GetAllIncluding<Job>(j => j.JobTimes).ToList();
+            var lista = _repository.GetAllIncluding<Job>(j => j.TaskTimes).ToList();
 
 
             jobs = lista.Select(k => new JobView()
             {
                 Id = k.Id,
                 Name = k.Text,
-                JobTime = k.JobTimes.Select(j => new JobTimeView(j.StartTime, j.EndTime)).ToList()
+                JobTime = k.TaskTimes.Select(j => new JobTimeView(j.StartTime, j.EndTime)).ToList()
 
             }).ToList();
 

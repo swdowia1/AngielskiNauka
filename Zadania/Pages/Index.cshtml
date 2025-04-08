@@ -1,147 +1,83 @@
 ﻿@page
 @model Zadania.Pages.IndexModel
-<style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f7fb;
-        color: #333;
-        margin: 0;
-        padding: 0;
-    }
 
-    h2 {
-        color: #333;
-        font-size: 24px;
-        text-align: center;
-        margin-top: 20px;
-    }
+<link rel="stylesheet" href="~/css/zadania.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    form {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
 
-    input[type="text"] {
-        padding: 10px;
-        width: 70%;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        font-size: 16px;
-    }
+<div class="task-app-form">
+    <h2>📝 Dodaj nowe zadanie</h2>
+    <div class="form">
+        <label>Tytuł zadania</label>
+        <input type="text" name="NewTaskText" required placeholder="np. Naucz się ASP.NET" />
 
-    button {
-        padding: 10px 15px;
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-left: 10px;
-    }
 
-        button:hover {
-            background-color: #45a049;
-        }
+        <button onclick="addTask()" type="submit">🚀 Zapisz zadanie</button>
 
-    ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 20px 0;
-    }
 
-    li {
-        background-color: white;
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
 
-        li span {
-            font-size: 18px;
-            color: #555;
-        }
+    </div>
+</div>
 
-        li button {
-            background-color: #f44336;
-            margin-left: 10px;
-        }
+<div class="task-list">
+    <h3>📋 Twoje zadania</h3>
 
-            li button:hover {
-                background-color: #e41f1f;
+    @foreach (var zadanie in Model.jobs)
+    {
+        <div class="task-card">
+            <div class="task-info">
+                <h4>@zadanie.Name</h4>
+
+
+                <span id="@($"tab{zadanie.Id}")" class="deadline">@zadanie.TimeJob (HH:mm)</span>
+
+            </div>
+
+            @if (zadanie.Work == 0)
+            {
+                <span>
+
+                    <i onclick="toggleStrokeColor(@zadanie.Id)" class="bi bi-play-circle fs-1"></i>
+                    <i class="bi bi-archive fs-1"></i>
+                </span>
+
             }
+            else
+            {
 
-    .completed {
-        text-decoration: line-through;
-        color: #888;
+
+                <div onclick="toggleStrokeColor(@zadanie.Id)" style="width:50px; height:50px; cursor:pointer;">
+                    <svg viewBox="0 0 100 100" width="50" height="50">
+                        <defs>
+                            <clipPath id="hourglass">
+                                <polygon points="30,10 70,10 50,50 70,90 30,90 50,50" />
+                            </clipPath>
+                        </defs>
+
+                        <!-- Ramka klepsydry z zaokrąglonymi krawędziami -->
+                        <rect x="30" y="10" width="40" height="80" rx="10" ry="10" fill="none" stroke="#FF8C94" stroke-width="4" />
+
+                        <!-- Piasek górny (delikatny róż, ale mniej cukierkowy) -->
+                        <rect x="32" y="12" width="36" height="35" fill="#FFB3B3" clip-path="url(#hourglass)">
+                            <animate attributeName="height" values="35;5;35" dur="3s" repeatCount="indefinite" />
+                            <animate attributeName="y" values="12;42;12" dur="3s" repeatCount="indefinite" />
+                        </rect>
+
+                        <!-- Piasek dolny (nieco jaśniejszy róż) -->
+                        <rect x="32" y="55" width="36" height="35" fill="#FFD1D1" clip-path="url(#hourglass)">
+                            <animate attributeName="height" values="5;35;5" dur="3s" repeatCount="indefinite" />
+                        </rect>
+                    </svg>
+                </div>
+
+
+            }
+        </div>
     }
-
-</style>
-<h2>Zadania</h2>
-
-
-<input type="text" name="NewTaskText" placeholder="Enter task" required />
-<button onclick="addTask()" type="submit">Dodaj</button>
+</div>
 
 
 
-
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Zadania</th>
-            <th>czas</th>
-            <th></th>
-
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.jobs)
-        {
-            <tr>
-
-
-                <td>@item.Name</td>
-                <td id="@($"tab{item.Id}")">@item.TimeJob</td>
-                <td>
-                    @if (item.Work == 0)
-                    {
-                        <svg width="50" height="50" viewBox="0 0 100 100" onclick="toggleStrokeColor(@item.Id)" style="cursor: pointer;">
-                            <defs>
-                                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                                    <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="black" />
-                                </filter>
-                            </defs>
-                            <polygon points="30,10 90,50 30,90" fill="none" stroke="black" stroke-width="2" filter="url(#shadow)"
-                                     transform="scale(0.5)" />
-
-                        </svg>
-
-                    }
-                    else
-                    {
-                        @*   <svg width="50" height="50" viewBox="0 0 50 50" onclick="toggleStrokeColor(@item.Id)" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="5" width="12" height="40" fill="red" />
-                <rect x="28" y="5" width="12" height="40" fill="red" />
-                </svg> *@
-
-
-
-                        <img onclick="toggleStrokeColor(@item.Id)" width="50" height="50" src="~/img/zegar.gif" />
-                    }
-
-                </td>
-            </tr>
-
-        }
-
-    </tbody>
-</table>
 <script>
     var jobid = '@Model.JobId';
     console.log(jobid);
@@ -185,6 +121,7 @@
     function addTask() {
         var taskText = $('input[name="NewTaskText"]').val();
 
+
         postjson("api/zad/addtask", taskText, function (data) {
 
             window.location.reload();
@@ -201,16 +138,4 @@
 
 
 
-    // getjson("api/zad/jobs", function (data) {
-    //     console.log(data);
-
-    // }, function (data) {
-
-    //     console.log(data.message);
-
-
-
-
-
-    // })
 </script>
