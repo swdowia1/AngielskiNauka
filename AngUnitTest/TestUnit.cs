@@ -1,6 +1,7 @@
 using AngielskiNauka.Models;
 using AngielskiNauka.Unit;
 using Moq;
+using System.Text;
 
 namespace AngUnitTest
 {
@@ -32,6 +33,24 @@ namespace AngUnitTest
             Assert.Equal(p.Nazwa, "test");
 
         }
+        [Fact]
+        public  async void ang()
+        {
+            string text = "splendid";
+            string sourceLang = "en";
+            string targetLang = "pl";
+
+            string url = $"https://api.mymemory.translated.net/get?q={Uri.EscapeDataString(text)}&langpair={sourceLang}|{targetLang}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                string result = await client.GetStringAsync(url);
+                Console.WriteLine("Wynik t³umaczenia:");
+                Console.WriteLine(result);
+            }
+            Assert.Equal(1,1);
+        }
+
         [Fact]
         public void FakturaTest()
         {

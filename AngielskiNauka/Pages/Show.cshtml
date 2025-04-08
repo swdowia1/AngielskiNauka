@@ -13,6 +13,7 @@
     <thead>
         <tr>
             <th>@ls.Get("lp")</th>
+            <th>@ls.Get("id")</th>
             <th>@ls.Get("ang")</th>
             <th>@ls.Get("pol")</th>
             <th>Stan</th>
@@ -26,6 +27,7 @@
         {
             <tr>
                 <td>@(lp++)</td>
+                <td>@item.DaneId</td>
                 <td>@item.Ang</td>
                 <td>@item.Pol</td>
                 

@@ -20,6 +20,7 @@ namespace AngielskiNauka.Pages
                 .ThenBy(j => j.Data)
                 .Select(n => new Dane()
                 {
+                    DaneId=n.DaneId,
                     Ang = n.Ang,
                     Pol = n.Pol,
                     Data = n.Data,
