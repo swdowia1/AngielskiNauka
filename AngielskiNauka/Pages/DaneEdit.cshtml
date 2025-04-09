@@ -7,26 +7,32 @@
 
 <div class="word-container">
     <div class="word-item">
-       <img src="~/img/ang.png" class="flag" />
-        <span class="word">@Model.d.Ang</span>
+        <img src="~/img/ang.png" class="flag" />
+        <input type="text" id="angedit" class="word" value="@Model.d.Ang" />
+
     </div>
+
     <div class="word-item">
         <img src="~/img/pol.png" class="flag" />
-        <span class="word">@Model.d.Pol</span>
+        <input type="text" id="poledit" class="word" value="@Model.d.Pol" />
     </div>
+    <button onclick="addTask()"  type="submit">🚀 Zapisz zadanie</button>
 </div>
 
 <style>
     .word-container {
         display: flex;
+        flex-direction: column; /* ← to dodaj */
         justify-content: space-around;
         align-items: center;
         padding: 20px;
     }
 
     .word-item {
-        text-align: center;
-        background-color:aliceblue
+        text-align: left;
+        background-color: aliceblue;
+        padding-bottom: 100px;
+        width: 80%;
     }
 
     .flag {
@@ -40,3 +46,27 @@
         font-weight: bold;
     }
 </style>
+<script>
+    var idzad = '@Model.d.DaneId';
+    console.log(idzad);
+    function addTask() {
+        var poledit = textValue('poledit')
+        var angedit = textValue('angedit')
+        var model = {
+            id: idzad,
+            pol: poledit,
+            angedit: angedit
+        }
+        console.table(model);
+        postjson("/api/baza/update", model, function (data) {
+
+            window.location.reload();
+
+
+        }, function (data) {
+
+            console.log(data)
+
+        })
+    }
+</script>
