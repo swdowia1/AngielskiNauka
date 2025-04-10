@@ -13,12 +13,20 @@ function setValue(id, value) {
     $("#" + id+"").text(value)
 }
 
-function showLoading() {
-    document.getElementById('loadingPanel').style.display = 'flex';
+function showLoader() {
+    const loader = document.getElementById('loadingPanel');
+    loader.style.display = 'flex';
+    setTimeout(() => {
+        loader.classList.add('show');
+    }, 10); // małe opóźnienie, żeby triggerować transition
 }
 
-function hideLoading() {
-    document.getElementById('loadingPanel').style.display = 'none';
+function hideLoader() {
+    const loader = document.getElementById('loadingPanel');
+    loader.classList.remove('show');
+    setTimeout(() => {
+        loader.style.display = 'none';
+    }, 300); // dopasowane do CSS transition (0.3s)
 }
 postjson = function (n, t, i, r, u) {
 

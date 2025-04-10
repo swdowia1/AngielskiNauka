@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="~/AngielskiNauka.styles.css" asp-append-version="true" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js?ve=1"></script>
-    
-   
+    <script src="~/js/site.js?ve=2"></script>
+
+
 </head>
 
 <body>
@@ -41,10 +41,10 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index" asp-route-id="@item.id">@item.nazwa</a>
                             </li>
                         }
-                       
-                        
-                       
-                       
+
+
+
+
                         <li class="nav-item bg-warning text-dark">
                             <a class="nav-link  text-dark" asp-area="" asp-page="/Poziom">poziomy</a>
                         </li>
@@ -55,7 +55,7 @@
                         <li class="nav-item bg-warning">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Stat">statystyka</a>
                         </li>
-                       
+
                     </ul>
                 </div>
             </div>
@@ -63,17 +63,32 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            
+
             @RenderBody()
             <hr />
-           
+
         </main>
     </div>
 
-    <div id="loadingPanel" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:9999; display:flex; justify-content:center; align-items:center;">
+
+    <div id="loadingPanel">
+        <svg class="wave" viewBox="0 0 1200 200" preserveAspectRatio="none">
+            <path fill="#00ff00" d="
+      M0,100 L100,100 L150,50 L200,150 L250,100
+      L300,100 L350,50 L400,150 L450,100
+      L1200,100 L1200,200 L0,200 Z">
+                <animate attributeName="d"
+                         dur="1.5s"
+                         repeatCount="indefinite"
+                         values="
+        M0,100 L100,100 L150,50 L200,150 L250,100 L300,100 L350,50 L400,150 L450,100 L1200,100 L1200,200 L0,200 Z;
+        M0,100 L100,100 L150,150 L200,50 L250,100 L300,100 L350,150 L400,50 L450,100 L1200,100 L1200,200 L0,200 Z;
+        M0,100 L100,100 L150,50 L200,150 L250,100 L300,100 L350,50 L400,150 L450,100 L1200,100 L1200,200 L0,200 Z" />
+            </path>
+        </svg>
         <div class="spinner"></div>
     </div>
-  
+
     @await RenderSectionAsync("Scripts", required: false)
     <br />
     Wersja @data
