@@ -18,19 +18,10 @@
     </div>
     <button onclick="addTask()" type="submit">🚀 Zapisz zadanie</button>
 </div>
-<div id="loadingPanel" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:9999; display:flex; justify-content:center; align-items:center;">
-    <div class="spinner"></div>
-</div>
+
 <style>
 
-    .spinner {
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid #3498db;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        animation: spin 1s linear infinite;
-    }
+   
 
 
     .word-container {
@@ -63,14 +54,8 @@
 <script>
     var idzad = '@Model.d.DaneId';
     console.log(idzad);
-    function showLoading() {
-        document.getElementById('loadingPanel').style.display = 'flex';
-    }
-
-    function hideLoading() {
-        document.getElementById('loadingPanel').style.display = 'none';
-    }
-    hideLoading();
+   
+ 
     function addTask() {
         showLoading()
         var poledit = textValue('poledit')
