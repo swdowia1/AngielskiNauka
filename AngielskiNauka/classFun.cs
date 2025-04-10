@@ -95,5 +95,10 @@ namespace AngielskiNauka
             TimeSpan time = TimeSpan.FromMinutes(totalSeconds);
             return $"{(int)time.TotalHours:D2}:{time.Minutes:D2}";
         }
+
+        internal static void opuznienie(int v)
+        {
+            Thread.Sleep(v*1000);
+        }
     }
 }
