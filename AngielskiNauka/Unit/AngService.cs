@@ -1,4 +1,5 @@
 ﻿
+using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
 
 namespace AngielskiNauka.Unit
@@ -196,6 +197,14 @@ order-status-transport99  Czekam na wystawienie w kolejce
             }
 
             return 0;
+        }
+
+        internal void updateword(DaneUpdate dane)
+        {
+            Dane d = _repository.GetById<Dane>(dane.Id);
+            d.Ang = dane.Ang;
+            d.Pol=dane.Pol;
+            _repository.Update(d);
         }
     }
 }

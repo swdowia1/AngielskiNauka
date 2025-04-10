@@ -13,7 +13,13 @@ function setValue(id, value) {
     $("#" + id+"").text(value)
 }
 
+function showLoading() {
+    document.getElementById('loadingPanel').style.display = 'flex';
+}
 
+function hideLoading() {
+    document.getElementById('loadingPanel').style.display = 'none';
+}
 postjson = function (n, t, i, r, u) {
 
     return $.ajax({
