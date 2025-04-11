@@ -2,52 +2,51 @@ html {
     font-size: 14px;
 }
 
-#loadingPanel {
-    display: none;
-    position: fixed;
+.oscilloscope-container {
+    width: 300px;
+    height: 100px;
+    background: green;
+    border: 2px solid #0f0;
+    overflow: hidden;
+    position: relative;
+}
+
+.oscilloscope-wave {
+    width: 600px;
+    height: 100px;
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.3s ease;
+    animation: wave-scroll 2s linear infinite;
 }
 
-    #loadingPanel.show {
-        display: flex;
-        opacity: 1;
+@keyframes wave-scroll {
+    0% {
+        transform: translateX(0);
     }
 
-.wave {
-    position: absolute;
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+p {
+    color: black;
+    margin-bottom: 10px;
+}
+
+#loading {
+    position: fixed;
     top: 50%;
-    left: 0;
-    width: 100%;
-    height: 200px;
-    filter: drop-shadow(0 0 10px #00ff00);
-}
-
-.spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #fff;
-    border-top: 5px solid #00ff00;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    z-index: 1;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: antiquewhite;
+    padding: 20px;
+    border-radius: 8px;
+    width: fit-content;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    display: none; /* Keep hidden by default */
 }
 
 @media (min-width: 768px) {

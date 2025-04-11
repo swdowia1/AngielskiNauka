@@ -123,6 +123,9 @@
   <data name="fiszka" xml:space="preserve">
     <value>Fiszka</value>
   </data>
+  <data name="loading" xml:space="preserve">
+    <value>Aktualizacja danych</value>
+  </data>
   <data name="lp" xml:space="preserve">
     <value>LP</value>
   </data>
