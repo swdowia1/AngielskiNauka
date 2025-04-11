@@ -3,6 +3,7 @@
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 @inject AaaswswContext db
+@inject LocService ls
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,7 @@
     <link rel="stylesheet" href="~/AngielskiNauka.styles.css" asp-append-version="true" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js?ve=2"></script>
+    <script src="~/js/site.js?v=@DateTime.Now.Ticks"></script>
 
 
 </head>
@@ -70,23 +71,13 @@
         </main>
     </div>
 
-
-    <div id="loadingPanel">
-        <svg class="wave" viewBox="0 0 1200 200" preserveAspectRatio="none">
-            <path fill="#00ff00" d="
-      M0,100 L100,100 L150,50 L200,150 L250,100
-      L300,100 L350,50 L400,150 L450,100
-      L1200,100 L1200,200 L0,200 Z">
-                <animate attributeName="d"
-                         dur="1.5s"
-                         repeatCount="indefinite"
-                         values="
-        M0,100 L100,100 L150,50 L200,150 L250,100 L300,100 L350,50 L400,150 L450,100 L1200,100 L1200,200 L0,200 Z;
-        M0,100 L100,100 L150,150 L200,50 L250,100 L300,100 L350,150 L400,50 L450,100 L1200,100 L1200,200 L0,200 Z;
-        M0,100 L100,100 L150,50 L200,150 L250,100 L300,100 L350,50 L400,150 L450,100 L1200,100 L1200,200 L0,200 Z" />
-            </path>
-        </svg>
-        <div class="spinner"></div>
+    <div id="loading" style="display:none;">
+        <p>@ls.Get("loading")</p>
+        <div class="oscilloscope-container">
+            <svg class="oscilloscope-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
+                <path d="" fill="none" stroke="#00ff00" stroke-width="2" />
+            </svg>
+        </div>
     </div>
 
     @await RenderSectionAsync("Scripts", required: false)
@@ -95,5 +86,6 @@
 </body>
 </html>
 <script>
-    hideLoading()
+    generateWavePath();
+    hideLoader();
 </script>

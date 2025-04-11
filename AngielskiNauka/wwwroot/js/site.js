@@ -14,19 +14,24 @@ function setValue(id, value) {
 }
 
 function showLoader() {
-    const loader = document.getElementById('loadingPanel');
-    loader.style.display = 'flex';
-    setTimeout(() => {
-        loader.classList.add('show');
-    }, 10); // małe opóźnienie, żeby triggerować transition
+    document.getElementById("loading").style.display = "block";
+}
+function generateWavePath() {
+    const path = [];
+    const amplitude = 30;
+    const frequency = 0.04;
+
+    for (let x = 0; x <= 1000; x++) {
+        const y = 50 + Math.sin(x * frequency) * amplitude;
+        path.push(`${x},${y}`);
+    }
+
+    const wave = "M" + path.join(" L");
+    document.querySelector('.oscilloscope-wave path').setAttribute('d', wave);
 }
 
 function hideLoader() {
-    const loader = document.getElementById('loadingPanel');
-    loader.classList.remove('show');
-    setTimeout(() => {
-        loader.style.display = 'none';
-    }, 300); // dopasowane do CSS transition (0.3s)
+    document.getElementById("loading").style.display = "none";
 }
 postjson = function (n, t, i, r, u) {
 
