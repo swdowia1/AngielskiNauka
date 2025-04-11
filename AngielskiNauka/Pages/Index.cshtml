@@ -360,7 +360,7 @@
     }
 
     function wyslijodpowiedzi() {
-        showLoading();
+        showLoader();
         var calosc = (dobrze / odpowiedz) * 100;
         clearInterval(intervalId); // Zatrzymuje interwał
       
@@ -384,12 +384,12 @@
             
             console.log(data);
             LadujDane(poziom)
-            hideLoading();
+            hideLoader()
 
         }, function (data) {
 
             console.log(data)
-            hideLoading();
+            hideLoader()
 
         })
 

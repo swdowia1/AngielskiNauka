@@ -21,7 +21,7 @@ namespace AngielskiNauka
         public async Task<ActionResult<int>> update([FromBody] DaneUpdate dane)
         {
            
-            classFun.opuznienie(3);
+           // classFun.opuznienie(3);
             _service.updateword(dane);
            
 
