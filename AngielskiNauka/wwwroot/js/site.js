@@ -12,8 +12,16 @@ function textValue(id) {
 function setValue(id, value) {
     $("#" + id+"").text(value)
 }
+function load()
+{
+    window.location.reload();
+}
+function wait(title) {
+    if (title && title.trim() !== "") {
+        // Set the text of the loader (or perform your loader-related logic)
+        document.getElementById("loadtextid").textContent = title;
 
-function showLoader() {
+    }
     document.getElementById("loading").style.display = "block";
 }
 function generateWavePath() {

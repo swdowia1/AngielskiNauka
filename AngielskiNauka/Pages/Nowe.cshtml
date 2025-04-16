@@ -1,28 +1,59 @@
 ﻿@page
+@inject LocService ls
 @model AngielskiNauka.Pages.NoweModel
 @{
 }
-Dodawanie słówek
-<form method="post" enctype="multipart/form-data">
-    <input type="file" asp-for="Upload" />
-    wybierz poziom
+<div class="admin">
+    <header>Dodawanie słówek</header>
+    <main>
 
-    <select name="number">
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" asp-for="Upload" />
+            wybierz poziom
 
-        @foreach (var item in Model.poziomy)
-        {
-            <option value="@item.Id">@item.Name</option>
-        }
+            <select name="number">
 
-
-    </select>
-    <input type="submit" />
-
-</form>
-<br/>
+                @foreach (var item in Model.poziomy)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
 
 
-<div style="background-color:palegreen;padding:10px; border-style: solid;
+            </select>
+            <input type="submit" />
+
+        </form>
+        <br />
+
+
+        <div style="background-color:palegreen;padding:10px; border-style: solid;
   border-color: coral;">
-    Plik w formie CSV pytanie + śrtednik + wynikii
+            Plik w formie CSV pytanie + śrtednik + wynikii
+        </div>
+    </main>
 </div>
+
+<div class="admin">
+    <header>@ls.Get("addlevel")</header>
+    <main>
+        <input id="leveladdid" type="text" />
+        <button onclick="addLevel()">@ls.Get("add")</button>
+    </main>
+</div>
+<script>
+    function addLevel() {
+        var add = textValue('leveladdid')
+        wait('@ls.Get("addlevel")')
+        postjson("api/ang/update", add, function (data) {
+
+            window.location.reload();
+
+
+
+        }, function (data) {
+
+            console.log(data)
+
+        })
+    }
+</script>

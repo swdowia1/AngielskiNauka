@@ -50,7 +50,7 @@
                             <a class="nav-link  text-dark" asp-area="" asp-page="/Poziom">poziomy</a>
                         </li>
                         <li class="nav-item bg-warning">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Nowe">dodaj</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Nowe">@ls.Get("admin")</a>
                         </li>
 
                         <li class="nav-item bg-warning">
@@ -72,7 +72,7 @@
     </div>
 
     <div id="loading" style="display:none;">
-        <p>@ls.Get("loading")</p>
+        <p id="loadtextid">@ls.Get("loading")</p>
         <div class="oscilloscope-container">
             <svg class="oscilloscope-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
                 <path d="" fill="none" stroke="#00ff00" stroke-width="2" />

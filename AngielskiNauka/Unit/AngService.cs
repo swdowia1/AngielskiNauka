@@ -1,6 +1,7 @@
 ﻿
 using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AngielskiNauka.Unit
 {
@@ -205,6 +206,17 @@ order-status-transport99  Czekam na wystawienie w kolejce
             d.Ang = dane.Ang;
             d.Pol=dane.Pol;
             _repository.Update(d);
+        }
+
+        internal async void DeleteLevel(int level)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+    { "@poziomid", level },  // Zakładając, że oklist to ciąg wartości
+
+};
+            await _repository.RunStoredProcedureNonQuery("[dbo].[DeleteDane]", parameters);
+           
         }
     }
 }

@@ -57,7 +57,7 @@
    
  
     function addTask() {
-        showLoader()
+        wait()
         var poledit = textValue('poledit')
         var angedit = textValue('angedit')
         var model = {
@@ -68,7 +68,7 @@
         console.table(model);
         postjson("/api/baza/update", model, function (data) {
 
-            window.location.reload();
+            load();
 
 
         }, function (data) {
