@@ -18,7 +18,7 @@ function load()
 }
 function wait(title) {
     if (title && title.trim() !== "") {
-        // Set the text of the loader (or perform your loader-related logic)
+       
         document.getElementById("loadtextid").textContent = title;
 
     }
