@@ -1,4 +1,5 @@
 ﻿using AngielskiNauka.ModelApi;
+using AngielskiNauka.Models;
 using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Mvc;
 
@@ -108,17 +109,22 @@ namespace AngielskiNauka
         }
 
 
-
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // Czwarta metoda GET zwracająca listę Job
+        [HttpPost("update")]
+        public async Task<ActionResult<int>> update([FromBody] string level)
         {
+            _service.AddPoziom(level);
+            return new JsonResult(1);
         }
 
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // Czwarta metoda GET zwracająca listę Job
+        [HttpPost("deletelevel")]
+        public async Task<ActionResult<int>> deletelevel([FromBody] int level)
         {
+           _service.DeleteLevel(level);
+            return new JsonResult(1);
         }
+
+
     }
 }

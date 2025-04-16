@@ -2,7 +2,7 @@
 
 @model AngielskiNauka.Pages.PoziomModel
 
-@inject LocService SharedLocalizer
+@inject LocService ls
 @{
 }
 <table class="table table-striped">
@@ -23,12 +23,16 @@
 
                 </td>
                 <td>
-                    <a href="/show/@item.id">@SharedLocalizer.Get("przeglad")</a>
+                    <a href="/show/@item.id">@ls.Get("przeglad")</a>
 
                 </td>
                 <td>
-                    <a href="/fiszka/@item.id">@SharedLocalizer.Get("fiszka")</a>
+                    <a href="/fiszka/@item.id">@ls.Get("fiszka")</a>
 
+                </td>
+                <td>
+
+                    <button onclick="deletep(@item.id)">@ls.Get("delete")</button>
                 </td>
             </tr>
 
@@ -36,4 +40,27 @@
 
     </tbody>
 </table>
+<script>
+    function deletep(poziomid)
+    {
+        wait('Usuwanie poziomu')
+        postjson("api/ang/deletelevel", poziomid, function (data) {
+
+           
+
+            hideLoader()
+            load();
+
+        }, function (data) {
+
+            console.log(data)
+            hideLoader()
+
+        })
+
+
+
+
+    }
+</script>
 

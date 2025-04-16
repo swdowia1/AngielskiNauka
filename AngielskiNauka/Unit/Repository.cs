@@ -162,6 +162,7 @@ namespace AngielskiNauka.Unit
             {
                 _db.Set<T>().Remove(entity);
             }
+            SaveChanges();
         }
 
         public int SaveChanges()
