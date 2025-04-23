@@ -1,0 +1,20 @@
+﻿@model int
+<p>The value is: @Model</p>
+<ul class="navbar-nav flex-grow-1">
+ 
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Index" asp-route-id="@Model">Testy</a>
+        </li>
+
+
+   
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/show" asp-route-id="@Model">Przeglad</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link  text-dark" asp-area="" asp-page="/Poziom">poziomy</a>
+    </li>
+   
+
+</ul>
