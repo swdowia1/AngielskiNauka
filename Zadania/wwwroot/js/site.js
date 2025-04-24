@@ -1,7 +1,30 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿let confirmCallback = null;
 
-// Write your JavaScript code.
+function showGlobalConfirmModal(callback, customMessage = null) {
+    confirmCallback = callback;
+
+    if (customMessage) {
+        $('#globalConfirmModal .modal-body').text(customMessage);
+    } else {
+        $('#globalConfirmModal .modal-body').text('Czy na pewno chcesz wykonać tę akcję?');
+    }
+
+    $('#globalConfirmModal').modal('show');
+}
+//$('#confirmModalOkBtn').on('click', function () {
+//    alert('aaa');
+//    if (typeof confirmCallback === 'function') {
+//        confirmCallback();
+//    }
+//    $('#globalConfirmModal').modal('hide');
+//});
+$(document).on('click', '#confirmModalOkBtn', function () {
+
+    if (typeof confirmCallback === 'function') {
+        confirmCallback();
+    }
+    $('#globalConfirmModal').modal('hide');
+});
 function all() {
     alert('aa');
 }
