@@ -180,7 +180,7 @@ order-status-transport99  Czekam na wystawienie w kolejce
             var r=_repository.Add(j);
             return r.KeyInt; 
         }
-        //deleteTask
+       
         public async void   DeleteTask(int val)
         {
 
