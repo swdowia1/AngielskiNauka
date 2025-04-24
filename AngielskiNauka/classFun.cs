@@ -1,4 +1,5 @@
 ﻿using AngielskiNauka.ModelApi;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 
 namespace AngielskiNauka
@@ -99,6 +100,14 @@ namespace AngielskiNauka
         internal static void opuznienie(int v)
         {
             Thread.Sleep(v*1000);
+        }
+
+        internal static Dictionary<string, object> CreatePrameter(string nameParameter, int val)
+        {
+            if(!nameParameter.StartsWith("@"))
+                nameParameter="@" + nameParameter;
+            return new Dictionary<string, object>{{ nameParameter,val }};
+
         }
     }
 }

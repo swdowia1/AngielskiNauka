@@ -27,6 +27,17 @@ namespace Zadania
             return new JsonResult(r);
         }
         // Czwarta metoda GET zwracająca listę Job
+        [HttpPost("deleteTask")]
+        public async Task<ActionResult<int>> deleteTask([FromBody] int val)
+        {
+            var parameters = classFun.CreatePrameter("taskid", val);
+            await _repository.RunStoredProcedureNonQuery("[dbo].[deletejob]", parameters);
+           
+
+
+            return new JsonResult(1);
+        }
+        // Czwarta metoda GET zwracająca listę Job
         [HttpPost("update")]
         public async Task<ActionResult<int>> update([FromBody] int jobId)
         {

@@ -7,6 +7,14 @@
             return DateTime.UtcNow;
 
         }
+
+        internal static Dictionary<string, object> CreatePrameter(string nameParameter, int val)
+        {
+            if (!nameParameter.StartsWith("@"))
+                nameParameter = "@" + nameParameter;
+            return new Dictionary<string, object> { { nameParameter, val } };
+        }
+
         internal static string TimeHourMinute(int totalSeconds)
         {
             TimeSpan time = TimeSpan.FromMinutes(totalSeconds);
