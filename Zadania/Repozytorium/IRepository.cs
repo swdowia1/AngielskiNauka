@@ -15,5 +15,7 @@ namespace Zadania.Repozytorium
         int Add<T>(T entity) where T : class;
         void Update<T>(T entity) where T : class;
         void Delete<T>(int id) where T : class;
+        Task<int> RunStoredProcedureNonQuery(string storedProcedure, Dictionary<string, object> parameters);
+
     }
 }

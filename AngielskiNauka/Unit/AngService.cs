@@ -180,7 +180,15 @@ order-status-transport99  Czekam na wystawienie w kolejce
             var r=_repository.Add(j);
             return r.KeyInt; 
         }
+        //deleteTask
+        public async void   DeleteTask(int val)
+        {
 
+            var parameters = classFun.CreatePrameter("taskid", val);
+            await _repository.RunStoredProcedureNonQuery("[dbo].[deletejob]", parameters);
+
+          
+        }
         internal int updateTask(int jobId)
         {
             var t = _repository.GetAll<JobTime>(k=>k.JobId == jobId&&!k.EndTime.HasValue).ToList();

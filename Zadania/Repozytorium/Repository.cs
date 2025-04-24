@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Zadania.DB;
 
@@ -49,7 +50,25 @@ namespace Zadania.Repozytorium
                 _db.Set<T>().Remove(entity);
             }
         }
+        public async Task<int> RunStoredProcedureNonQuery(string storedProcedure, Dictionary<string, object> parameters)
+        {
+            try
+            {
+                string joinedKeys = string.Join(",", parameters.Keys);
+                // Tworzymy tablicę parametrów SQL z dictionary
+                var sqlParameters = parameters.Select(p => new SqlParameter(p.Key, p.Value)).ToArray();
+                // await _repository.RunStoredProcedureNonQuery("EXEC [dbo].[AddStat] @oklist, @zlelist", parameters);
+                // Wywołanie procedury składowanej z parametrami
+                int result = _db.Database.ExecuteSqlRawAsync("EXEC " + storedProcedure + " " + joinedKeys, sqlParameters).Result;
 
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Błąd SQL: {ex.Message}");
+                return 0;
+            }
+        }
         public int SaveChanges()
         {
             return _db.SaveChanges();
