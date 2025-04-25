@@ -3,8 +3,8 @@
 
 
 @model IndexModel
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+
+
 
 
 
@@ -210,7 +210,7 @@
                 <label>Żle</label>
             </div>
         </div>
-    </div><canvas id="myChart" width="400" height="200"></canvas>
+    </div>
 </div>
 
 
@@ -251,58 +251,10 @@
 <hr />
 
 <script>
-    // const connection = new signalR.HubConnectionBuilder()
-    //     .withUrl("/taskHub")
-    //     .build();
 
-    // // Nasłuchiwanie powiadomień o nowych zadaniach
-    // connection.on("NewTaskNotification", (title, description) => {
-    //     alert(`Nowe zadanie: ${title} - ${description}`);
-    //     // Możesz tu dodać np. odświeżenie listy zadań
-    // });
-
-    // connection.start().then(() => {
-    //     console.log("Połączono z hubem.");
-    // });
-    // Pobierz element canvas
-    const ctx = document.getElementById('myChart').getContext('2d');
-
-    // Utwórz początkowy wykres
-    const myChart = new Chart(ctx, {
-        type: 'line', // Typ wykresu
-        data: {
-            labels: [''], // Początkowe etykiety
-            datasets: [{
-                label: 'Stan',
-                data: [], // Początkowe dane
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4, // Dodaje gładkie krzywe
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Funkcja dodawania punktów
-    function addPoint(x, y) {
-
-        // Dodaj etykietę i wartość do wykresu
-        myChart.data.labels.push(x);
-        myChart.data.datasets[0].data.push(y);
-
-        // Odśwież wykres
-        myChart.update();
+ 
 
 
-    }
 
     let intervalId; // Przechowuje ID interwału
 
@@ -346,13 +298,9 @@
             $('#stan').text(parseInt(procent, 10));
             $('#zle').text(parseInt(zle, 10));
         }
-        addPoint(aktualny, procent)
+   
     }
-    function deleteAllPoints() {
-        myChart.data.labels = []; // Clear all labels
-        myChart.data.datasets[0].data = []; // Clear all data
-        myChart.update(); // Update the chart to reflect changes
-    }
+ 
 
     function wyslijodpowiedzi() {
         wait();
@@ -374,7 +322,7 @@
         $('#wynik').text('Wynik testu ' + calosc + '%');
         postjson("api/ang", slownik, function (data) {
 
-            deleteAllPoints();
+         
             infoapp('nowa lecja')
 
             console.log(data);
