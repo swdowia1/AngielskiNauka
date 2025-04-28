@@ -9,7 +9,8 @@
     public class QuizData
     {
         public Quiz[] Slowa { get; set; }
-        
+        public int PoziomId { get; set; }
+
     }
 
     public class GitUpdate

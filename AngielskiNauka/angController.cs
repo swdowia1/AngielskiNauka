@@ -65,6 +65,8 @@ namespace AngielskiNauka
                 }
                 
                 result.Slowa = Slowa;
+
+                result.PoziomId= poziom;
                 return new JsonResult(result);
             }
             catch (Exception ex)
@@ -82,10 +84,10 @@ namespace AngielskiNauka
 
         [HttpPost]
 
-        public ActionResult<List<string>> Post([FromBody] Test value)
+        public ActionResult<List<string>> Post([FromBody] QuizData value)
 
         {
-            int PoziomId = value.Slowa.FirstOrDefault().Poziom;
+            int PoziomId = value.PoziomId;
 
             var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
             DateTime dataTeraz = poland.UtcDateTime.AddHours(1);

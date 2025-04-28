@@ -55,9 +55,9 @@
     <div class="question" id="ang"></div>
     <div class="answers">
         <button onclick="answer(0)" id="pol0"></button>
-        <button onclick="answer(0)" id="pol1"></button>
-        <button onclick="answer(0)" id="pol2"></button>
-        <button onclick="answer(0)" id="pol3"></button>
+        <button onclick="answer(1)" id="pol1"></button>
+        <button onclick="answer(2)" id="pol2"></button>
+        <button onclick="answer(3)" id="pol3"></button>
     </div>
 </div>
 <script>
@@ -66,15 +66,45 @@
 
      var poziom = '@Model.poziom';
      var mnoznik = '@Model.mnoznik';
-         var iloscall = '@Model.ile';
+     var iloscall = '@Model.ile';
      var aktualny = 0;
-      console.log(poziom,mnoznik);
+   
       LoadData(poziom)
 
-    
+    function wyslijodpowiedzi() {
+        wait('Wysłamy odpowiedzi');
+
+       
+
+
+
+        postjson("api/ang", slownik, function (data) {
+
+
+            infoapp('Towj wynik to '+dobrze*mnoznik)
+
+
+            LadujDane(poziom)
+            hideLoader()
+
+        }, function (data) {
+
+       
+            hideLoader()
+
+        })
+
+
+
+    }
+
       function answer(id) {
-         
+    
           var slowo = slownik.slowa[aktualny];
+          console.log(slowo.pol);
+          console.log( slowo.odpowiedzi[id])
+         console.table(slowo.odpowiedzi);
+
           if (slowo.pol == slowo.odpowiedzi[id]) {          
           
             slowo.stan = 1;
@@ -85,8 +115,8 @@
         }
           aktualny=aktualny+1;
            if (aktualny >= iloscall) {
-            infoapp('koniec testu')
-
+         
+            wyslijodpowiedzi();
 
 
         }
@@ -96,13 +126,13 @@
 
       }
     function infoapp(tekst) {
-        console.log(tekst);
+
        $('#info').text(tekst)
     }
      function showData(pos) {
 
         var d = slownik.slowa[pos];
-        console.log(d);
+       
         $('#ang').text(d.ang);
         $('#pol0').text(d.odpowiedzi[0]);
         $('#pol1').text(d.odpowiedzi[1]);
