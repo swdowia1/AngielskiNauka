@@ -12,8 +12,7 @@ public partial class AaaswswContext : DbContext
         : base(options)
     {
     }
-    public DbSet<Job> Jobs { get; set; }
-    public DbSet<JobTime> JobTimes { get; set; }
+
     public virtual DbSet<Dane> Danes { get; set; }
 
 
