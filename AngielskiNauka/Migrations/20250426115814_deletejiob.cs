@@ -3,13 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Zadania.Migrations
+namespace AngielskiNauka.Migrations
 {
     /// <inheritdoc />
-    public partial class zadannia : Migration
+    public partial class deletejiob : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "JobTimes");
+
+            migrationBuilder.DropTable(
+                name: "Jobs");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
                 name: "Jobs",
@@ -17,8 +27,8 @@ namespace Zadania.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Completed = table.Column<bool>(type: "bit", nullable: false)
+                    Completed = table.Column<bool>(type: "bit", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,9 +41,9 @@ namespace Zadania.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    JobId = table.Column<int>(type: "int", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    JobId = table.Column<int>(type: "int", nullable: false)
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,16 +60,6 @@ namespace Zadania.Migrations
                 name: "IX_JobTimes_JobId",
                 table: "JobTimes",
                 column: "JobId");
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "JobTimes");
-
-            migrationBuilder.DropTable(
-                name: "Jobs");
         }
     }
 }

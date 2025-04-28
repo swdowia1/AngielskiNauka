@@ -2,6 +2,7 @@
 using AngielskiNauka.Models;
 using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,45 +27,46 @@ namespace AngielskiNauka
 
         // GET api/<ValuesController>/5
         [HttpGet("{poziom}")]
-        public async Task<ActionResult<Test>> Get(int poziom)
+        public async Task<ActionResult<QuizData>> Get(int poziom)
         {
             try
             {
-            
 
+                var random = new Random();
                 // _RabbitMqService.SendMessage("poziom" + poziom);
                 int ilosc = _config.Ile();
-           
-                var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
-            
 
-                var result = new Test();
+                var result = new QuizData();
 
                 var listastart = _service.DaneNauka(poziom, ilosc);
-               
-             
-                List<int> idlos = listastart.Select(k => k.DaneId).ToList();
-                idlos.Losuj();
-                //idlos = idlos.Take(ilosc).ToList();
 
 
-                var lista =
-        (from id in idlos
-         join k in listastart on id equals k.DaneId
-         select
-                     new Slowo()
-                     {
-                         Id = k.DaneId,
-                         Ang = k.Ang,
-                         Pol = k.Pol,
-                         Data = k.Data,
-                         Poziom = k.PoziomId
-                     }).ToList();
-                var ff = classFun.GetSlowos(lista).ToList();
-                result.Slowa = ff.ToArray();
-                result.Ilosc = ff.Count();
+                Quiz[] Slowa = listastart.Select(k => new Quiz() { Id = k.DaneId, Ang = k.Ang, Pol = k.Pol }).ToArray();
+                foreach (var word in Slowa)
+                {
+                    // Poprawna odpowiedź
+                    string correctAnswer = word.Pol;
 
+                    // Losujemy 3 różne błędne odpowiedzi
+                    var wrongAnswers = Slowa
+                        .Where(w => w.Pol != correctAnswer)
+                        .OrderBy(_ => random.Next())
+                        .Take(3)
+                        .Select(w => w.Pol)
+                        .ToList();
 
+                    // Dodajemy poprawną odpowiedź
+                    wrongAnswers.Add(correctAnswer);
+
+                    // Mieszamy wszystkie 4 odpowiedzi
+                    var options = wrongAnswers.OrderBy(_ => random.Next()).ToList();
+
+                    word.Odpowiedzi = options.ToArray();
+                }
+                
+                result.Slowa = Slowa;
+
+                result.PoziomId= poziom;
                 return new JsonResult(result);
             }
             catch (Exception ex)
@@ -82,13 +84,12 @@ namespace AngielskiNauka
 
         [HttpPost]
 
-        public ActionResult<List<string>> Post([FromBody] Test value)
+        public ActionResult<List<string>> Post([FromBody] QuizData value)
 
         {
-            int PoziomId = value.Slowa.FirstOrDefault().Poziom;
+            int PoziomId = value.PoziomId;
 
-            var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
-            DateTime dataTeraz = poland.UtcDateTime.AddHours(1);
+       
             List<int> ok = value.Slowa.Where(k => k.stan == Stan.dobrze).Select(j => j.Id).ToList();
             string resultOK = string.Join(',', value.Slowa.Where(k => k.stan == Stan.dobrze).Select(j => j.Id));
             string resultZLE = string.Join(',', value.Slowa.Where(k => k.stan == Stan.zle).Select(j => j.Id));
@@ -121,7 +122,7 @@ namespace AngielskiNauka
         [HttpPost("deletelevel")]
         public async Task<ActionResult<int>> deletelevel([FromBody] int level)
         {
-           _service.DeleteLevel(level);
+            _service.DeleteLevel(level);
             return new JsonResult(1);
         }
 

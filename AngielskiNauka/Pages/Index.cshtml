@@ -1,389 +1,106 @@
-﻿@page "{id:int?}"
-
-
-
-@model IndexModel
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
-
-
-
-@{
-
-
-
-    ViewData["Title"] = "Home page";
-
-
-
-    string ladowanie = "..ladowanie";
-
-
-
-}
-
-
-
+﻿@page
+@model AngielskiNauka.Pages.IndexModel
 <style>
-
-
-
-    .btn2 {
-        width: 200px;
+    body {
+        background: #f0f4f8;
+        font-family: 'Arial', sans-serif;
+        height: 100vh;
+        margin: 0;
     }
 
-    .swsw {
-        font-family: SpaceGrotesk-Light;
-        color: red;
-        font-size: 140px;
-        margin-bottom: 40px;
-    }
-
-    .timer-container {
-        text-align: left;
-        background: linear-gradient(to right, #ff7e5f, #feb47b);
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .time-fields {
-        display: flex;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    .field {
+    .quiz-container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        width: 400px;
         text-align: center;
-        margin: 0 10px;
     }
 
-        .field span {
-            font-size: 48px;
-            font-weight: bold;
-            color: #333;
-            display: block;
-        }
-
-        .field label {
-            font-size: 14px;
-            color: #777;
-        }
-
-    .separator {
-        font-size: 48px;
+    .question {
+        font-size: 22px;
         font-weight: bold;
-        color: #333;
         margin-bottom: 20px;
+        color: #333;
     }
 
+    .answers {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+        .answers button {
+            background-color: #e3e9f0;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+            .answers button:hover {
+                background-color: #c5d3e0;
+                transform: scale(1.02);
+            }
+
+            .answers button:active {
+                background-color: #a5b8cd;
+                transform: scale(0.98);
+            }
 </style>
-
-
-
-
-<h1> Poziom :@Model.poziomnazwa</h1>
 <span style="color:brown;font-size:x-large" id="info"></span>
-<h1><span id="ang">@ladowanie</span></h1>
-
-
-
-
-<div class="container">
-    <div class="row">
-        <div class="col-3">
-            <div class="vstack gap-3">
-
-
-
-                <div>
-
-
-
-                    <button onclick="answer(0)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-                        <span id="pol0">@ladowanie</span>
-
-
-
-                    </button>
-
-
-
-                </div>
-
-
-
-                <div>
-
-
-
-                    <button onclick="answer(1)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-                        <span id="pol1">@ladowanie</span>
-
-
-
-                    </button>
-
-
-
-                </div>
-
-
-
-                <div>
-
-
-
-                    <button onclick="answer(2)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-                        <span id="pol2">@ladowanie</span>
-
-
-
-                    </button>
-
-
-
-                </div>
-
-
-
-                <div>
-
-
-
-                    <button onclick="answer(3)" class="btn2 btn btn-warning btn-block custom-btn-size">
-
-
-
-                        <span id="pol3">@ladowanie</span>
-
-
-
-                    </button>
-
-
-
-                </div>
-
-
-
-
-
-
-
-
-            </div>
-        </div>
-
-
-    </div>
-
-    <div class="timer-container">
-        <div class="time-fields">
-            <div class="field">
-                <span id="minutes">00</span>
-                <label>Minuty</label>
-            </div>
-            <div class="separator">:</div>
-            <div class="field">
-                <span id="seconds">00</span>
-                <label>Sekundy</label>
-            </div>
-            <div class="field">
-                <span id="zostalo">00</span>
-                <label>Zostało</label>
-            </div>
-            <div class="field">
-                <span id="stan">00</span>
-                <label>stan</label>
-            </div>
-            <div class="field">
-                <span id="zle">00</span>
-                <label>Żle</label>
-            </div>
-        </div>
-    </div><canvas id="myChart" width="400" height="200"></canvas>
-</div>
-
-
-
-
-
-<partial name="_Info" model="@Model.poziom" />
-
-<br />
-<div id="stan"></div>
-<br />
-<table id="myTable" class="table table-striped">
-    <thead>
-        <tr>
-            <th>Ang</th>
-            <th>pol</th>
-        </tr>
-    </thead>
-    <tbody id="tableBody">
-    </tbody>
-
-</table>
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalDeleteProductDelivery">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content" style="width: fit-content">
-            <div class="modal-header">
-
-
-                <h4 class="modal-title" style="display:flex; gap: 15px; align-items: center"><i class="fas fa-question-circle"></i><span id="wynik" class="n"> Wynik testu</span>  </h4>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="btnProductNo">OK</button>
-
-            </div>
-        </div>
+<div class="quiz-container">
+    <div class="question" id="ang"></div>
+    <div class="answers">
+        <button onclick="answer(0)" id="pol0"></button>
+        <button onclick="answer(1)" id="pol1"></button>
+        <button onclick="answer(2)" id="pol2"></button>
+        <button onclick="answer(3)" id="pol3"></button>
     </div>
 </div>
-<hr />
+<div id="wyniki" style="margin-top:20px; font-size:18px; color:#555;">
+    ✅ Dobrze: <span id="dobrze">0</span> |
+    ❌ Źle: <span id="zle">0</span>| zostało <span id="lp">0</span>
+</div>
 
 <script>
-    // const connection = new signalR.HubConnectionBuilder()
-    //     .withUrl("/taskHub")
-    //     .build();
-
-    // // Nasłuchiwanie powiadomień o nowych zadaniach
-    // connection.on("NewTaskNotification", (title, description) => {
-    //     alert(`Nowe zadanie: ${title} - ${description}`);
-    //     // Możesz tu dodać np. odświeżenie listy zadań
-    // });
-
-    // connection.start().then(() => {
-    //     console.log("Połączono z hubem.");
-    // });
-    // Pobierz element canvas
-    const ctx = document.getElementById('myChart').getContext('2d');
-
-    // Utwórz początkowy wykres
-    const myChart = new Chart(ctx, {
-        type: 'line', // Typ wykresu
-        data: {
-            labels: [''], // Początkowe etykiety
-            datasets: [{
-                label: 'Stan',
-                data: [], // Początkowe dane
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4, // Dodaje gładkie krzywe
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Funkcja dodawania punktów
-    function addPoint(x, y) {
-
-        // Dodaj etykietę i wartość do wykresu
-        myChart.data.labels.push(x);
-        myChart.data.datasets[0].data.push(y);
-
-        // Odśwież wykres
-        myChart.update();
 
 
-    }
-
-    let intervalId; // Przechowuje ID interwału
-
-
+        var poziom = '@Model.poziom';
+    var mnoznik = '@Model.mnoznik';
+    var iloscall = '@Model.ile';
     var aktualny = 0;
+    var poprawne = 0;
+    var bledne = 0;
 
-    var poziom = '@Model.poziom';
+    LoadData(poziom)
 
-    var zle = 0;
-
-    var dobrze = 0;
-    var odpowiedz = 0;
-
-    var iloscall = 20;
-
-    var slownik = null;
-    var datazle = null;
-
-    function postep() {
-
-        var zmiana = 100 / iloscall
-
-        var zrobioneilosc = iloscall - aktualny;
-
-        $('#progBar').val(zrobioneilosc * zmiana);
-
-        $('#zrobione').text(' ' + zrobioneilosc);
-
-        $('#zostalo').text(zrobioneilosc);
-
-
-
-        $('#progBardobrze').val(dobrze * zmiana);
-
-        $('#dobrze').text(' ' + dobrze);
-        var procent = (dobrze / odpowiedz) * 100;
-        if (odpowiedz > 0) {
-
-
-            ;
-            $('#stan').text(parseInt(procent, 10));
-            $('#zle').text(parseInt(zle, 10));
-        }
-        addPoint(aktualny, procent)
-    }
-    function deleteAllPoints() {
-        myChart.data.labels = []; // Clear all labels
-        myChart.data.datasets[0].data = []; // Clear all data
-        myChart.update(); // Update the chart to reflect changes
+    function aktualizujWyniki() {
+        $('#dobrze').text(poprawne);
+        $('#zle').text(bledne);
+        var zostalo=iloscall-aktualny
+        $('#lp').text(zostalo);
     }
 
     function wyslijodpowiedzi() {
-        wait();
-        var calosc = (dobrze / odpowiedz) * 100;
-        clearInterval(intervalId); // Zatrzymuje interwał
+        wait('Wysłamy odpowiedzi');
 
-        infoapp('twoj wynik to ' + calosc)
-        var index = 0
-        for (index = 0; index < slownik.slowa.length; ++index) {
-            var entry = slownik.slowa[index];
-            if (entry.stan == 2) {
-                console.log(entry)
-                $('#tableBody').append('<tr><td>' + entry.ang + '</td><td>' + entry.pol + '</td></tr>');
-            }
-        }
 
-        //$('#modalDeleteProductDelivery').modal('show');
-        $('#stan').text('koniec twoj wynik to ' + parseInt(calosc, 10));
-        $('#wynik').text('Wynik testu ' + calosc + '%');
-        postjson("api/ang", slownik, function (data) {
 
-            deleteAllPoints();
-            infoapp('nowa lecja')
 
-            console.log(data);
-            LadujDane(poziom)
+        postjson("api/ang", slownik, function(data) {
+
+
+
+
+            LoadData(poziom)
             hideLoader()
 
-        }, function (data) {
+        }, function(data) {
 
-            console.log(data)
+
             hideLoader()
 
         })
@@ -392,72 +109,43 @@
 
     }
 
-
-
     function answer(id) {
-        $("#tableBody").empty();
-        if (aktualny >= iloscall) {
-            console.log('nie ma odpowiedzi', aktualny)
-            infoapp('koniec wiecej nie ma')
-            return
-        }
-        odpowiedz = odpowiedz + 1;
+
         var slowo = slownik.slowa[aktualny];
 
 
-
-
         if (slowo.pol == slowo.odpowiedzi[id]) {
-
-
-
-
-
-            dobrze = dobrze + 1
-
+            poprawne = poprawne + 1;
             slowo.stan = 1;
-
-
-
-        }
-
-
-
-        else {
-
-
-
-
-
-            zle = zle + 1
-
+        } else {
+            bledne = bledne + 1;
+            infoapp(slowo.ang + ':' + slowo.pol);
             slowo.stan = 2;
-
-
-
         }
+       
 
-
-        aktualny = aktualny + 1
-        console.log('aktualny odp', aktualny)
+        aktualny = aktualny + 1;
+         aktualizujWyniki();
         if (aktualny >= iloscall) {
-            infoapp('koniec testu')
-            wyslijodpowiedzi()
+
+            wyslijodpowiedzi();
 
 
-        }
-        else {
-            postep()
-
+        } else {
             showData(aktualny);
         }
 
     }
 
+    function infoapp(tekst) {
+
+        $('#info').text(tekst)
+    }
 
     function showData(pos) {
 
         var d = slownik.slowa[pos];
+
         $('#ang').text(d.ang);
         $('#pol0').text(d.odpowiedzi[0]);
         $('#pol1').text(d.odpowiedzi[1]);
@@ -466,76 +154,33 @@
 
 
     }
-    function startTimer() {
-        const minutesElement = document.getElementById('minutes');
-        const secondsElement = document.getElementById('seconds');
 
-        let totalSeconds = 0;
+    function LoadData(p) {
+        infoapp('Ładujemy dane')
 
-        function updateTimer() {
-            const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
-            const seconds = (totalSeconds % 60).toString().padStart(2, '0');
-
-            minutesElement.textContent = minutes;
-            secondsElement.textContent = seconds;
-
-            totalSeconds++;
-        }
-
-        intervalId = setInterval(updateTimer, 1000);
-    }
-    LadujDane(poziom)
-    function infoapp(tekst) {
-
-        $('#info').text(tekst)
-    }
-    function LadujDane(poziom) {
         aktualny = 0;
-        console.log('aktualny', aktualny)
-        var poziom = '@Model.poziom';
+        poprawne = 0;
+        bledne = 0;
+        aktualizujWyniki();
 
-
-        zle = 0;
-
-
-        dobrze = 0;
-
-        odpowiedz = 0;
+        getjson("api/ang/" + poziom, function(data) {
 
 
 
-        getjson("api/ang/" + poziom, function (data) {
+            infoapp('Zaczynamy')
 
-            iloscall = data.slowa.length;
-            postep();
-
-
-
-
-            startTimer();
 
             slownik = data;
 
             showData(0)
 
-        }, function (data) {
-
-
-
-
-
-
-
-
+        }, function(data) {
 
             console.log(data.message);
 
 
 
 
-
         })
     }
-
-
 </script>

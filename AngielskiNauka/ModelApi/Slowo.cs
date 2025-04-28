@@ -11,4 +11,16 @@
         public Stan stan { get; set; }
         public int Poziom { get; set; }
     }
+
+    public class Quiz
+    {
+        public int Id { get; set; }
+        public string Ang { get; set; }
+        public string Pol { get; set; }
+
+        public string[] Odpowiedzi { get; set; }
+   
+        public Stan stan { get; set; }
+   
+    }
 }
