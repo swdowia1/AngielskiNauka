@@ -83,6 +83,7 @@
 
 <h1> Poziom :@Model.poziomnazwa</h1>
 <span style="color:brown;font-size:x-large" id="info"></span>
+
 <h1><span id="ang">@ladowanie</span></h1>
 
 
@@ -186,40 +187,9 @@
 
     </div>
 
-    <div class="timer-container">
-        <div class="time-fields">
-            <div class="field">
-                <span id="minutes">00</span>
-                <label>Minuty</label>
-            </div>
-            <div class="separator">:</div>
-            <div class="field">
-                <span id="seconds">00</span>
-                <label>Sekundy</label>
-            </div>
-            <div class="field">
-                <span id="zostalo">00</span>
-                <label>Zostało</label>
-            </div>
-            <div class="field">
-                <span id="stan">00</span>
-                <label>stan</label>
-            </div>
-            <div class="field">
-                <span id="zle">00</span>
-                <label>Żle</label>
-            </div>
-        </div>
-    </div>
+
 </div>
 
-
-
-
-
-<partial name="_Info" model="@Model.poziom" />
-
-<br />
 <div id="stan"></div>
 <br />
 <table id="myTable" class="table table-striped">
@@ -233,26 +203,11 @@
     </tbody>
 
 </table>
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalDeleteProductDelivery">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content" style="width: fit-content">
-            <div class="modal-header">
 
-
-                <h4 class="modal-title" style="display:flex; gap: 15px; align-items: center"><i class="fas fa-question-circle"></i><span id="wynik" class="n"> Wynik testu</span>  </h4>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="btnProductNo">OK</button>
-
-            </div>
-        </div>
-    </div>
-</div>
 <hr />
 
 <script>
 
- 
 
 
 
@@ -262,70 +217,45 @@
     var aktualny = 0;
 
     var poziom = '@Model.poziom';
+    LadujDane(poziom);
 
     var zle = 0;
 
     var dobrze = 0;
-    var odpowiedz = 0;
+    var mnoznik = 0;
+
 
     var iloscall = 20;
 
     var slownik = null;
     var datazle = null;
 
-    function postep() {
 
-        var zmiana = 100 / iloscall
-
-        var zrobioneilosc = iloscall - aktualny;
-
-        $('#progBar').val(zrobioneilosc * zmiana);
-
-        $('#zrobione').text(' ' + zrobioneilosc);
-
-        $('#zostalo').text(zrobioneilosc);
-
-
-
-        $('#progBardobrze').val(dobrze * zmiana);
-
-        $('#dobrze').text(' ' + dobrze);
-        var procent = (dobrze / odpowiedz) * 100;
-        if (odpowiedz > 0) {
-
-
-            ;
-            $('#stan').text(parseInt(procent, 10));
-            $('#zle').text(parseInt(zle, 10));
-        }
-   
-    }
- 
 
     function wyslijodpowiedzi() {
-        wait();
-        var calosc = (dobrze / odpowiedz) * 100;
+        wait('Wysłamy odpowiedzi');
+
         clearInterval(intervalId); // Zatrzymuje interwał
 
-        infoapp('twoj wynik to ' + calosc)
+   
         var index = 0
         for (index = 0; index < slownik.slowa.length; ++index) {
             var entry = slownik.slowa[index];
             if (entry.stan == 2) {
-                console.log(entry)
+
                 $('#tableBody').append('<tr><td>' + entry.ang + '</td><td>' + entry.pol + '</td></tr>');
             }
         }
 
-        //$('#modalDeleteProductDelivery').modal('show');
-        $('#stan').text('koniec twoj wynik to ' + parseInt(calosc, 10));
-        $('#wynik').text('Wynik testu ' + calosc + '%');
+
+
+     
         postjson("api/ang", slownik, function (data) {
 
-         
-            infoapp('nowa lecja')
 
-            console.log(data);
+            infoapp('Towj wynik to '+dobrze*mnoznik)
+
+
             LadujDane(poziom)
             hideLoader()
 
@@ -345,11 +275,11 @@
     function answer(id) {
         $("#tableBody").empty();
         if (aktualny >= iloscall) {
-            console.log('nie ma odpowiedzi', aktualny)
+
             infoapp('koniec wiecej nie ma')
             return
         }
-        odpowiedz = odpowiedz + 1;
+
         var slowo = slownik.slowa[aktualny];
 
 
@@ -357,37 +287,16 @@
 
         if (slowo.pol == slowo.odpowiedzi[id]) {
 
-
-
-
-
             dobrze = dobrze + 1
-
             slowo.stan = 1;
-
-
-
         }
-
-
-
         else {
-
-
-
-
-
             zle = zle + 1
-
             slowo.stan = 2;
-
-
-
         }
-
 
         aktualny = aktualny + 1
-        console.log('aktualny odp', aktualny)
+
         if (aktualny >= iloscall) {
             infoapp('koniec testu')
             wyslijodpowiedzi()
@@ -395,7 +304,7 @@
 
         }
         else {
-            postep()
+           
 
             showData(aktualny);
         }
@@ -432,7 +341,7 @@
 
         intervalId = setInterval(updateTimer, 1000);
     }
-    LadujDane(poziom)
+
     function infoapp(tekst) {
 
         $('#info').text(tekst)
@@ -447,20 +356,20 @@
 
 
         dobrze = 0;
+       
 
-        odpowiedz = 0;
 
 
 
         getjson("api/ang/" + poziom, function (data) {
 
+            console.log(data);
             iloscall = data.slowa.length;
-            postep();
+
+            mnoznik = data.mnoznik;
+            alert(data.mnoznik);
 
 
-
-
-            startTimer();
 
             slownik = data;
 

@@ -30,19 +30,16 @@ namespace AngielskiNauka
         {
             try
             {
-            
+
 
                 // _RabbitMqService.SendMessage("poziom" + poziom);
                 int ilosc = _config.Ile();
-           
-                var poland = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTimeOffset.UtcNow, "Europe/Warsaw").ToLocalTime();
-            
 
                 var result = new Test();
 
                 var listastart = _service.DaneNauka(poziom, ilosc);
-               
-             
+
+
                 List<int> idlos = listastart.Select(k => k.DaneId).ToList();
                 idlos.Losuj();
                 //idlos = idlos.Take(ilosc).ToList();
@@ -64,7 +61,7 @@ namespace AngielskiNauka
                 result.Slowa = ff.ToArray();
                 result.Ilosc = ff.Count();
 
-
+                result.Mnoznik = 100 / ilosc;
                 return new JsonResult(result);
             }
             catch (Exception ex)
@@ -121,7 +118,7 @@ namespace AngielskiNauka
         [HttpPost("deletelevel")]
         public async Task<ActionResult<int>> deletelevel([FromBody] int level)
         {
-           _service.DeleteLevel(level);
+            _service.DeleteLevel(level);
             return new JsonResult(1);
         }
 

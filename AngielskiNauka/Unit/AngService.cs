@@ -47,26 +47,7 @@ namespace AngielskiNauka.Unit
             return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k=>k.Stan).ToList();
         }
 
-        public List<JobView> Zadania()
-        {
-            var lista=_repository.GetAllIncluding<Job>(j=> j.TaskTimes).ToList();
-
-            List<JobView> jobs = lista.Select(k => new JobView()
-            {
-                Id = k.Id,
-                Name = k.Text,
-                JobTime = k.TaskTimes.Select(j => new JobTimeView(j.StartTime, j.EndTime)).ToList()
-
-            }).ToList();
-
-            foreach (var item in jobs)
-            {
-                item.TimeJob = classFun.TimeJobString(item.JobTime.Sum(k => k.Minute));
-                item.TotalMInute = item.JobTime.Sum(k => k.Minute);
-                item.Work = item.JobTime.Any(k => !k.End.HasValue)==true?1:0;
-            }
-            return jobs;
-        }
+    
 
         public List<Dane> DaneNauka(int id, int ilosc = 20)
         {

@@ -4,6 +4,7 @@
     {
         public Slowo[] Slowa { get; set; }
         public int Ilosc { get; set; }
+        public int Mnoznik { get; set; }
     }
 
     public class GitUpdate
