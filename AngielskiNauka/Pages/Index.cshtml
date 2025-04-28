@@ -60,36 +60,47 @@
         <button onclick="answer(3)" id="pol3"></button>
     </div>
 </div>
+<div id="wyniki" style="margin-top:20px; font-size:18px; color:#555;">
+    ✅ Dobrze: <span id="dobrze">0</span> |
+    ❌ Źle: <span id="zle">0</span>| zostało <span id="lp">0</span>
+</div>
+
 <script>
 
 
+        var poziom = '@Model.poziom';
+    var mnoznik = '@Model.mnoznik';
+    var iloscall = '@Model.ile';
+    var aktualny = 0;
+    var poprawne = 0;
+    var bledne = 0;
 
-     var poziom = '@Model.poziom';
-     var mnoznik = '@Model.mnoznik';
-     var iloscall = '@Model.ile';
-     var aktualny = 0;
-   
-      LoadData(poziom)
+    LoadData(poziom)
+
+    function aktualizujWyniki() {
+        $('#dobrze').text(poprawne);
+        $('#zle').text(bledne);
+        var zostalo=iloscall-aktualny
+        $('#lp').text(zostalo);
+    }
 
     function wyslijodpowiedzi() {
         wait('Wysłamy odpowiedzi');
 
-       
 
 
 
-        postjson("api/ang", slownik, function (data) {
+        postjson("api/ang", slownik, function(data) {
 
 
-            infoapp('Towj wynik to '+dobrze*mnoznik)
 
 
-            LadujDane(poziom)
+            LoadData(poziom)
             hideLoader()
 
-        }, function (data) {
+        }, function(data) {
 
-       
+
             hideLoader()
 
         })
@@ -98,83 +109,78 @@
 
     }
 
-      function answer(id) {
-    
-          var slowo = slownik.slowa[aktualny];
-          console.log(slowo.pol);
-          console.log( slowo.odpowiedzi[id])
-         console.table(slowo.odpowiedzi);
+    function answer(id) {
 
-          if (slowo.pol == slowo.odpowiedzi[id]) {          
-          
+        var slowo = slownik.slowa[aktualny];
+
+
+        if (slowo.pol == slowo.odpowiedzi[id]) {
+            poprawne = poprawne + 1;
             slowo.stan = 1;
-        }
-        else {
-         infoapp(slowo.ang+':'+slowo.pol);
+        } else {
+            bledne = bledne + 1;
+            infoapp(slowo.ang + ':' + slowo.pol);
             slowo.stan = 2;
         }
-          aktualny=aktualny+1;
-           if (aktualny >= iloscall) {
-         
+       
+
+        aktualny = aktualny + 1;
+         aktualizujWyniki();
+        if (aktualny >= iloscall) {
+
             wyslijodpowiedzi();
 
 
+        } else {
+            showData(aktualny);
         }
-        else
-        {
-          showData(aktualny);}
 
-      }
+    }
+
     function infoapp(tekst) {
 
-       $('#info').text(tekst)
+        $('#info').text(tekst)
     }
-     function showData(pos) {
+
+    function showData(pos) {
 
         var d = slownik.slowa[pos];
-       
+
         $('#ang').text(d.ang);
         $('#pol0').text(d.odpowiedzi[0]);
         $('#pol1').text(d.odpowiedzi[1]);
-         $('#pol2').text(d.odpowiedzi[2]);
-         $('#pol3').text(d.odpowiedzi[3]);
+        $('#pol2').text(d.odpowiedzi[2]);
+        $('#pol3').text(d.odpowiedzi[3]);
 
 
     }
-      function LoadData(p)
-      {
-         infoapp('Ładujemy dane')
+
+    function LoadData(p) {
+        infoapp('Ładujemy dane')
 
         aktualny = 0;
+        poprawne = 0;
+        bledne = 0;
+        aktualizujWyniki();
 
-        getjson("api/ang/" + poziom, function (data) {
+        getjson("api/ang/" + poziom, function(data) {
 
-            console.log(data);
 
-              infoapp('Zaczynamy')
+
+            infoapp('Zaczynamy')
 
 
             slownik = data;
 
             showData(0)
 
-        }, function (data) {
-
-
-
-
-
-
-
-
+        }, function(data) {
 
             console.log(data.message);
 
 
 
 
-
         })
     }
-
 </script>

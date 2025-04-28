@@ -39,6 +39,7 @@ function generateWavePath() {
 }
 
 function hideLoader() {
+ 
     document.getElementById("loading").style.display = "none";
 }
 postjson = function (n, t, i, r, u) {

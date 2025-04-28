@@ -44,26 +44,26 @@ namespace AngielskiNauka.Unit
 
         public List<Dane> DaneFiszka(int id)
         {
-            return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k=>k.Stan).ToList();
+            return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k => k.Stan).ToList();
         }
 
-    
+
 
         public List<Dane> DaneNauka(int id, int ilosc = 20)
         {
             try
             {
 
-           
-            return _repository.GetAll<Dane>(
-       w => w.PoziomId == id,
-       orderBy: w => w.Stan,
-       descending: false,
-       take: ilosc).ToList();
+
+                return _repository.GetAll<Dane>(
+           w => w.PoziomId == id,
+           orderBy: w => w.Stan,
+           descending: false,
+           take: ilosc).ToList();
             }
             catch (Exception ex)
             {
-                _logger.LogError("DaneNauka "+ex.Message);
+                _logger.LogError("DaneNauka " + ex.Message);
                 return null;
             }
         }
@@ -158,21 +158,21 @@ order-status-transport99  Czekam na wystawienie w kolejce
         public int AddTask(string val)
         {
             Job j = new Job() { Text = val };
-            var r=_repository.Add(j);
-            return r.KeyInt; 
+            var r = _repository.Add(j);
+            return r.KeyInt;
         }
-       
-        public async void   DeleteTask(int val)
+
+        public async void DeleteTask(int val)
         {
 
             var parameters = classFun.CreatePrameter("taskid", val);
             await _repository.RunStoredProcedureNonQuery("[dbo].[deletejob]", parameters);
 
-          
+
         }
         internal int updateTask(int jobId)
         {
-            var t = _repository.GetAll<JobTime>(k=>k.JobId == jobId&&!k.EndTime.HasValue).ToList();
+            var t = _repository.GetAll<JobTime>(k => k.JobId == jobId && !k.EndTime.HasValue).ToList();
             if (t.Any())
             {
                 var tt = t[0];
@@ -182,7 +182,7 @@ order-status-transport99  Czekam na wystawienie w kolejce
             }
             else
             {
-                JobTime add = new JobTime() { JobId = jobId, StartTime =classFun.CurrentTimePoland() };
+                JobTime add = new JobTime() { JobId = jobId, StartTime = classFun.CurrentTimePoland() };
                 _repository.Add(add);
             }
 
@@ -193,7 +193,7 @@ order-status-transport99  Czekam na wystawienie w kolejce
         {
             Dane d = _repository.GetById<Dane>(dane.Id);
             d.Ang = dane.Ang;
-            d.Pol=dane.Pol;
+            d.Pol = dane.Pol;
             _repository.Update(d);
         }
 
@@ -205,7 +205,7 @@ order-status-transport99  Czekam na wystawienie w kolejce
 
 };
             await _repository.RunStoredProcedureNonQuery("[dbo].[DeleteDane]", parameters);
-           
+
         }
     }
 }
