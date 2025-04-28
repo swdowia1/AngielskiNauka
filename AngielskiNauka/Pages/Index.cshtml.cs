@@ -1,26 +1,26 @@
-﻿using AngielskiNauka.ModelApi;
+using AngielskiNauka.Models;
 using AngielskiNauka.Unit;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AngielskiNauka.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
-
         public int poziom;
+        public int mnoznik;
+
         public string poziomnazwa;
+        public int ile;
 
-        public List<PoziomName> listPoziomName { get; set; }
+
         AngService _db;
+        ConfigGlobal _config;
 
-
-        public IndexModel(ILogger<IndexModel> logger, AngService db)
+        public IndexModel(AngService db, ConfigGlobal config)
         {
-            _logger = logger;
             _db = db;
-
+            _config = config;
         }
 
         public void OnGet(int id = 4)
@@ -30,6 +30,9 @@ namespace AngielskiNauka.Pages
 
             poziom = id;
             poziomnazwa = Poz.Nazwa;
+            ile = _config.Ile();
+            mnoznik = 100 / ile;
+
         }
     }
 }
