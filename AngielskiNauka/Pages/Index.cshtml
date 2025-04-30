@@ -49,6 +49,13 @@
                 background-color: #a5b8cd;
                 transform: scale(0.98);
             }
+
+    .result {
+        margin-top: 25px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #2b6cb0;
+    }
 </style>
 <span style="color:brown;font-size:x-large" id="info"></span>
 <div class="quiz-container">
@@ -64,6 +71,7 @@
     ✅ Dobrze: <span id="dobrze">0</span> |
     ❌ Źle: <span id="zle">0</span>| zostało <span id="lp">0</span>
 </div>
+<div id="result" class="result" style="display: none;"></div>
 
 <script>
 
@@ -83,6 +91,14 @@
         var zostalo=iloscall-aktualny
         $('#lp').text(zostalo);
     }
+    function showResult() {
+      
+
+        const resultEl = document.getElementById('result');
+        resultEl.style.display = 'block';
+        resultEl.innerHTML = `Wynik ostatniego testu<br/> ✅ Poprawne: ${poprawne} <br> ❌ Niepoprawne: ${bledne}`;
+    }
+
 
     function wyslijodpowiedzi() {
         wait('Wysłamy odpowiedzi');
@@ -93,8 +109,8 @@
         postjson("api/ang", slownik, function(data) {
 
 
-            console.log(data);
-
+            console.table(poprawne,bledne);
+            showResult();
             LoadData(poziom)
             hideLoader()
 
@@ -122,7 +138,7 @@
             infoapp(slowo.ang + ':' + slowo.pol);
             slowo.stan = 2;
         }
-       
+
 
         aktualny = aktualny + 1;
          aktualizujWyniki();
