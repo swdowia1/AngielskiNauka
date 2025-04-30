@@ -262,7 +262,7 @@
 
         }, function (data) {
 
-            console.log(data)
+     
             hideLoader()
 
         })
@@ -349,7 +349,7 @@
     }
     function LadujDane(poziom) {
         aktualny = 0;
-        console.log('aktualny', aktualny)
+     
         var poziom = '@Model.poziom';
 
 
@@ -364,7 +364,7 @@
 
         getjson("api/ang/" + poziom, function (data) {
 
-            console.log(data);
+        
             iloscall = data.slowa.length;
 
             mnoznik = data.mnoznik;
@@ -376,17 +376,7 @@
 
             showData(0)
 
-        }, function (data) {
-
-
-
-
-
-
-
-
-
-            console.log(data.message);
+        }, function (data) { 
 
 
 

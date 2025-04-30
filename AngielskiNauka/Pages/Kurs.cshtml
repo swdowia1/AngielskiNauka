@@ -41,7 +41,7 @@
     var ask = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.exchangeRateResponse.rates.Select(x => x.ask)));
     var iloscpoint=data.length;
     let maxVal = Math.min(...data);
-    console.log(maxVal);
+  
     tabela('myChart', 'Sprzedaz', labels, data, maxVal)
     function addNewLineFromPoint(startIndex,wartosc) {
         let newLabel = wartosc;
@@ -107,14 +107,14 @@
                        
                         let datasetIndex = elements[0].datasetIndex;
                         
-                        console.log('ss', datasetIndex);
+                      
                         let index = elements[0].index;
                        
                         let datasetLabel = salesChart.data.datasets[datasetIndex].label;
                         let value = salesChart.data.datasets[datasetIndex].data[index];
                         let label = salesChart.data.labels[index];
 
-                        console.log(`Clicked on ${datasetLabel} - ${label}: ${value}`);
+                     
                         addNewLineFromPoint(index,value);
                     }
                 }
