@@ -8,7 +8,7 @@ namespace AngielskiNauka.Unit
         IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate) where T : class;
         IEnumerable<T> GetAll<T>(
     Expression<Func<T, bool>> predicate,
-    Expression<Func<T, object>> orderBy = null,
+  List<Expression<Func<T, object>>> orderBy = null,
     bool descending = false,
     int? take = null)
     where T : class;

@@ -2,6 +2,8 @@
 using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Linq.Expressions;
+using System.Xml;
 
 namespace AngielskiNauka.Unit
 {
@@ -56,8 +58,12 @@ namespace AngielskiNauka.Unit
 
 
                 return _repository.GetAll<Dane>(
-           w => w.PoziomId == id,
-           orderBy: w => w.Stan,
+                w => w.PoziomId == id,
+           new List<Expression<Func<Dane, object>>>
+    {
+        x => x.Stan,
+        x => x.Data
+    },
            descending: false,
            take: ilosc).ToList();
             }
