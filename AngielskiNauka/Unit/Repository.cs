@@ -16,18 +16,31 @@ namespace AngielskiNauka.Unit
         }
         public IEnumerable<T> GetAll<T>(
     Expression<Func<T, bool>> predicate,
-    Expression<Func<T, object>> orderBy = null,
+      List<Expression<Func<T, object>>> orderBy = null,
     bool descending = false,
     int? take = null)
     where T : class
         {
             IQueryable<T> query = _db.Set<T>().Where(predicate);
 
-            if (orderBy != null)
+            if (orderBy != null && orderBy.Any())
             {
-                query = descending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
-            }
+                // Apply first ordering
+                var first = orderBy.First();
+                IOrderedQueryable<T> orderedQuery = descending
+                    ? query.OrderByDescending(first)
+                    : query.OrderBy(first);
 
+                // Apply ThenBy for the rest
+                foreach (var orderExp in orderBy.Skip(1))
+                {
+                    orderedQuery = descending
+                        ? orderedQuery.ThenByDescending(orderExp)
+                        : orderedQuery.ThenBy(orderExp);
+                }
+
+                query = orderedQuery;
+            }
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
