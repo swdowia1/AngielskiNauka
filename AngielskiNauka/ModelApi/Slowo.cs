@@ -11,7 +11,11 @@
         public Stan stan { get; set; }
         public int Poziom { get; set; }
     }
-
+    public class WordPair
+    {
+        public string En { get; set; }
+        public string Pl { get; set; }
+    }
     public class Quiz
     {
         public int Id { get; set; }
