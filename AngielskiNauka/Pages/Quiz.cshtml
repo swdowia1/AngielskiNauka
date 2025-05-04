@@ -62,8 +62,8 @@
 <partial name="_Info" model="@Model.poziom" />
 <script>
     const wordPairs = @Html.Raw(Json.Serialize(Model.wordPairs));
-
     let selectedEN = null;
+    let matchedCount = 0;
 
     function shuffle(array) {
         return array.sort(() => Math.random() - 0.5);
@@ -113,8 +113,19 @@
         const correctMatch = div.dataset.match;
 
         if (enWord === correctMatch) {
-            selectedEN.classList.add("matched");
-            div.classList.add("matched");
+            const matchedEN = selectedEN;
+            const matchedPL = div;
+
+            // Opóźnione usunięcie, aby użytkownik widział wynik
+            setTimeout(() => {
+                matchedEN.remove();
+                matchedPL.remove();
+
+                matchedCount++;
+                if (matchedCount === wordPairs.length) {
+                    alert("Gratulacje! Wszystkie pary dopasowane!");
+                }
+            }, 300);
         } else {
             div.classList.add("wrong");
             setTimeout(() => {
