@@ -1,3 +1,20 @@
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Kolor t³a */
+    color: white; /* Kolor tekstu */
+    text-align: center;
+    text-decoration: none; /* Usuwa podkreœlenie */
+    border-radius: 8px; /* Zaokr¹glone rogi */
+    font-size: 16px; /* Rozmiar czcionki */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Cieñ */
+    transition: background-color 0.3s, transform 0.3s; /* Animacje */
+}
+
+    .button:hover {
+        background-color: #45a049; /* Ciemniejszy kolor na hover */
+        transform: scale(1.05); /* Powiêkszenie przy najechaniu */
+    }
 .admin {
     display: flex;
     flex-direction: column;
