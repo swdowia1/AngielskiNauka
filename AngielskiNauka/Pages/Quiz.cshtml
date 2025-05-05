@@ -2,7 +2,11 @@
 @model AngielskiNauka.Pages.QuizModel
 
 <style>
-
+    .dwa{
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Dwie kolumny o równej szerokości */
+        gap: 10px;
+    }
 
     .game-container {
         background: #fff;
@@ -17,9 +21,12 @@
 
     .column {
         flex: 1;
-        display: flex;
+    
         flex-direction: column;
         gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Dwie kolumny o równej szerokości */
+     
     }
 
     .word {
@@ -62,8 +69,8 @@
 <partial name="_Info" model="@Model.poziom" />
 <script>
     const wordPairs = @Html.Raw(Json.Serialize(Model.wordPairs));
-
     let selectedEN = null;
+    let matchedCount = 0;
 
     function shuffle(array) {
         return array.sort(() => Math.random() - 0.5);
@@ -77,7 +84,7 @@
         polishCol.innerHTML = "";
 
         const shuffledEN = shuffle([...wordPairs]);
-        const shuffledPL = shuffle([...wordPairs]);
+        const sortedPL = [...wordPairs].sort((a, b) => a.pl.localeCompare(b.pl, 'pl'));
 
         shuffledEN.forEach(pair => {
             const div = document.createElement("div");
@@ -88,7 +95,7 @@
             englishCol.appendChild(div);
         });
 
-        shuffledPL.forEach(pair => {
+        sortedPL.forEach(pair => {
             const div = document.createElement("div");
             div.className = "word";
             div.textContent = pair.pl;
@@ -97,6 +104,7 @@
             polishCol.appendChild(div);
         });
     }
+
 
     function selectEnglish(div) {
         if (div.classList.contains("matched")) return;
@@ -113,8 +121,20 @@
         const correctMatch = div.dataset.match;
 
         if (enWord === correctMatch) {
-            selectedEN.classList.add("matched");
-            div.classList.add("matched");
+            const matchedEN = selectedEN;
+            const matchedPL = div;
+
+            // Opóźnione usunięcie, aby użytkownik widział wynik
+            setTimeout(() => {
+                matchedEN.remove();
+                matchedPL.remove();
+
+                matchedCount++;
+                if (matchedCount === wordPairs.length) {
+                    alert("Gratulacje! Wszystkie pary dopasowane!");
+                    load();
+                }
+            }, 300);
         } else {
             div.classList.add("wrong");
             setTimeout(() => {

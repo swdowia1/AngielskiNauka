@@ -24,7 +24,7 @@ namespace AngielskiNauka.Pages
 
             poziom = id;
 
-            var listastart = _service.DaneNauka(poziom, ilosc);
+            var listastart = _service.DaneNauka(poziom, 14);
 
             wordPairs = listastart.Select(j => new WordPair()
             {
