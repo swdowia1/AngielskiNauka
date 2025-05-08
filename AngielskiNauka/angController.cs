@@ -84,7 +84,7 @@ namespace AngielskiNauka
 
         [HttpPost]
 
-        public ActionResult<List<string>> Post([FromBody] QuizData value)
+        public ActionResult<Result> Post([FromBody] QuizData value)
 
         {
             int PoziomId = value.PoziomId;
@@ -99,14 +99,16 @@ namespace AngielskiNauka
             _service.AddStat(resultOK, resultZLE, PoziomId);
             List<int> zle = value.Slowa.Where(k => k.stan == Stan.zle).Select(j => j.Id).ToList();
 
+            Result wynik = new Result();
+            List<Dane> d = _service.DaneFiszka(PoziomId);
+            wynik.All = d.Count;
+            wynik.Error = d.Where(k => k.Stan < 0).Count();
+            wynik.Learn = d.Where(k => k.Stan ==0).Count();
+            wynik.Repeat= value.Slowa.Where(j => j.stan == Stan.zle).Select(k => k.Ang + ":" + k.Pol).ToList();
+            wynik.Ok = ok.Count;
 
-            if (!zle.Any())
-                return new JsonResult(new List<string>() { "zapisano" });
-            else
-            {
-                var dd = value.Slowa.Where(j => j.stan == Stan.zle).Select(k => k.Ang + ":" + k.Pol).ToList();
-                return new JsonResult(dd);
-            }
+            return new JsonResult(wynik);
+          
         }
 
 
