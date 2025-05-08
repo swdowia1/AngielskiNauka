@@ -56,6 +56,33 @@
         font-weight: bold;
         color: #2b6cb0;
     }
+
+    .summary {
+        margin-bottom: 20px;
+        padding: 10px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+        .summary div {
+            margin: 5px 0;
+        }
+
+    .words {
+        background: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .word {
+        margin: 5px 0;
+    }
+
+        .word strong {
+            color: #2c3e50;
+        }
 </style>
 <span style="color:brown;font-size:x-large" id="info"></span>
 
@@ -76,7 +103,19 @@
     ✅ Dobrze: <span id="dobrze">0</span> |
     ❌ Źle: <span id="zle">0</span>| zostało <span id="lp">0</span>
 </div>
-<div id="result" class="result" style="display:none;"></div>
+<div class="summary">
+    <h2>Statystyki</h2>
+    <div><strong>Wszystkie:</strong> <span id="all"></span></div>
+    <div><strong>Błędy:</strong> <span id="error"></span></div>
+    <div><strong>Nauczone:</strong> <span id="learn"></span></div>
+    <div><strong>Poprawne:</strong> <span id="ok"></span></div>
+</div>
+
+<div class="words">
+    <h2>Powtórka słówek</h2>
+    <div id="repeat-list"></div>
+</div>
+
 <partial name="_Info" model="@Model.poziom" />
 <script>
 
@@ -99,13 +138,8 @@
         var progress = (aktualny / iloscall) * 100;
         $('#progress-bar').css('width', progress + '%');
     }
-    function showResult() {
-      
 
-        const resultEl = document.getElementById('result');
-        resultEl.style.display = 'block';
-        resultEl.innerHTML = `Wynik ostatniego testu<br/> ✅ Poprawne: ${poprawne} <br> ❌ Niepoprawne: ${bledne}`;
-    }
+
 
 
     function wyslijodpowiedzi() {
@@ -116,9 +150,19 @@
 
         postjson("api/ang", slownik, function(data) {
 
+            setValue('all', data.all);
+            setValue('error', data.error);
+            setValue('learn', data.learn);
+            setValue('ok', data.ok);
+            const repeatList = document.getElementById('repeat-list');
+            data.repeat.forEach(entry => {
+                const [word, translation] = entry.split(':');
+                const div = document.createElement('div');
+                div.className = 'word';
+                div.innerHTML = `<strong>${word}</strong>: ${translation}`;
+                repeatList.appendChild(div);
+            });
 
-            console.table(poprawne,bledne);
-            showResult();
             LoadData(poziom)
             hideLoader()
 
@@ -128,10 +172,11 @@
             hideLoader()
 
         })
+        }
 
 
 
-    }
+
 
     function answer(id) {
 
