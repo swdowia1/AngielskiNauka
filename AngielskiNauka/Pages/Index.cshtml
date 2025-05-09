@@ -84,6 +84,7 @@
             color: #2c3e50;
         }
 </style>
+<span style="color:brown;font-size:x-large" >Poziom @Model.poziomnazwa</span><br />
 <span style="color:brown;font-size:x-large" id="info"></span>
 
 <div class="quiz-container">
@@ -225,7 +226,7 @@
     }
 
     function LoadData(p) {
-        infoapp('Ładujemy dane')
+        infoapp('....Ładujemy dane')
 
         aktualny = 0;
         poprawne = 0;
@@ -234,9 +235,9 @@
 
         getjson("api/ang/" + poziom, function(data) {
 
+            infoapp('')
 
-
-            infoapp('Zaczynamy')
+         
 
 
             slownik = data;
