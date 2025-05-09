@@ -86,15 +86,7 @@
 </body>
 </html>
 <script>
-        document.querySelectorAll('div').forEach(function(div) {
-        if (div.innerText.includes('Hosted')) {
-            let parent = div.parentElement;
-            if (parent && parent.parentElement) {
-                parent.parentElement.style.display = 'none';
-            }
-        }
-    });
-
+      
     generateWavePath();
     hideLoader();
 </script>
