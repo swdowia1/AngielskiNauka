@@ -106,6 +106,7 @@ namespace AngielskiNauka
             wynik.Learn = d.Where(k => k.Stan ==0).Count();
             wynik.Repeat= value.Slowa.Where(j => j.stan == Stan.zle).Select(k => k.Ang + ":" + k.Pol).ToList();
             wynik.Ok = ok.Count;
+            wynik.Procent = (100 / _config.Ile()) * ok.Count;
 
             return new JsonResult(wynik);
           

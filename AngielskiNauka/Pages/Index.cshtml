@@ -109,7 +109,7 @@
     <div><strong>Wszystkie:</strong> <span id="all"></span></div>
     <div><strong>Błędy:</strong> <span id="error"></span></div>
     <div><strong>Nauczone:</strong> <span id="learn"></span></div>
-    <div><strong>Poprawne:</strong> <span id="ok"></span></div>
+    <div><strong>Twój wynik:</strong> <span style="color:red" id="ok"></span></div>
 </div>
 
 <div class="words">
@@ -154,7 +154,7 @@
             setValue('all', data.all);
             setValue('error', data.error);
             setValue('learn', data.learn);
-            setValue('ok', data.ok);
+            setValue('ok', data.ok+'('+data.procent+'%)');
             const repeatList = document.getElementById('repeat-list');
             data.repeat.forEach(entry => {
                 const [word, translation] = entry.split(':');
