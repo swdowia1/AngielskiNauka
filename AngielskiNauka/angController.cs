@@ -57,11 +57,11 @@ namespace AngielskiNauka
 
                     // Dodajemy poprawną odpowiedź
                     wrongAnswers.Add(correctAnswer);
-
+                    wrongAnswers.Sort();
                     // Mieszamy wszystkie 4 odpowiedzi
-                    var options = wrongAnswers.OrderBy(_ => random.Next()).ToList();
+                    //var options = wrongAnswers.OrderBy(_ => random.Next()).ToList();
 
-                    word.Odpowiedzi = options.ToArray();
+                    word.Odpowiedzi = wrongAnswers.ToArray();
                 }
                 
                 result.Slowa = Slowa;
