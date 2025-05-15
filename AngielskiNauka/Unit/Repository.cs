@@ -73,10 +73,9 @@ namespace AngielskiNauka.Unit
             try
             {
                 string joinedKeys = string.Join(",", parameters.Keys);
-                // Tworzymy tablicę parametrów SQL z dictionary
+           
                 var sqlParameters = parameters.Select(p => new SqlParameter(p.Key, p.Value)).ToArray();
-                // await _repository.RunStoredProcedureNonQuery("EXEC [dbo].[AddStat] @oklist, @zlelist", parameters);
-                // Wywołanie procedury składowanej z parametrami
+            
                 int result = _db.Database.ExecuteSqlRawAsync("EXEC " + storedProcedure + " " + joinedKeys, sqlParameters).Result;
 
                 return result;

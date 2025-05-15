@@ -9,6 +9,7 @@ public partial class Dane
     public string Pol { get; set; } = null!;
 
     public DateTime Data { get; set; }
+    public DateTime DataAkt { get; set; }
     public int Stan { get; set; }
 
     public int PoziomId { get; set; }
