@@ -14,7 +14,7 @@
         border-radius: 15px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         width: 400px;
-        text-align: center;
+        text-align: left;
     }
 
     .question {
@@ -22,12 +22,14 @@
         font-weight: bold;
         margin-bottom: 20px;
         color: #333;
+    
     }
 
     .answers {
         display: flex;
         flex-direction: column;
         gap: 15px;
+      
     }
 
         .answers button {
@@ -38,6 +40,7 @@
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
+            text-align: left;
         }
 
             .answers button:hover {
@@ -97,7 +100,9 @@
     </div>
 </div>
 <div id="nauka-bar-container" style="margin-top: 30px; height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
-    <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;"></div>
+    <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;text-align:center">
+        <span id="postepid">0</span>
+    </div>
 </div>
 <div style="width: 100%; background-color: #e3e9f0; border-radius: 10px; margin-bottom: 20px;">
     <div id="progress-bar" style="height: 25px; width: 0%; background-color: #2b6cb0; border-radius: 10px;"></div>
@@ -144,6 +149,13 @@
         $('#progress-bar').css('width', progress + '%');
     }
     function aktualizujKolorNauki(procent) {
+        if (!isNaN(procent)) {
+            setValue('postepid', Math.floor(procent));
+        }
+        else {
+            setValue('postepid', '');
+        }
+    
         const bar = document.getElementById('nauka-bar');
         bar.style.width = procent + '%';
         bar.style.backgroundColor = getKolorZPalety(procent);
@@ -151,6 +163,7 @@
     }
 
     function getKolorZPalety(procent) {
+  
         // Przechodzimy od czerwonego (0%) do zielonego (100%)
         let r, g;
 

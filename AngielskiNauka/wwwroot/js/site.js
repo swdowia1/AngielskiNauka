@@ -10,6 +10,7 @@ function textValue(id) {
     return $("#" + id + "").val()
 }
 function setValue(id, value) {
+
     $("#" + id+"").text(value)
 }
 function load()
