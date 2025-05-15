@@ -99,11 +99,15 @@
         <button onclick="answer(3)" id="pol3"></button>
     </div>
 </div>
+@* <div id="nauka-bar-container" style="margin-top: 30px; height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
+    <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;"></div>
+</div> *@
 <div id="nauka-bar-container" style="margin-top: 30px; height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
     <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;text-align:center">
         <span id="postepid">0</span>
     </div>
 </div>
+
 <div style="width: 100%; background-color: #e3e9f0; border-radius: 10px; margin-bottom: 20px;">
     <div id="progress-bar" style="height: 25px; width: 0%; background-color: #2b6cb0; border-radius: 10px;"></div>
 </div>
@@ -139,13 +143,15 @@
 
     function aktualizujWyniki() {
         $('#dobrze').text(poprawne);
-        console.log(poprawne)
+    var procent=(poprawne/aktualny)*100;
         aktualizujKolorNauki((poprawne/aktualny)*100);
         $('#zle').text(bledne);
         var zostalo=iloscall-aktualny
         $('#lp').text(zostalo);
         // Update progress bar
         var progress = (aktualny / iloscall) * 100;
+     
+         setValue('proc', procent);
         $('#progress-bar').css('width', progress + '%');
     }
     function aktualizujKolorNauki(procent) {
