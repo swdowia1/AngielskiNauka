@@ -230,9 +230,9 @@
 
 
 
-     function sendMessage(status,dane) {
+     function sendMessage(status,ang,pol) {
        
-        connection.invoke("SendMessage", status, dane).catch(err => console.error(err.toString()));
+        connection.invoke("SendMessage", status, ang,pol).catch(err => console.error(err.toString()));
     }
 
     function answer(id) {
@@ -241,11 +241,11 @@
    
 
         if (slowo.pol == slowo.odpowiedzi[id]) {
-            sendMessage('1',slowo.pol);
+            sendMessage('1',slowo.ang,slowo.pol);
             poprawne = poprawne + 1;
             slowo.stan = 1;
         } else {
-             sendMessage('0',slowo.pol);
+            sendMessage('0',slowo.ang,slowo.pol);
             bledne = bledne + 1;
             infoapp(slowo.ang + ':' + slowo.pol);
             slowo.stan = 2;
