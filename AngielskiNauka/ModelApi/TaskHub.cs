@@ -2,12 +2,12 @@
 
 namespace AngielskiNauka.ModelApi
 {
-    public class TaskHub : Hub
+
+    public class ChatHub : Hub
     {
-        public async Task NotifyNewTask(string title, string description)
+        public async Task SendMessage(string user, string message)
         {
-            // Wysyłanie do wszystkich klientów (oprócz nadawcy - opcjonalnie)
-            await Clients.Others.SendAsync("NewTaskNotification", title, description);
+            await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
     }
 

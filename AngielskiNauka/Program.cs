@@ -85,11 +85,13 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 });
 
 app.UseRouting();
+
 var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
 app.UseRequestLocalization(locOptions);
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapHub<ChatHub>("/chathub"); // mapuj hub
 //app.MapControllers();
 app.UseEndpoints(endpoints =>
 {

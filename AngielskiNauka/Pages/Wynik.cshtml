@@ -1,0 +1,26 @@
+﻿@page
+@model AngielskiNauka.Pages.WynikModel
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chathub")
+        .build();
+
+    connection.on("ReceiveMessage", (user, message) => {
+        console.log("Odebrano wiadomość:", user, message);
+
+        const item = document.createElement("li");
+        item.textContent = `${user}: ${message}`;
+        document.getElementById("taskList").appendChild(item);
+    });
+
+    connection.start()
+        .then(() => {
+            console.log("Połączono z hubem.");
+            // connection.invoke("SendMessage", "TestUser", "To jest test!");
+        })
+        .catch(err => console.error(err.toString()));
+</script>
+
+
+<ul id="taskList"></ul>
