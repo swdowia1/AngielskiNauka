@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.ObjectPool;
 
 namespace AngielskiNauka.ModelApi
 {
-    public class TaskHub : Hub
+
+    public class ChatHub : Hub
     {
-        public async Task NotifyNewTask(string title, string description)
+        public async Task SendMessage(string status, string ang,string pol)
         {
-            // Wysyłanie do wszystkich klientów (oprócz nadawcy - opcjonalnie)
-            await Clients.Others.SendAsync("NewTaskNotification", title, description);
+             await Clients.All.SendAsync("ReceiveMessage", status,ang,pol);
         }
     }
 

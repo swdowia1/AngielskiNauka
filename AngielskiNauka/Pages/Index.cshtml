@@ -1,5 +1,6 @@
 ﻿@page
 @model AngielskiNauka.Pages.IndexModel
+
 <style>
     body {
         background: #f0f4f8;
@@ -129,8 +130,14 @@
 </div>
 
 <partial name="_Info" model="@Model.poziom" />
-<script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+           .withUrl("/chathub")
+           .build();
+
+    connection.start().catch(err => console.error(err.toString()));
 
         var poziom = '@Model.poziom';
     var mnoznik = '@Model.mnoznik';
@@ -223,17 +230,22 @@
 
 
 
-
+     function sendMessage(status,ang,pol) {
+       
+        connection.invoke("SendMessage", status, ang,pol).catch(err => console.error(err.toString()));
+    }
 
     function answer(id) {
 
         var slowo = slownik.slowa[aktualny];
-
+   
 
         if (slowo.pol == slowo.odpowiedzi[id]) {
+            sendMessage('1',slowo.ang,slowo.pol);
             poprawne = poprawne + 1;
             slowo.stan = 1;
         } else {
+            sendMessage('0',slowo.ang,slowo.pol);
             bledne = bledne + 1;
             infoapp(slowo.ang + ':' + slowo.pol);
             slowo.stan = 2;
@@ -241,6 +253,7 @@
 
 
         aktualny = aktualny + 1;
+   
          aktualizujWyniki();
         if (aktualny >= iloscall) {
 
@@ -270,6 +283,7 @@
 
 
     }
+  
 
     function LoadData(p) {
         infoapp('....Ładujemy dane')
