@@ -33,7 +33,7 @@ namespace AngielskiNauka.Pages
                 while (reader.Peek() >= 0)
                     line.Add(reader.ReadLine());
             }
-            char[] separators = new char[] { '-', ';', (char)8211 };
+            char[] separators = new char[] {  ';', (char)8211 };
 
 
             foreach (var item in line)

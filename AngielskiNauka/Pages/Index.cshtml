@@ -230,9 +230,9 @@
 
 
 
-         function sendMessage(dane) {
+     function sendMessage(status,dane) {
        
-        connection.invoke("SendMessage", 'aaa', dane).catch(err => console.error(err.toString()));
+        connection.invoke("SendMessage", status, dane).catch(err => console.error(err.toString()));
     }
 
     function answer(id) {
@@ -241,10 +241,11 @@
    
 
         if (slowo.pol == slowo.odpowiedzi[id]) {
-            sendMessage(slowo.pol);
+            sendMessage('1',slowo.pol);
             poprawne = poprawne + 1;
             slowo.stan = 1;
         } else {
+             sendMessage('0',slowo.pol);
             bledne = bledne + 1;
             infoapp(slowo.ang + ':' + slowo.pol);
             slowo.stan = 2;
@@ -252,7 +253,7 @@
 
 
         aktualny = aktualny + 1;
-        sendMessage(aktualny);
+   
          aktualizujWyniki();
         if (aktualny >= iloscall) {
 
