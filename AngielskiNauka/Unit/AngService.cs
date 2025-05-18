@@ -213,5 +213,15 @@ order-status-transport99  Czekam na wystawienie w kolejce
             await _repository.RunStoredProcedureNonQuery("[dbo].[DeleteDane]", parameters);
 
         }
+
+        internal async void ResetLevel(int level)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+    { "@poziomid", level },  // Zakładając, że oklist to ciąg wartości
+
+};
+            await _repository.RunStoredProcedureNonQuery("[dbo].[RandomTimeSet]", parameters);
+        }
     }
 }

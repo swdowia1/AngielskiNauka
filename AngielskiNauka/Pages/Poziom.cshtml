@@ -5,6 +5,31 @@
 @inject LocService ls
 @{
 }
+<style>
+    .admin-button {
+        background-color: #2c3e50; /* ciemny niebiesko-szary */
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        font-size: 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Hover efekt */
+        .admin-button:hover {
+            background-color: #1a252f;
+        }
+
+        /* Fokus efekt */
+        .admin-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.4);
+        }
+
+</style>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -23,16 +48,12 @@
 
                 </td>
                 <td>
-                    <a href="/show/@item.id">@ls.Get("przeglad")</a>
 
-                </td>
-                <td>
-                    <a href="/fiszka/@item.id">@ls.Get("fiszka")</a>
-
+                    <button class="button" onclick="resetp(@item.id)">@ls.Get("reset")</button>
                 </td>
                 <td>
 
-                    <button onclick="deletep(@item.id)">@ls.Get("delete")</button>
+                    <button class="button" onclick="deletep(@item.id)">@ls.Get("delete")</button>
                 </td>
             </tr>
 
@@ -46,7 +67,7 @@
         wait('Usuwanie poziomu')
         postjson("api/ang/deletelevel", poziomid, function (data) {
 
-           
+
 
             hideLoader()
             load();
@@ -58,9 +79,25 @@
 
         })
 
+    }
+    function resetp(poziomid)
+    {
+         wait('Resetowanie poziomu poziomu')
+         postjson("api/ang/resetlevel", poziomid, function (data) {
 
 
 
+            hideLoader()
+         
+
+        }, function (data) {
+
+            console.log(data)
+           
+
+        })
+
+         
     }
 </script>
 

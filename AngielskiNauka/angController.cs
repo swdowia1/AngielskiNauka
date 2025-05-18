@@ -128,7 +128,13 @@ namespace AngielskiNauka
             _service.DeleteLevel(level);
             return new JsonResult(1);
         }
-
+        //resetlevel
+        [HttpPost("resetlevel")]
+        public async Task<ActionResult<int>> resetlevel([FromBody] int level)
+        {
+            _service.ResetLevel(level);
+            return new JsonResult(1);
+        }
 
     }
 }
