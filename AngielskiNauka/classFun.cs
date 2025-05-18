@@ -88,7 +88,7 @@ namespace AngielskiNauka
 
         internal static string Poloczenie()
         {
-            return "workstation id=aaaswsw.mssql.somee.com;packet size=4096;user id=swdowia1_SQLLogin_2;pwd=kr62j5x3px;data source=aaaswsw.mssql.somee.com;persist security info=False;initial catalog=aaaswsw;TrustServerCertificate=True";
+            return "workstation id=aaaswsw.mssql.somee.com;packet size=4096;user id=swdowia1_SQLLogin_2;pwd=ZAQ!2wsxcde3;data source=aaaswsw.mssql.somee.com;persist security info=False;initial catalog=aaaswsw;TrustServerCertificate=True";
         }
 
         internal static string TimeJobString(int totalSeconds)
