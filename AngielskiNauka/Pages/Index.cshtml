@@ -88,7 +88,8 @@
             color: #2c3e50;
         }
 </style>
-<span style="color:brown;font-size:x-large" >Poziom @Model.poziomnazwa</span><br />
+<span style="color:brown;font-size:x-large">Poziom @Model.poziomnazwa  zostało</span><span id="zostalo" style="color:brown;font-size:x-large;padding-left:10px">11</span>
+<br />
 <span style="color:brown;font-size:x-large" id="info"></span>
 
 <div class="quiz-container">
@@ -114,7 +115,7 @@
 </div>
 <div id="wyniki" style="margin-top:20px; font-size:18px; color:#555;">
     ✅ Dobrze: <span id="dobrze">0</span> |
-    ❌ Źle: <span id="zle">0</span>| zostało <span id="lp">0</span>
+    ❌ Źle: <span id="zle">0</span>
 </div>
 <div class="summary">
     <h2>Statystyki</h2>
@@ -154,11 +155,12 @@
         aktualizujKolorNauki((poprawne/aktualny)*100);
         $('#zle').text(bledne);
         var zostalo=iloscall-aktualny
-        $('#lp').text(zostalo);
+       
         // Update progress bar
         var progress = (aktualny / iloscall) * 100;
      
          setValue('proc', procent);
+          setValue('zostalo', zostalo);
         $('#progress-bar').css('width', progress + '%');
     }
     function aktualizujKolorNauki(procent) {
