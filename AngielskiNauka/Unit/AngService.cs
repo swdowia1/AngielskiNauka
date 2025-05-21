@@ -4,6 +4,7 @@ using AngielskiNauka.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Linq.Expressions;
 using System.Xml;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AngielskiNauka.Unit
 {
@@ -38,6 +39,13 @@ namespace AngielskiNauka.Unit
 
             return _repository.GetById<Poziom>(id);
         }
+        public int Ile()
+        {
+
+            return _repository.GetById<Ustawienia>(1).Ile;
+        }
+
+
         public decimal Faktura(List<decimal> dane)
         {
 
@@ -222,6 +230,13 @@ order-status-transport99  Czekam na wystawienie w kolejce
 
 };
             await _repository.RunStoredProcedureNonQuery("[dbo].[RandomTimeSet]", parameters);
+        }
+
+        internal void UpdateIle(int ile)
+        {
+            Ustawienia d = _repository.GetById<Ustawienia>(1);
+            d.Ile = ile;
+            _repository.Update(d);
         }
     }
 }

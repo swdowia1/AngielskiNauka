@@ -9,10 +9,12 @@ namespace AngielskiNauka.Pages
     {
         AaaswswContext _db;
         public List<vString> poziomy;
+        public int Ile { get; set; }
         public NoweModel(AaaswswContext db)
         {
             _db = db;
             poziomy = _db.Pozioms.Select(k => new vString() { Id = k.PoziomId, Name = k.Nazwa }).ToList();
+            Ile = _db.Ustawienias.FirstOrDefault().Ile;
         }
         [BindProperty]
         public int Number { get; set; }

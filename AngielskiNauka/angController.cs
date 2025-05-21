@@ -34,7 +34,7 @@ namespace AngielskiNauka
 
                 var random = new Random();
                 // _RabbitMqService.SendMessage("poziom" + poziom);
-                int ilosc = _config.Ile();
+                int ilosc = _service.Ile();
 
                 var result = new QuizData();
 
@@ -120,7 +120,13 @@ namespace AngielskiNauka
             _service.AddPoziom(level);
             return new JsonResult(1);
         }
-
+        //setile
+        [HttpPost("setile")]
+        public async Task<ActionResult<int>> setile([FromBody] int ile)
+        {
+            _service.UpdateIle(ile);
+            return new JsonResult(1);
+        }
         // Czwarta metoda GET zwracająca listę Job
         [HttpPost("deletelevel")]
         public async Task<ActionResult<int>> deletelevel([FromBody] int level)

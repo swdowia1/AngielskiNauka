@@ -20,7 +20,7 @@ namespace AngielskiNauka.Pages
       public  List<WordPair> wordPairs { get; set; }
         public void OnGet(int id = 1)
         {
-            int ilosc = _config.Ile();
+            int ilosc = _service.Ile();
 
             poziom = id;
 
