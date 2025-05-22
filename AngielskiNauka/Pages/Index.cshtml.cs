@@ -14,23 +14,23 @@ namespace AngielskiNauka.Pages
         public int ile;
 
 
-        AngService _db;
+        AngService _service;
         ConfigGlobal _config;
 
-        public IndexModel(AngService db, ConfigGlobal config)
+        public IndexModel(AngService service, ConfigGlobal config)
         {
-            _db = db;
+            _service = service;
             _config = config;
         }
 
         public void OnGet(int id = 47)
         {
 
-            var Poz = _db.GetPoziom(id);
+            var Poz = _service.GetPoziom(id);
 
             poziom = id;
             poziomnazwa = Poz.Nazwa;
-            ile = _config.Ile();
+            ile = _service.Ile();
             mnoznik = 100 / ile;
 
         }

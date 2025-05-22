@@ -40,7 +40,33 @@
         <button onclick="addLevel()">@ls.Get("add")</button>
     </main>
 </div>
+<div class="admin">
+    <header>@ls.Get("setile")</header>
+    <main>
+       
+        Aktualnie jest:<label>@Model.Ile</label>
+        <button class="button" onclick="setIle(20)">20</button>
+        <button class="button" onclick="setIle(25)">25</button>
+        <button class="button" onclick="setIle(50)">50</button>
+        <button class="button" onclick="setIle(100)">100</button>
+    </main>
+</div>
+
 <script>
+    function setIle(ile) {
+        wait('ustawiamy ile ma być słów');
+        postjson("api/ang/setile", ile, function (data) {
+
+          load()
+
+
+
+        }, function (data) {
+
+
+
+        })
+    }
     function addLevel() {
         var add = textValue('leveladdid')
         wait('@ls.Get("addlevel")')

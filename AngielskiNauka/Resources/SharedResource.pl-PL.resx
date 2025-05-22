@@ -147,6 +147,9 @@
   <data name="reset" xml:space="preserve">
     <value>Reset</value>
   </data>
+  <data name="setile" xml:space="preserve">
+    <value>Ustaw liczbę słów</value>
+  </data>
   <data name="taskadd" xml:space="preserve">
     <value>Dodaj zadanie</value>
   </data>
