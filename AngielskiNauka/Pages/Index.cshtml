@@ -20,6 +20,7 @@
 
     .question {
         font-size: 22px;
+       
         font-weight: bold;
         margin-bottom: 20px;
         color: #333;
@@ -88,12 +89,13 @@
             color: #2c3e50;
         }
 </style>
-<span style="color:brown;font-size:x-large">Poziom @Model.poziomnazwa  zostało</span><span id="zostalo" style="color:brown;font-size:x-large;padding-left:10px">11</span>
+<span style="color:brown;font-size:x-large">Poziom @Model.poziomnazwa</span>
+
 <br />
 <span style="color:brown;font-size:x-large" id="info"></span>
 
 <div class="quiz-container">
-    <div class="question" id="ang"></div>
+    <div class="question"> <span id="ang"></span></div>
     <div class="answers">
         <button onclick="answer(0)" id="pol0"></button>
         <button onclick="answer(1)" id="pol1"></button>
@@ -104,14 +106,17 @@
 @* <div id="nauka-bar-container" style="margin-top: 30px; height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
     <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;"></div>
 </div> *@
-<div id="nauka-bar-container" style="margin-top: 30px; height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
+Stan:
+<div id="nauka-bar-container" style="height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
     <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;text-align:center">
         <span id="postepid">0</span>
     </div>
 </div>
-
+Zostało:
 <div style="width: 100%; background-color: #e3e9f0; border-radius: 10px; margin-bottom: 20px;">
-    <div id="progress-bar" style="height: 25px; width: 0%; background-color: #2b6cb0; border-radius: 10px;"></div>
+    <div id="progress-bar" style="height: 25px; width: 0%; background-color: #2b6cb0; border-radius: 10px;text-align:center">
+        <span id="zostaloid">0</span>
+    </div>
 </div>
 <div id="wyniki" style="margin-top:20px; font-size:18px; color:#555;">
     ✅ Dobrze: <span id="dobrze">0</span> |
@@ -157,17 +162,20 @@
         aktualizujKolorNauki((poprawne/aktualny)*100);
         $('#zle').text(bledne);
         var zostalo=iloscall-aktualny
+         setValue('zostaloid',zostalo);
        
         // Update progress bar
         var progress = (aktualny / iloscall) * 100;
      
-         setValue('proc', procent);
-          setValue('zostalo', zostalo);
+       //  setValue('proc', 'ile umiem'+procent+'%');
+        
         $('#progress-bar').css('width', progress + '%');
     }
     function aktualizujKolorNauki(procent) {
+       
         if (!isNaN(procent)) {
             setValue('postepid', Math.floor(procent));
+             
         }
         else {
             setValue('postepid', '');
@@ -213,7 +221,6 @@
     const godziny = Math.floor(minuty / 60);
     const dni = Math.floor(godziny / 24);
 
-    console.log(`czas testu:  ${minuty % 60} min, ${sekundy % 60} sek.`);
 
       setValue('czas', `czas testu:  ${minuty % 60} min, ${sekundy % 60} sek.`);
 
