@@ -36,31 +36,39 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @foreach (var item in @listPoziomName)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index" asp-route-id="@item.id">@item.nazwa</a>
-                            </li>
-                        }
 
+                        <!-- Dwupoziomowe menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="dropdownMenuButton" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Poziomy
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @foreach (var item in listPoziomName)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-page="/Index" asp-route-id="@item.id">@item.nazwa</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
 
-
-
+                        <!-- Pozostałe linki -->
                         <li class="nav-item bg-warning text-dark">
-                            <a class="nav-link  text-dark" asp-area="" asp-page="/Poziom">poziomy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Poziom">poziomy</a>
                         </li>
                         <li class="nav-item bg-warning">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Nowe">@ls.Get("admin")</a>
                         </li>
-
                         <li class="nav-item bg-warning">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Stat">statystyka</a>
                         </li>
                         <li class="nav-item bg-warning">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Wynik">Postepy</a>
                         </li>
+
                     </ul>
                 </div>
+
             </div>
         </nav>
     </header>
