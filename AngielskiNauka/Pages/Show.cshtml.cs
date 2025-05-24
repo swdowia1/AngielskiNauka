@@ -7,6 +7,7 @@ namespace AngielskiNauka.Pages
     public class ShowModel : PageModel
     {
         public List<Dane> slowa { get; set; }
+        public int Ile { get; set; }
         public List<StatPodsumowanie> grupa { get; set; }
         AaaswswContext _db;
 
@@ -16,6 +17,7 @@ namespace AngielskiNauka.Pages
         }
         public void OnGet(int id = 1)
         {
+            Ile = _db.Ustawienias.FirstOrDefault().Ile;
             slowa = _db.Danes.Where(j => j.PoziomId == id).OrderBy(k => k.Stan)
                 .ThenBy(j => j.Data)
                 .Select(n => new Dane()

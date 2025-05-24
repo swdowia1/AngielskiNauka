@@ -23,7 +23,7 @@ namespace AngielskiNauka.Pages
             _config = config;
         }
 
-        public void OnGet(int id = 47)
+        public void OnGet(int id = 51)
         {
 
             var Poz = _service.GetPoziom(id);
