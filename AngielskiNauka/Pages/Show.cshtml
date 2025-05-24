@@ -7,6 +7,13 @@
     double procent=((Model.slowa.Where(j => j.Stan >0).Count()*1.0/Model.slowa.Count()))*100;
 }
 <style>
+    .zielony {
+        background-color: #d4edda; /* Jasna zieleń */
+    }
+
+    .bialy {
+        background-color: white;
+    }
     #scrollTopBtn {
         position: fixed;
         bottom: 100px;
@@ -33,7 +40,7 @@
     <thead>
         <tr>
             <th>@ls.Get("lp")</th>
-            <th>@ls.Get("id")</th>
+           
             <th>@ls.Get("ang")</th>
             <th>@ls.Get("pol")</th>
             <th>Stan</th>
@@ -45,9 +52,11 @@
     <tbody>
         @foreach (var item in Model.slowa)
         {
-            <tr>
+
+            var rowClass = lp <= Model.Ile ? "zielony" : "bialy";
+            <tr class="@rowClass">
                 <td>@(lp++)</td>
-                <td>@item.DaneId</td>
+                
                 <td>
                     <a href="/daneedit/@item.DaneId">@item.Ang</a>
                 </td>
