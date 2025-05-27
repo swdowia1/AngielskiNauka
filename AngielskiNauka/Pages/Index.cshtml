@@ -137,6 +137,7 @@ Zostało:
 </div>
 
 <partial name="_Info" model="@Model.poziom" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 
 <script>
@@ -155,7 +156,7 @@ Zostało:
     var bledne = 0;
 
     LoadData(poziom)
-
+  
     function aktualizujWyniki() {
         $('#dobrze').text(poprawne);
     var procent=(poprawne/aktualny)*100;

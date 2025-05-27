@@ -2,6 +2,7 @@
 using AngielskiNauka.Models;
 using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Mvc;
+using QuestPDF.Fluent;
 using System;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -119,6 +120,16 @@ namespace AngielskiNauka
         {
             _service.AddPoziom(level);
             return new JsonResult(1);
+        }
+        [HttpPost("pdf")]
+        public IActionResult GenerujPdf([FromBody] int level)
+        {
+            var fiszki = _service.DaneFiszka(level);
+
+            var dokument = new FiszkiDocument { Fiszki = fiszki };
+            var pdf = dokument.GeneratePdf();
+
+            return File(pdf, "application/pdf", "fiszki.pdf");
         }
         //setile
         [HttpPost("setile")]
