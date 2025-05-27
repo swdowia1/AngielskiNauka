@@ -5,7 +5,34 @@
 function all() {
     alert('aa');
 }
-
+function pobierzPDFPoziom(poziom) {
+ 
+    fetch('/api/ang/pdf', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(poziom)
+    })
+        .then(response => {
+            if (!response.ok) throw new Error("Błąd podczas pobierania PDF.");
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "fiszki_" + poziom + ".pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error("Błąd:", error);
+            alert("Nie udało się pobrać fiszek.");
+        });
+}
 function textValue(id) {
     return $("#" + id + "").val()
 }

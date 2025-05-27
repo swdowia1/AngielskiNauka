@@ -137,7 +137,7 @@ Zostało:
 </div>
 
 <partial name="_Info" model="@Model.poziom" />
-<button onclick="pobierzPDFPoziom()">📥 Pobierz PDF (dla poziomu)</button>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 
 <script>
@@ -156,35 +156,7 @@ Zostało:
     var bledne = 0;
 
     LoadData(poziom)
-    function pobierzPDFPoziom() {
-        const poziom = '@Model.poziom'; // Możesz dynamicznie ustawiać, np. z dropdowna lub z modelu Razor
-
-        fetch('/api/ang/pdf', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(poziom)
-        })
-            .then(response => {
-                if (!response.ok) throw new Error("Błąd podczas pobierania PDF.");
-                return response.blob();
-            })
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = "fiszki_" + poziom + ".pdf";
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(url);
-            })
-            .catch(error => {
-                console.error("Błąd:", error);
-                alert("Nie udało się pobrać fiszek.");
-            });
-    }
+  
     function aktualizujWyniki() {
         $('#dobrze').text(poprawne);
     var procent=(poprawne/aktualny)*100;
