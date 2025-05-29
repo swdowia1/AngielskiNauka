@@ -11,13 +11,13 @@ namespace AngielskiNauka.Unit
     public class AngService
     {
         IRepository _repository;
-        IFunVMS _funVMS;
+
         private readonly ILogger<AngService> _logger; // Add a logger field
 
-        public AngService(IRepository repository, IFunVMS funVMS, ILogger<AngService> logger)
+        public AngService(IRepository repository ,ILogger<AngService> logger)
         {
             _repository = repository;
-            _funVMS = funVMS;
+        
             _logger = logger;
         }
 
@@ -82,18 +82,6 @@ namespace AngielskiNauka.Unit
             }
         }
 
-        public int LogikaBiznesowa()
-
-        {
-            List<string> nadawca = _funVMS.GetDataCacheOrder();
-            foreach (var item in nadawca)
-            {
-                if (!item.StartsWith("a"))
-                    _funVMS.SendMail();
-            }
-
-            return 1;
-        }
 
         public AddResult AddPoziom(string naz)
         {
@@ -109,66 +97,7 @@ namespace AngielskiNauka.Unit
             return idNew;
         }
 
-        public string StatusOrder(int isonninenpl, int? max_realization, int? stsQue, int statussap, bool isZDS)
-        {
-
-
-            /*
- order-status-transport	  Status realizacji zamówienia
-order-status-transport0	  Akceptacja zamówienia do realizacji
-order-status-transport1	  Przyjęte do realizacji
-order-status-transport2	  Zamówienie odrzucono
-order-status-transport3	  Zamówienie wysłane
-order-status-transport4	  Zamówienie wysłano
-order-status-transport98  Dostępność do potwierdzenia
-order-status-transport99  Czekam na wystawienie w kolejce
-
-             */
-            //todo swsw status zamowienia
-            string result = "";
-            if (statussap == 99)
-                return "";
-            if (isonninenpl == 1)
-            {
-                if (stsQue.HasValue)
-                {
-                    if (stsQue.Value == 0)
-                        return _funVMS.KeyTransalate("order-status-transport99");// "Czekam na wysłanie";
-                    if (stsQue.Value == 1)
-                        return _funVMS.KeyTransalate("order-status-transport98");// "w trakcie przetwarzania";
-
-                    //jesli jest z onninepl i jest w kolejce to zobacz status odpowiedzi
-                    if (max_realization.HasValue)
-                        return _funVMS.KeyTransalate("order-status-transport" + max_realization.Value.ToString());
-                    else
-                    {
-                        if (stsQue == 3)
-                            return _funVMS.KeyTransalate("order-status-transport97");
-                        else
-                            return "";
-                    }
-
-                }
-                else
-                    return "";
-                //{
-                //    if (isZDS)//order-status-transport99	Czekam na wystawienie w kolejce
-                //        return KeyTransalate("order-status-transport99");// "Czekam na wystawienie w kolejce";
-                //    else
-                //        return KeyTransalate("order-status-transport98");//nie jestZDS  Dostępność do potwierdzenia
-                //}
-            }
-            else
-            {
-                if (max_realization.HasValue)
-                    return _funVMS.KeyTransalate("order-status-transport" + max_realization.Value.ToString());
-                else
-                    return "";
-            }
-
-            return "";
-        }
-
+      
         public int AddTask(string val)
         {
             Job j = new Job() { Text = val };
