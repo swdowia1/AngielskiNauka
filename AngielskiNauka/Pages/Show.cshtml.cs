@@ -26,7 +26,8 @@ namespace AngielskiNauka.Pages
                     Ang = n.Ang,
                     Pol = n.Pol,
                     Data = n.Data,
-                    Stan = n.Stan
+                    Stan = n.Stan,
+DataAkt = n.DataAkt,
                 }).ToList();
             grupa = slowa.Where(w => w.Stan < 0).GroupBy(j => j.Stan)
                 .Select(k => new StatPodsumowanie()

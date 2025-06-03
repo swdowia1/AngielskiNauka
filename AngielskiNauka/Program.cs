@@ -36,7 +36,7 @@ builder.Services.AddSignalR();
 
 
 
-builder.Services.AddScoped<IFunVMS, FunVMS>();
+
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 builder.Services.Configure<RequestLocalizationOptions>(
