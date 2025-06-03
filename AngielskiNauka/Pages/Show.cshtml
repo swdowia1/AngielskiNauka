@@ -54,6 +54,12 @@
         {
 
             var rowClass = lp <= Model.Ile ? "zielony" : "bialy";
+           @*  var polandTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+
+            // Konwersja daty
+            var dataAktPoland = TimeZoneInfo.ConvertTimeFromUtc(item.DataAkt.ToUniversalTime(), polandTimeZone); *@
+            
+
             <tr class="@rowClass">
                 <td>@(lp++)</td>
                 
@@ -63,7 +69,11 @@
                 <td>@item.Pol</td>
                 
                 <td>@item.Stan</td>
-                <td>@item.Data</td>
+               @if(item.DataAkt.Year>2000)
+               {
+                    var sformatowanaData = item.DataAkt.ToString("dddd d MMMM", new System.Globalization.CultureInfo("pl-PL"));
+                    <td class="nowrap">@sformatowanaData</td>
+               }
 
             </tr>
 

@@ -159,17 +159,16 @@ Zostało:
   
     function aktualizujWyniki() {
         $('#dobrze').text(poprawne);
-    var procent=(poprawne/aktualny)*100;
+  
         aktualizujKolorNauki((poprawne/aktualny)*100);
         $('#zle').text(bledne);
         var zostalo=iloscall-aktualny
          setValue('zostaloid',zostalo);
        
-        // Update progress bar
+
         var progress = (aktualny / iloscall) * 100;
      
-       //  setValue('proc', 'ile umiem'+procent+'%');
-        
+       
         $('#progress-bar').css('width', progress + '%');
     }
     function aktualizujKolorNauki(procent) {
