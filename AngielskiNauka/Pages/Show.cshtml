@@ -5,6 +5,8 @@
 @{
     int lp = 1;
     double procent=((Model.slowa.Where(j => j.Stan >0).Count()*1.0/Model.slowa.Count()))*100;
+    string tytul_data = "Grupowanie po dacie";
+    string tytul_stan = "Grupowanie po stan";
 }
 <style>
     .zielony {
@@ -34,6 +36,8 @@
     }
 </style>
 <h1>Liczba słów: @Model.slowa.Count nie przerobiono @Model.slowa.Where(j => j.Stan == 0).Count() do powtórzenie @Model.slowa.Where(j => j.Stan < 0).Count() poprawnie @Model.slowa.Where(j => j.Stan > 0).Count() (@string.Format("{0:N2}%", procent))</h1>
+<partial name="_PodSum" model="Tuple.Create(@tytul_data,@Model.listByData)" />
+<partial name="_PodSum" model="Tuple.Create(@tytul_stan,@Model.listByStatus)" />
 <canvas id="myChart"></canvas>
 <hr />
 <table class="table table-hover">
@@ -95,10 +99,9 @@
     function scrollToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.grupa.Select(x =>x.Stan)));
-    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.grupa.Select(x => x.Ilosc)));
+   
 
-    tabela('myChart', 'Dłuhość', labels, data)
+   
     function tabela(divName, title, x, y) {
 
         // Render the chart

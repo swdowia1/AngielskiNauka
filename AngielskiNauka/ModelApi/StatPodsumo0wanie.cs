@@ -5,4 +5,5 @@
         public int Stan { get; set; }
         public int Ilosc { get; set; }
     }
+   
 }

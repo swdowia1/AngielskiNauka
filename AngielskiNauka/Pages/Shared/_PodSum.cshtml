@@ -1,0 +1,15 @@
+﻿@using AngielskiNauka.ModelApi
+@model Tuple<string, List<Podsumowanie>>
+
+<h4>@Model.Item1</h4> <!-- To jest tytuł -->
+<div class="d-flex flex-wrap gap-2">
+    @foreach (var item in Model.Item2)
+    {
+        <button type="button" class="btn btn-primary">
+            @item.nazwa
+            <span class="badge bg-light text-dark ms-1">@item.ilosc</span>
+            <span class="visually-hidden">unread messages</span>
+        </button>
+    }
+</div>
+<hr />
