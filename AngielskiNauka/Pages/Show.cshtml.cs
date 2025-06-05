@@ -8,6 +8,7 @@ namespace AngielskiNauka.Pages
     {
         public List<Dane> slowa { get; set; }
         public int Ile { get; set; }
+        public string PoziomName { get; set; }
 
         public List<Podsumowanie> listByData { get; set; }
         public List<Podsumowanie> listByStatus { get; set; }
@@ -19,6 +20,8 @@ namespace AngielskiNauka.Pages
         }
         public void OnGet(int id = 1)
         {
+            Poziom poziom = _db.Pozioms.FirstOrDefault(j => j.PoziomId == id);
+            PoziomName=poziom?.Nazwa ?? "Nie znaleziono poziomu";
             Ile = _db.Ustawienias.FirstOrDefault().Ile;
             slowa = _db.Danes.Where(j => j.PoziomId == id).OrderBy(k => k.Stan)
                 .ThenBy(j => j.Data)

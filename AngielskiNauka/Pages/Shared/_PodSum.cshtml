@@ -1,15 +1,42 @@
 ﻿@using AngielskiNauka.ModelApi
-@model Tuple<string, List<Podsumowanie>>
+@model Tuple<string, List<Podsumowanie>,int>
 
 <h4>@Model.Item1</h4> <!-- To jest tytuł -->
 <div class="d-flex flex-wrap gap-2">
     @foreach (var item in Model.Item2)
     {
-        <button type="button" class="btn btn-primary">
-            @item.nazwa
-            <span class="badge bg-light text-dark ms-1">@item.ilosc</span>
-            <span class="visually-hidden">unread messages</span>
-        </button>
+
+        var colorBagge = "btn-primary";
+        var opis = "";
+        if (Model.Item3 == 1)
+        {
+            opis = "";
+            int stan = int.Parse(item.nazwa);
+            if (stan < 0)
+            {
+                colorBagge = "btn-warning";
+                opis = "Do powtórki";
+            }
+            if (stan >= 2)
+            {
+                colorBagge = "btn-success";
+                opis = "Jest ok";
+            }
+            if (string.IsNullOrEmpty(opis))
+            {
+                if(stan==0)
+                    opis = "Nowe";
+                else
+                {
+                    opis = "Poprawione";
+                }
+            }
+        }
+    <button type="button" class="btn @colorBagge">
+        @item.nazwa
+        <span class="badge bg-light text-dark ms-1">@opis --> @item.ilosc</span>
+
+    </button>
     }
 </div>
 <hr />
