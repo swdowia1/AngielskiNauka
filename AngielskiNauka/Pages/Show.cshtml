@@ -35,9 +35,9 @@
         background-color: #0056b3;
     }
 </style>
-<h1>Liczba słów: @Model.slowa.Count nie przerobiono @Model.slowa.Where(j => j.Stan == 0).Count() do powtórzenie @Model.slowa.Where(j => j.Stan < 0).Count() poprawnie @Model.slowa.Where(j => j.Stan > 0).Count() (@string.Format("{0:N2}%", procent))</h1>
-<partial name="_PodSum" model="Tuple.Create(@tytul_data,@Model.listByData)" />
-<partial name="_PodSum" model="Tuple.Create(@tytul_stan,@Model.listByStatus)" />
+<h1>Statystyka dla poziomu: @Model.PoziomName</h1>
+<partial name="_PodSum" model="Tuple.Create(@tytul_data,@Model.listByData,0)" />
+<partial name="_PodSum" model="Tuple.Create(@tytul_stan,@Model.listByStatus,1)" />
 <canvas id="myChart"></canvas>
 <hr />
 <table class="table table-hover">
