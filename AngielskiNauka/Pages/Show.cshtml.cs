@@ -8,7 +8,9 @@ namespace AngielskiNauka.Pages
     {
         public List<Dane> slowa { get; set; }
         public int Ile { get; set; }
-        public List<StatPodsumowanie> grupa { get; set; }
+
+        public List<Podsumowanie> listByData { get; set; }
+        public List<Podsumowanie> listByStatus { get; set; }
         AaaswswContext _db;
 
         public ShowModel(AaaswswContext db)
@@ -29,12 +31,30 @@ namespace AngielskiNauka.Pages
                     Stan = n.Stan,
 DataAkt = n.DataAkt,
                 }).ToList();
-            grupa = slowa.Where(w => w.Stan < 0).GroupBy(j => j.Stan)
-                .Select(k => new StatPodsumowanie()
+
+
+            listByData = slowa
+                .GroupBy(n => n.DataAkt.Date)
+                .Select(g => new Podsumowanie()
                 {
-                    Stan = k.Key,
-                    Ilosc = k.Count()
-                }).ToList();
+                    nazwa = g.Key.ToString("yyyyMMdd", new System.Globalization.CultureInfo("pl-PL")),
+                    ilosc = g.Count()
+                }).OrderBy(n => n.nazwa)
+                .ToList();
+
+            listByStatus = slowa
+               .GroupBy(n => n.Stan)
+               .Select(g => new Podsumowanie()
+               {
+                   nazwa = g.Key.ToString(),
+                   ilosc = g.Count()
+               }).OrderBy(n => n.nazwa)
+               .ToList();
+
+
+
+
+
         }
     }
 }
