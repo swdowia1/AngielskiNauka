@@ -91,7 +91,7 @@
     var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.listByData.Select(x => x.ilosc)));
     const ctx = document.getElementById('myChart').getContext('2d');
 
-    new Chart(ctx, {
+       new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
@@ -119,9 +119,37 @@
                         text: 'Nazwa'
                     }
                 }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true
+                },
+                legend: {
+                    display: true
+                },
+                // Dodajemy nasz własny plugin
+                datalabels: false,
             }
-        }
+        },
+        plugins: [{
+            id: 'valueOnTop',
+            afterDatasetsDraw(chart) {
+                const { ctx, data, chartArea: { top }, scales: { x, y } } = chart;
+
+                ctx.save();
+                chart.data.datasets.forEach((dataset, i) => {
+                    chart.getDatasetMeta(i).data.forEach((bar, index) => {
+                        const value = dataset.data[index];
+                        ctx.fillStyle = '#000';
+                        ctx.font = '12px sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(value, bar.x, bar.y - 5);
+                    });
+                });
+            }
+        }]
     });
+
     console.log(labels);
      window.onscroll = function () {
         const btn = document.getElementById("scrollTopBtn");
