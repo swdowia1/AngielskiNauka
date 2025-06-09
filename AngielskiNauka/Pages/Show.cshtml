@@ -36,9 +36,9 @@
     }
 </style>
 <h1>Statystyka dla poziomu: @Model.PoziomName</h1>
-<partial name="_PodSum" model="Tuple.Create(@tytul_data,@Model.listByData,0)" />
+<canvas id="myChart" width="800" height="500"></canvas>
 <partial name="_PodSum" model="Tuple.Create(@tytul_stan,@Model.listByStatus,1)" />
-<canvas id="myChart"></canvas>
+
 <hr />
 <table class="table table-hover">
     <thead>
@@ -87,6 +87,70 @@
 </table>
 <button onclick="scrollToTop()" id="scrollTopBtn" title="Do góry">⬆</button>
 <script>
+     var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.listByData.Select(x => x.nazwa)));
+    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.listByData.Select(x => x.ilosc)));
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+       new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Ilość',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Ilość'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Nazwa'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true
+                },
+                legend: {
+                    display: true
+                },
+                // Dodajemy nasz własny plugin
+                datalabels: false,
+            }
+        },
+        plugins: [{
+            id: 'valueOnTop',
+            afterDatasetsDraw(chart) {
+                const { ctx, data, chartArea: { top }, scales: { x, y } } = chart;
+
+                ctx.save();
+                chart.data.datasets.forEach((dataset, i) => {
+                    chart.getDatasetMeta(i).data.forEach((bar, index) => {
+                        const value = dataset.data[index];
+                        ctx.fillStyle = '#000';
+                        ctx.font = '12px sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(value, bar.x, bar.y - 5);
+                    });
+                });
+            }
+        }]
+    });
+
+    console.log(labels);
      window.onscroll = function () {
         const btn = document.getElementById("scrollTopBtn");
         if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
