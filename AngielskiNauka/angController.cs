@@ -25,10 +25,15 @@ namespace AngielskiNauka
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="poziom"></param>
+        /// <param name="ang">jesli nie jest 0 to pytanie bedzie po polsku</param>
+        /// <returns></returns>
         // GET api/<ValuesController>/5
-        [HttpGet("{poziom}")]
-        public async Task<ActionResult<QuizData>> Get(int poziom)
+        [HttpGet("{poziom}/{ang}")]
+        public async Task<ActionResult<QuizData>> Get(int poziom,int ang=0)
         {
             try
             {
@@ -41,8 +46,12 @@ namespace AngielskiNauka
 
                 var listastart = _service.DaneNauka(poziom, ilosc);
 
+                Quiz[] Slowa = null;
+                if (ang == 0)
+                    Slowa = listastart.Select(k => new Quiz() { Id = k.DaneId, Ang = k.Ang, Pol = k.Pol }).ToArray();
+                else
+                    Slowa = listastart.Select(k => new Quiz() { Id = k.DaneId, Ang = k.Pol, Pol = k.Ang }).ToArray();
 
-                Quiz[] Slowa = listastart.Select(k => new Quiz() { Id = k.DaneId, Ang = k.Ang, Pol = k.Pol }).ToArray();
                 foreach (var word in Slowa)
                 {
                     // Poprawna odpowiedź
