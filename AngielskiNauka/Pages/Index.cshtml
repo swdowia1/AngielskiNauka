@@ -2,6 +2,18 @@
 @model AngielskiNauka.Pages.IndexModel
 
 <style>
+    .zaokraglony-div {
+        padding: 15px 20px;
+        border-radius: 20px;
+        display: inline-flex; /* <-- kluczowa zmiana */
+        align-items: center;
+        gap: 10px;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        margin-left: 10px; /* odstęp między divami */
+    }
+
     body {
         background: #f0f4f8;
         font-family: 'Arial', sans-serif;
@@ -20,18 +32,15 @@
 
     .question {
         font-size: 22px;
-       
         font-weight: bold;
         margin-bottom: 20px;
         color: #333;
-    
     }
 
     .answers {
         display: flex;
         flex-direction: column;
         gap: 15px;
-      
     }
 
         .answers button {
@@ -90,7 +99,20 @@
         }
 </style>
 <span style="color:brown;font-size:x-large">Poziom @Model.poziomnazwa</span>
+<div id="angdiv" class="zaokraglony-div" onclick="angielski()" style="background-color: #ccffcc;">
+    Lekcja:
+    <img src="~/img/ang.png" class="flag" alt="Angielska flaga" />
+    na
+    <img src="~/img/pol.png" class="flag" alt="Polska flaga" />
+</div>
+<div id="poldiv" class="zaokraglony-div" onclick="polski()" style="background-color: #f0f0f0;">
+    Lekcja:
 
+
+    <img src="~/img/pol.png" class="flag" alt="Polska flaga" />
+    na
+    <img src="~/img/ang.png" class="flag" alt="Angielska flaga" />
+</div>
 <br />
 <span style="color:brown;font-size:x-large" id="info"></span>
 
@@ -141,203 +163,223 @@ Zostało:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 
 <script>
-     var now = new Date().toISOString();
-    const connection = new signalR.HubConnectionBuilder()
-           .withUrl("/chathub")
-           .build();
+         var now = new Date().toISOString();
+        const connection = new signalR.HubConnectionBuilder()
+               .withUrl("/chathub")
+               .build();
 
-    connection.start().catch(err => console.error(err.toString()));
+        connection.start().catch(err => console.error(err.toString()));
 
-        var poziom = '@Model.poziom';
-    var mnoznik = '@Model.mnoznik';
-    var iloscall = '@Model.ile';
-    var aktualny = 0;
-    var poprawne = 0;
-    var bledne = 0;
+            var poziom = '@Model.poziom';
+                var typ=0; // 0 to angielski, 1 to polski
+        var mnoznik = '@Model.mnoznik';
+        var iloscall = '@Model.ile';
+        var aktualny = 0;
+        var poprawne = 0;
+        var bledne = 0;
 
-    LoadData(poziom)
-  
-    function aktualizujWyniki() {
-        $('#dobrze').text(poprawne);
-  
-        aktualizujKolorNauki((poprawne/aktualny)*100);
-        $('#zle').text(bledne);
-        var zostalo=iloscall-aktualny
-         setValue('zostaloid',zostalo);
-       
-
-        var progress = (aktualny / iloscall) * 100;
-     
-       
-        $('#progress-bar').css('width', progress + '%');
-    }
-    function aktualizujKolorNauki(procent) {
-       
-        if (!isNaN(procent)) {
-            setValue('postepid', Math.floor(procent));
-             
-        }
-        else {
-            setValue('postepid', '');
-        }
-    
-        const bar = document.getElementById('nauka-bar');
-        bar.style.width = procent + '%';
-        bar.style.backgroundColor = getKolorZPalety(procent);
-        bar.style.transition = 'width 0.5s ease, background-color 0.5s ease';
-    }
-
-    function getKolorZPalety(procent) {
-  
-        // Przechodzimy od czerwonego (0%) do zielonego (100%)
-        let r, g;
-
-        if (procent < 50) {
-            // Czerwony do żółtego
-            r = 255;
-            g = Math.round(5.1 * procent);  // 0–255
-        } else {
-            // Żółty do zielonego
-            g = 255;
-            r = Math.round(510 - 5.1 * procent); // 255–0
-        }
-
-        return `rgb(${r},${g},0)`;
-    }
-
-
-
-    function wyslijodpowiedzi() {
-        wait('Wysłamy odpowiedzi');
-
-
-        var teraz = new Date().toISOString();
-    const d1 = new Date(now);
-    const d2 = new Date(teraz);
-
-    const roznicaMs = d2 - d1; // różnica w milisekundach
-    const sekundy = Math.floor(roznicaMs / 1000);
-    const minuty = Math.floor(sekundy / 60);
-    const godziny = Math.floor(minuty / 60);
-    const dni = Math.floor(godziny / 24);
-
-
-      setValue('czas', `czas testu:  ${minuty % 60} min, ${sekundy % 60} sek.`);
-
-        postjson("api/ang", slownik, function(data) {
-
-            setValue('all', data.all);
-            setValue('error', data.error);
-            setValue('learn', data.learn);
-            setValue('ok', data.ok+'('+data.procent+'%)');
-
-            const repeatList = document.getElementById('repeat-list');
-            data.repeat.forEach(entry => {
-                const [word, translation] = entry.split(':');
-                const div = document.createElement('div');
-                div.className = 'word';
-                div.innerHTML = `<strong>${word}</strong>: ${translation}`;
-                repeatList.appendChild(div);
-            });
-
-            LoadData(poziom)
-            hideLoader()
-
-        }, function(data) {
-
-
-            hideLoader()
-
-        })
-        }
-
-
-
-     function sendMessage(status,ang,pol) {
-       
-        connection.invoke("SendMessage", status, ang,pol).catch(err => console.error(err.toString()));
-    }
-
-    function answer(id) {
-
-        var slowo = slownik.slowa[aktualny];
-  
-        if(aktualny==0)
+        LoadData()
+        function angielski()
         {
-        now = new Date().toISOString();
-        console.log(now);
+                document.getElementById('angdiv').style.backgroundColor = '#ccffcc'; // np. zielony
+                 document.getElementById('poldiv').style.backgroundColor = '#f0f0f0'; // np. zielony
+
+
+        typ=0;
+        LoadData();
         }
-        if (slowo.pol == slowo.odpowiedzi[id]) {
-            sendMessage('1',slowo.ang,slowo.pol);
-            poprawne = poprawne + 1;
-            slowo.stan = 1;
-        } else {
-            sendMessage('0',slowo.ang,slowo.pol);
-            bledne = bledne + 1;
-            infoapp(slowo.ang + ':' + slowo.pol);
-            slowo.stan = 2;
+        function polski()
+        {
+             document.getElementById('poldiv').style.backgroundColor = '#ccffcc'; // np. zielony
+                 document.getElementById('angdiv').style.backgroundColor = '#f0f0f0'; // np. zielony
+                 typ=1;
+            LoadData();
+        }
+        function aktualizujWyniki() {
+            $('#dobrze').text(poprawne);
+
+            aktualizujKolorNauki((poprawne/aktualny)*100);
+            $('#zle').text(bledne);
+            var zostalo=iloscall-aktualny
+             setValue('zostaloid',zostalo);
+
+
+            var progress = (aktualny / iloscall) * 100;
+
+
+            $('#progress-bar').css('width', progress + '%');
+        }
+        function aktualizujKolorNauki(procent) {
+
+            if (!isNaN(procent)) {
+                setValue('postepid', Math.floor(procent));
+
+            }
+            else {
+                setValue('postepid', '');
+            }
+
+            const bar = document.getElementById('nauka-bar');
+            bar.style.width = procent + '%';
+            bar.style.backgroundColor = getKolorZPalety(procent);
+            bar.style.transition = 'width 0.5s ease, background-color 0.5s ease';
+        }
+
+        function getKolorZPalety(procent) {
+
+            // Przechodzimy od czerwonego (0%) do zielonego (100%)
+            let r, g;
+
+            if (procent < 50) {
+                // Czerwony do żółtego
+                r = 255;
+                g = Math.round(5.1 * procent);  // 0–255
+            } else {
+                // Żółty do zielonego
+                g = 255;
+                r = Math.round(510 - 5.1 * procent); // 255–0
+            }
+
+            return `rgb(${r},${g},0)`;
         }
 
 
-        aktualny = aktualny + 1;
-   
-         aktualizujWyniki();
-        if (aktualny >= iloscall) {
 
-            wyslijodpowiedzi();
+        function wyslijodpowiedzi() {
+            wait('Wysłamy odpowiedzi');
 
 
-        } else {
-            showData(aktualny);
+            var teraz = new Date().toISOString();
+        const d1 = new Date(now);
+        const d2 = new Date(teraz);
+
+        const roznicaMs = d2 - d1; // różnica w milisekundach
+        const sekundy = Math.floor(roznicaMs / 1000);
+        const minuty = Math.floor(sekundy / 60);
+        const godziny = Math.floor(minuty / 60);
+        const dni = Math.floor(godziny / 24);
+
+
+          setValue('czas', `czas testu:  ${minuty % 60} min, ${sekundy % 60} sek.`);
+
+            postjson("api/ang", slownik, function(data) {
+
+                setValue('all', data.all);
+                setValue('error', data.error);
+                setValue('learn', data.learn);
+                setValue('ok', data.ok+'('+data.procent+'%)');
+
+                const repeatList = document.getElementById('repeat-list');
+                data.repeat.forEach(entry => {
+                    const [word, translation] = entry.split(':');
+                    const div = document.createElement('div');
+                    div.className = 'word';
+                    div.innerHTML = `<strong>${word}</strong>: ${translation}`;
+                    repeatList.appendChild(div);
+                });
+
+                LoadData()
+                hideLoader()
+
+            }, function(data) {
+
+
+                hideLoader()
+
+            })
+            }
+
+
+
+         function sendMessage(status,ang,pol) {
+
+            connection.invoke("SendMessage", status, ang,pol).catch(err => console.error(err.toString()));
         }
 
-    }
+        function answer(id) {
 
-    function infoapp(tekst) {
+            var slowo = slownik.slowa[aktualny];
 
-        $('#info').text(tekst)
-    }
-
-    function showData(pos) {
-
-        var d = slownik.slowa[pos];
-
-        $('#ang').text(d.ang);
-        $('#pol0').text(d.odpowiedzi[0]);
-        $('#pol1').text(d.odpowiedzi[1]);
-        $('#pol2').text(d.odpowiedzi[2]);
-        $('#pol3').text(d.odpowiedzi[3]);
-
-
-    }
-  
-
-    function LoadData(p) {
-        infoapp('....Ładujemy dane')
-
-        aktualny = 0;
-        poprawne = 0;
-        bledne = 0;
-        aktualizujWyniki();
-
-        getjson("api/ang/" + poziom+'/2', function(data) {
-
-            infoapp('')
-
-         
+            if(aktualny==0)
+            {
+            now = new Date().toISOString();
+            console.log(now);
+            }
+            if (slowo.pol == slowo.odpowiedzi[id]) {
+                sendMessage('1',slowo.ang,slowo.pol);
+                poprawne = poprawne + 1;
+                slowo.stan = 1;
+            } else {
+                sendMessage('0',slowo.ang,slowo.pol);
+                bledne = bledne + 1;
+                infoapp(slowo.ang + ':' + slowo.pol);
+                slowo.stan = 2;
+            }
 
 
-            slownik = data;
+            aktualny = aktualny + 1;
 
-            showData(0)
+             aktualizujWyniki();
+            if (aktualny >= iloscall) {
 
-        }, function(data) {
-
-            console.log(data.message);
-
+                wyslijodpowiedzi();
 
 
+            } else {
+                showData(aktualny);
+            }
 
-        })
-    }
+        }
+
+        function infoapp(tekst) {
+
+            $('#info').text(tekst)
+        }
+
+        function showData(pos) {
+
+            var d = slownik.slowa[pos];
+
+            $('#ang').text(d.ang);
+            $('#pol0').text(d.odpowiedzi[0]);
+            $('#pol1').text(d.odpowiedzi[1]);
+            $('#pol2').text(d.odpowiedzi[2]);
+            $('#pol3').text(d.odpowiedzi[3]);
+
+
+        }
+
+    // typ 0 to ang-->pol
+        // typ 1 to pol-->ang
+
+        function LoadData() {
+            infoapp('....Ładujemy dane')
+       
+            aktualny = 0;
+            poprawne = 0;
+            bledne = 0;
+            aktualizujWyniki();
+
+            getjson("api/ang/" + poziom+'/'+typ, function(data) {
+
+                infoapp('')
+
+
+
+
+                slownik = data;
+
+                showData(0)
+            
+
+            }, function(data) {
+
+                console.log(data.message);
+                hideLoader()
+
+
+
+
+            })
+        }
 </script>
