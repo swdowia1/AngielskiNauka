@@ -17,7 +17,7 @@ namespace AngielskiNauka.Pages
             pods = new List<Podsumowanie>();
         }
 
-        public void OnGet()
+        public void OnGet(int id = 0)
         {
             //string[] plik = Directory.GetFiles(@"C:\dyskD\wywal\angHtml", "*.txt");
 
@@ -45,12 +45,15 @@ namespace AngielskiNauka.Pages
             //}
 
             CultureInfo polish = new CultureInfo("pl-PL");
-            stat = _db.Stats.Where(w => w.Data > DateTime.Now.AddDays(-30)).OrderByDescending(j => j.Data).Select(h =>
+            stat = _db.Stats.Where(w =>(id==0||(id>0 && w.PoziomId==id)) && w.Data > DateTime.Now.AddDays(-30)).OrderByDescending(j => j.Data).Select(h =>
 
                new StatView()
                {
                    Data = h.Data.ToString("MMMM d (dddd)", polish) + " " + h.Data.ToString("HH:mm"),
                    Ilosc = h.Ilosc,
+                   OK = h.Ok,
+                   Zle = h.Zle,
+                   Razem = h.Ok + h.Zle,
                    Powyzej = h.Ilosc > 80,
                    Poziom = h.Poziom.Nazwa,
                    Id = h.Id

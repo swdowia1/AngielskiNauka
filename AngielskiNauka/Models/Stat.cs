@@ -5,6 +5,8 @@ public partial class Stat
     public int Id { get; set; }
 
     public int Ilosc { get; set; }
+    public int Ok { get; set; }
+    public int Zle { get; set; }
 
     public DateTime Data { get; set; }
 
