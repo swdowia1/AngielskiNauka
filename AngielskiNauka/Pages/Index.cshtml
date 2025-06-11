@@ -114,6 +114,9 @@
         }
 </style>
 <span style="color:brown;font-size:x-large">Poziom @Model.poziomnazwa</span>
+<br />
+<partial name="_Info" model="@Model.poziom" />
+<br />
 <div id="angdiv" class="zaokraglony-div" onclick="angielski()" style="background-color: #ccffcc;">
     Lekcja:
     <img src="~/img/ang.png" class="flag" alt="Angielska flaga" />
@@ -174,7 +177,7 @@ Zostało:
     <div id="repeat-list"></div>
 </div>
 
-<partial name="_Info" model="@Model.poziom" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 

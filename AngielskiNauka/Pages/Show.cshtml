@@ -36,6 +36,7 @@
     }
 </style>
 <h1>Statystyka dla poziomu: @Model.PoziomName</h1>
+<partial name="_Info" model="@Model.poziomid" />
 <canvas id="myChart" width="800" height="500"></canvas>
 <partial name="_PodSum" model="Tuple.Create(@tytul_stan,@Model.listByStatus,1)" />
 

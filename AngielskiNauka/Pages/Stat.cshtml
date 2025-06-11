@@ -8,6 +8,10 @@
 }
 
 <div>Ilosc powyzej 80%</div>
+@if (Model.poziomid>0)
+{
+    <partial name="_Info" model="@Model.poziomid" />
+}
 <table class="table table-striped">
     <thead>
         <tr>
