@@ -71,6 +71,21 @@
         color: #2b6cb0;
     }
 
+    .fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color:aliceblue;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+
     .summary {
         margin-bottom: 20px;
         padding: 10px;
@@ -116,7 +131,8 @@
 <br />
 <span style="color:brown;font-size:x-large" id="info"></span>
 
-<div class="quiz-container">
+<div id="quizContainer" class="quiz-container">
+    <button id="fullscreenBtn">🔍</button>
     <div class="question"> <span id="ang"></span></div>
     <div class="answers">
         <button onclick="answer(0)" id="pol0"></button>
@@ -164,6 +180,10 @@ Zostało:
 
 <script>
          var now = new Date().toISOString();
+          document.getElementById("fullscreenBtn").addEventListener("click", function () {
+        const quiz = document.getElementById("quizContainer");
+        quiz.classList.toggle("fullscreen");
+    });
         const connection = new signalR.HubConnectionBuilder()
                .withUrl("/chathub")
                .build();
@@ -246,6 +266,8 @@ Zostało:
 
 
         function wyslijodpowiedzi() {
+                const quiz = document.getElementById("quizContainer");
+    quiz.classList.remove("fullscreen");
             wait('Wysłamy odpowiedzi');
 
 
