@@ -81,9 +81,9 @@
         z-index: 9999;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content:left;
         align-items: center;
-        color: white;
+        color: black;
     }
 
     .summary {
@@ -143,6 +143,8 @@
         <button onclick="answer(2)" id="pol2"></button>
         <button onclick="answer(3)" id="pol3"></button>
     </div>
+    <div> Zostało: <span id="zostaloid">0</span> słówek</div>
+   
 </div>
 @* <div id="nauka-bar-container" style="margin-top: 30px; height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
     <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;"></div>
@@ -153,12 +155,7 @@ Stan:
         <span id="postepid">0</span>
     </div>
 </div>
-Zostało:
-<div style="width: 100%; background-color: #e3e9f0; border-radius: 10px; margin-bottom: 20px;">
-    <div id="progress-bar" style="height: 25px; width: 0%; background-color: #2b6cb0; border-radius: 10px;text-align:center">
-        <span id="zostaloid">0</span>
-    </div>
-</div>
+
 <div id="wyniki" style="margin-top:20px; font-size:18px; color:#555;">
     ✅ Dobrze: <span id="dobrze">0</span> |
     ❌ Źle: <span id="zle">0</span>
@@ -182,229 +179,181 @@ Zostało:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 
 <script>
-         var now = new Date().toISOString();
-          document.getElementById("fullscreenBtn").addEventListener("click", function () {
+    var now = new Date().toISOString();
+
+    document.getElementById("fullscreenBtn").addEventListener("click", function () {
         const quiz = document.getElementById("quizContainer");
         quiz.classList.toggle("fullscreen");
     });
-        const connection = new signalR.HubConnectionBuilder()
-               .withUrl("/chathub")
-               .build();
 
-        connection.start().catch(err => console.error(err.toString()));
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chathub")
+        .build();
 
-            var poziom = '@Model.poziom';
-                var typ=0; // 0 to angielski, 1 to polski
-        var mnoznik = '@Model.mnoznik';
-        var iloscall = '@Model.ile';
-        var aktualny = 0;
-        var poprawne = 0;
-        var bledne = 0;
+    connection.start().catch(err => console.error(err.toString()));
 
-        LoadData()
-        function angielski()
-        {
-                document.getElementById('angdiv').style.backgroundColor = '#ccffcc'; // np. zielony
-                 document.getElementById('poldiv').style.backgroundColor = '#f0f0f0'; // np. zielony
+    var poziom = '@Model.poziom';
+    var typ = 0; // 0 to angielski, 1 to polski
+    var mnoznik = '@Model.mnoznik';
+    var iloscall = '@Model.ile';
+    var aktualny = 0;
+    var poprawne = 0;
+    var bledne = 0;
 
+    LoadData();
 
-        typ=0;
+    function angielski() {
+        document.getElementById('angdiv').style.backgroundColor = '#ccffcc';
+        document.getElementById('poldiv').style.backgroundColor = '#f0f0f0';
+        typ = 0;
         LoadData();
-        }
-        function polski()
-        {
-             document.getElementById('poldiv').style.backgroundColor = '#ccffcc'; // np. zielony
-                 document.getElementById('angdiv').style.backgroundColor = '#f0f0f0'; // np. zielony
-                 typ=1;
-            LoadData();
-        }
-        function aktualizujWyniki() {
-            $('#dobrze').text(poprawne);
+    }
 
-            aktualizujKolorNauki((poprawne/aktualny)*100);
-            $('#zle').text(bledne);
-            var zostalo=iloscall-aktualny
-             setValue('zostaloid',zostalo);
+    function polski() {
+        document.getElementById('poldiv').style.backgroundColor = '#ccffcc';
+        document.getElementById('angdiv').style.backgroundColor = '#f0f0f0';
+        typ = 1;
+        LoadData();
+    }
 
+    function aktualizujWyniki() {
+        $('#dobrze').text(poprawne);
+        $('#zle').text(bledne);
 
-            var progress = (aktualny / iloscall) * 100;
+        var zostalo = iloscall - aktualny;
+        setValue('zostaloid', zostalo);
 
+        var progress = (aktualny / iloscall) * 100;
+        $('#progress-bar').css('width', progress + '%');
 
-            $('#progress-bar').css('width', progress + '%');
-        }
-        function aktualizujKolorNauki(procent) {
+        aktualizujKolorNauki((poprawne / aktualny) * 100);
+    }
 
-            if (!isNaN(procent)) {
-                setValue('postepid', Math.floor(procent));
-
-            }
-            else {
-                setValue('postepid', '');
-            }
-
-            const bar = document.getElementById('nauka-bar');
-            bar.style.width = procent + '%';
-            bar.style.backgroundColor = getKolorZPalety(procent);
-            bar.style.transition = 'width 0.5s ease, background-color 0.5s ease';
+    function aktualizujKolorNauki(procent) {
+        if (!isNaN(procent)) {
+            setValue('postepid', Math.floor(procent));
+        } else {
+            setValue('postepid', '');
         }
 
-        function getKolorZPalety(procent) {
+        const bar = document.getElementById('nauka-bar');
+        bar.style.width = procent + '%';
+        bar.style.backgroundColor = getKolorZPalety(procent);
+        bar.style.transition = 'width 0.5s ease, background-color 0.5s ease';
+    }
 
-            // Przechodzimy od czerwonego (0%) do zielonego (100%)
-            let r, g;
-
-            if (procent < 50) {
-                // Czerwony do żółtego
-                r = 255;
-                g = Math.round(5.1 * procent);  // 0–255
-            } else {
-                // Żółty do zielonego
-                g = 255;
-                r = Math.round(510 - 5.1 * procent); // 255–0
-            }
-
-            return `rgb(${r},${g},0)`;
+    function getKolorZPalety(procent) {
+        let r, g;
+        if (procent < 50) {
+            r = 255;
+            g = Math.round(5.1 * procent);
+        } else {
+            g = 255;
+            r = Math.round(510 - 5.1 * procent);
         }
+        return `rgb(${r},${g},0)`;
+    }
 
+    function wyslijodpowiedzi() {
+        const quiz = document.getElementById("quizContainer");
+        quiz.classList.remove("fullscreen");
 
+        wait('Wysłamy odpowiedzi');
 
-        function wyslijodpowiedzi() {
-                const quiz = document.getElementById("quizContainer");
-    quiz.classList.remove("fullscreen");
-            wait('Wysłamy odpowiedzi');
-
-
-            var teraz = new Date().toISOString();
+        var teraz = new Date().toISOString();
         const d1 = new Date(now);
         const d2 = new Date(teraz);
 
-        const roznicaMs = d2 - d1; // różnica w milisekundach
+        const roznicaMs = d2 - d1;
         const sekundy = Math.floor(roznicaMs / 1000);
         const minuty = Math.floor(sekundy / 60);
-        const godziny = Math.floor(minuty / 60);
-        const dni = Math.floor(godziny / 24);
 
+        setValue('czas', `czas testu: ${minuty % 60} min, ${sekundy % 60} sek.`);
 
-          setValue('czas', `czas testu:  ${minuty % 60} min, ${sekundy % 60} sek.`);
+        postjson("api/ang", slownik, function (data) {
+            setValue('all', data.all);
+            setValue('error', data.error);
+            setValue('learn', data.learn);
+            setValue('ok', data.ok + '(' + data.procent + '%)');
 
-            postjson("api/ang", slownik, function(data) {
+            const repeatList = document.getElementById('repeat-list');
+            data.repeat.forEach(entry => {
+                const [word, translation] = entry.split(':');
+                const div = document.createElement('div');
+                div.className = 'word';
+                div.innerHTML = `<strong>${word}</strong>: ${translation}`;
+                repeatList.appendChild(div);
+            });
 
-                setValue('all', data.all);
-                setValue('error', data.error);
-                setValue('learn', data.learn);
-                setValue('ok', data.ok+'('+data.procent+'%)');
+            LoadData();
+            hideLoader();
+        }, function (data) {
+            hideLoader();
+        });
+    }
 
-                const repeatList = document.getElementById('repeat-list');
-                data.repeat.forEach(entry => {
-                    const [word, translation] = entry.split(':');
-                    const div = document.createElement('div');
-                    div.className = 'word';
-                    div.innerHTML = `<strong>${word}</strong>: ${translation}`;
-                    repeatList.appendChild(div);
-                });
+    function sendMessage(status, ang, pol) {
+        connection.invoke("SendMessage", status, ang, pol).catch(err => console.error(err.toString()));
+    }
 
-                LoadData()
-                hideLoader()
+    function answer(id) {
+        var slowo = slownik.slowa[aktualny];
 
-            }, function(data) {
-
-
-                hideLoader()
-
-            })
-            }
-
-
-
-         function sendMessage(status,ang,pol) {
-
-            connection.invoke("SendMessage", status, ang,pol).catch(err => console.error(err.toString()));
-        }
-
-        function answer(id) {
-
-            var slowo = slownik.slowa[aktualny];
-
-            if(aktualny==0)
-            {
+        if (aktualny == 0) {
             now = new Date().toISOString();
             console.log(now);
-            }
-            if (slowo.pol == slowo.odpowiedzi[id]) {
-                sendMessage('1',slowo.ang,slowo.pol);
-                poprawne = poprawne + 1;
-                slowo.stan = 1;
-            } else {
-                sendMessage('0',slowo.ang,slowo.pol);
-                bledne = bledne + 1;
-                infoapp(slowo.ang + ':' + slowo.pol);
-                slowo.stan = 2;
-            }
-
-
-            aktualny = aktualny + 1;
-
-             aktualizujWyniki();
-            if (aktualny >= iloscall) {
-
-                wyslijodpowiedzi();
-
-
-            } else {
-                showData(aktualny);
-            }
-
         }
 
-        function infoapp(tekst) {
-
-            $('#info').text(tekst)
+        if (slowo.pol == slowo.odpowiedzi[id]) {
+            sendMessage('1', slowo.ang, slowo.pol);
+            poprawne++;
+            slowo.stan = 1;
+        } else {
+            sendMessage('0', slowo.ang, slowo.pol);
+            bledne++;
+            infoapp(slowo.ang + ':' + slowo.pol);
+            slowo.stan = 2;
         }
 
-        function showData(pos) {
+        aktualny++;
+        aktualizujWyniki();
 
-            var d = slownik.slowa[pos];
-
-            $('#ang').text(d.ang);
-            $('#pol0').text(d.odpowiedzi[0]);
-            $('#pol1').text(d.odpowiedzi[1]);
-            $('#pol2').text(d.odpowiedzi[2]);
-            $('#pol3').text(d.odpowiedzi[3]);
-
-
+        if (aktualny >= iloscall) {
+            wyslijodpowiedzi();
+        } else {
+            showData(aktualny);
         }
+    }
 
-    // typ 0 to ang-->pol
-        // typ 1 to pol-->ang
+    function infoapp(tekst) {
+        $('#info').text(tekst);
+    }
 
-        function LoadData() {
-            infoapp('....Ładujemy dane')
-       
-            aktualny = 0;
-            poprawne = 0;
-            bledne = 0;
-            aktualizujWyniki();
+    function showData(pos) {
+        var d = slownik.slowa[pos];
+        $('#ang').text(d.ang);
+        $('#pol0').text(d.odpowiedzi[0]);
+        $('#pol1').text(d.odpowiedzi[1]);
+        $('#pol2').text(d.odpowiedzi[2]);
+        $('#pol3').text(d.odpowiedzi[3]);
+    }
 
-            getjson("api/ang/" + poziom+'/'+typ, function(data) {
+    // typ 0 to ang-->pol, typ 1 to pol-->ang
+    function LoadData() {
+        infoapp('....Ładujemy dane');
 
-                infoapp('')
+        aktualny = 0;
+        poprawne = 0;
+        bledne = 0;
+        aktualizujWyniki();
 
-
-
-
-                slownik = data;
-
-                showData(0)
-            
-
-            }, function(data) {
-
-                console.log(data.message);
-                hideLoader()
-
-
-
-
-            })
-        }
+        getjson("api/ang/" + poziom + '/' + typ, function (data) {
+            infoapp('');
+            slownik = data;
+            showData(0);
+        }, function (data) {
+            console.log(data.message);
+            hideLoader();
+        });
+    }
 </script>
