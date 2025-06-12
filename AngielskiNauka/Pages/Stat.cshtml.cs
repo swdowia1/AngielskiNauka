@@ -9,6 +9,7 @@ namespace AngielskiNauka.Pages
     {
         public List<StatView> stat;
         public List<Podsumowanie> pods;
+        public int poziomid { get; set; }
         AaaswswContext _db;
 
         public StatModel(AaaswswContext db)
@@ -19,33 +20,10 @@ namespace AngielskiNauka.Pages
 
         public void OnGet(int id = 0)
         {
-            //string[] plik = Directory.GetFiles(@"C:\dyskD\wywal\angHtml", "*.txt");
-
-
-            //foreach (var item in plik)
-            //{
-            //    string[] linie = System.IO.File.ReadAllLines(item);
-            //    foreach (string linia in linie)
-            //    {
-
-            //        string[] kol = linia.Split(';');
-            //        if (kol.Length == 2)
-            //        {
-            //            Dane d = new Dane();
-            //            d.Ang = kol[0];
-            //            d.Pol = kol[1];
-            //            d.PoziomId = 1;
-            //            d.Data = DateTime.Now;
-            //            _db.Danes.Add(d);
-            //        }
-
-
-            //    }
-            //    _db.SaveChanges();
-            //}
+            poziomid = id;
 
             CultureInfo polish = new CultureInfo("pl-PL");
-            stat = _db.Stats.Where(w =>(id==0||(id>0 && w.PoziomId==id)) && w.Data > DateTime.Now.AddDays(-30)).OrderByDescending(j => j.Data).Select(h =>
+            stat = _db.Stats.Where(w => (id == 0 || (id > 0 && w.PoziomId == id)) && w.Data > DateTime.Now.AddDays(-30)).OrderByDescending(j => j.Data).Select(h =>
 
                new StatView()
                {
