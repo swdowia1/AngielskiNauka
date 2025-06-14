@@ -4,7 +4,7 @@
 @inject LocService ls
 @{
     int lp = 1;
-    double procent=((Model.slowa.Where(j => j.Stan >0).Count()*1.0/Model.slowa.Count()))*100;
+    double procent = ((Model.slowa.Where(j => j.Stan > 0).Count() * 1.0 / Model.slowa.Count())) * 100;
     string tytul_data = "Grupowanie po dacie";
     string tytul_stan = "Grupowanie po stan";
 }
@@ -16,6 +16,7 @@
     .bialy {
         background-color: white;
     }
+
     #scrollTopBtn {
         position: fixed;
         bottom: 100px;
@@ -31,9 +32,10 @@
         display: none; /* ukryty domyślnie */
         box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
-    #scrollTopBtn:hover {
-        background-color: #0056b3;
-    }
+
+        #scrollTopBtn:hover {
+            background-color: #0056b3;
+        }
 </style>
 <h1>Statystyka dla poziomu: @Model.PoziomName</h1>
 <partial name="_Info" model="@Model.poziomid" />
@@ -45,7 +47,7 @@
     <thead>
         <tr>
             <th>@ls.Get("lp")</th>
-           
+
             <th>@ls.Get("ang")</th>
             <th>@ls.Get("pol")</th>
             <th>Stan</th>
@@ -59,26 +61,26 @@
         {
 
             var rowClass = lp <= Model.Ile ? "zielony" : "bialy";
-           @*  var polandTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+            @*  var polandTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 
             // Konwersja daty
             var dataAktPoland = TimeZoneInfo.ConvertTimeFromUtc(item.DataAkt.ToUniversalTime(), polandTimeZone); *@
-            
+
 
             <tr class="@rowClass">
                 <td>@(lp++)</td>
-                
+
                 <td>
                     <a href="/daneedit/@item.DaneId">@item.Ang</a>
                 </td>
                 <td>@item.Pol</td>
-                
+
                 <td>@item.Stan</td>
-               @if(item.DataAkt.Year>2000)
-               {
+                @if (item.DataAkt.Year > 2000)
+                {
                     var sformatowanaData = item.DataAkt.ToString("dddd d MMMM", new System.Globalization.CultureInfo("pl-PL"));
                     <td class="nowrap">@sformatowanaData</td>
-               }
+                }
 
             </tr>
 
@@ -101,11 +103,16 @@
                 data: data,
                 backgroundColor: 'rgba(75, 192, 192, 0.5)',
                 borderColor: 'rgba(75, 192, 192, 1)',
+                  hoverBackgroundColor: 'red', // color when hovered
                 borderWidth: 1
             }]
         },
         options: {
             responsive: false,
+               hover: {
+      mode: 'nearest',
+      intersect: true
+    },
             scales: {
                 y: {
                     beginAtZero: true,
@@ -164,9 +171,9 @@
     function scrollToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-   
 
-   
+
+
     function tabela(divName, title, x, y) {
 
         // Render the chart
