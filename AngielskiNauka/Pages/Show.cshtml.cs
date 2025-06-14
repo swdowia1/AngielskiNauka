@@ -44,7 +44,7 @@ DataAkt = n.DataAkt,
                 {
                     nazwa = g.Key.ToString("yyyyMMdd", new System.Globalization.CultureInfo("pl-PL")),
                     ilosc = g.Count()
-                }).OrderBy(n => n.nazwa)
+                }).OrderByDescending(n => n.nazwa)
                 .ToList();
 
             listByStatus = slowa
