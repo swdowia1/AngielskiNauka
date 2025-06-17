@@ -42,10 +42,17 @@
         @foreach (var item in Model.lista)
         {
             <tr>
-                <td>@item.nazwa</td>
+                <td>
+                    <a title="Przeglad slowek" href="/show?id=@item.id">@item.nazwa</a>
+                
+                </td>
+                <td>
+                    <a title="Przeglad slowek" href="/stat?id=@item.id">stat</a>
+
+                </td>
                 <td>
                    
-                    <a href="/?id=@item.id">Testuj2</a>
+                    <a title="Wykonaj test" href="/?id=@item.id">Testuj2</a>
 
                 </td>
                 <td>
