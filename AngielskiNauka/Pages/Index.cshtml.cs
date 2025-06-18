@@ -23,12 +23,31 @@ namespace AngielskiNauka.Pages
             _config = config;
         }
 
-        public void OnGet(int id = 51)
+        public void OnGet(int? id)
         {
+            if (id == null)
+            {
+                var cookieValue = Request.Cookies["id"];
+                if (int.TryParse(cookieValue, out int parsedId))
+                {
+                    id = parsedId;
+                }
+                else
+                {
+                    id = 51; // fallback na domyœln¹ wartoœæ
+                }
+            }
+            else 
+            {
+                Response.Cookies.Append("id", id.Value.ToString());
+            }
 
-            var Poz = _service.GetPoziom(id);
+            // Teraz masz pewnoœæ, ¿e id ma wartoœæ
+            int finalId = id.Value;
 
-            poziom = id;
+            var Poz = _service.GetPoziom(finalId);
+
+            poziom = finalId;
             poziomnazwa = Poz.Nazwa;
             ile = _service.Ile();
             mnoznik = 100 / ile;
