@@ -35,11 +35,28 @@ namespace AngielskiNauka.Pages
                 else
                 {
                     id = 51; // fallback na domyœln¹ wartoœæ
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddDays(7), // cookie wa¿ne przez 7 dni
+                        HttpOnly = true,
+                        Secure = true,
+                        IsEssential = true,
+                        SameSite = SameSiteMode.Strict
+                    };
+                    Response.Cookies.Append("id", id.Value.ToString(), cookieOptions);
                 }
             }
             else 
             {
-                Response.Cookies.Append("id", id.Value.ToString());
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddDays(7), // cookie wa¿ne przez 7 dni
+                    HttpOnly = true,
+                    Secure = true,
+                    IsEssential = true,
+                    SameSite = SameSiteMode.Strict
+                };
+                Response.Cookies.Append("id", id.Value.ToString(), cookieOptions);
             }
 
             // Teraz masz pewnoœæ, ¿e id ma wartoœæ
