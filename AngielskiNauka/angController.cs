@@ -74,7 +74,7 @@ namespace AngielskiNauka
                     word.Odpowiedzi = wrongAnswers.ToArray();
                 }
                 
-                result.Slowa = Slowa;
+                result.Slowa = Slowa.OrderBy(x => Guid.NewGuid()).ToArray();
 
                 result.PoziomId= poziom;
                 return new JsonResult(result);
