@@ -51,7 +51,7 @@
             <th>@ls.Get("ang")</th>
             <th>@ls.Get("pol")</th>
             <th>Stan</th>
-            <th>Data</th>
+            <th>Kiedy test</th>
 
 
         </tr>
@@ -90,8 +90,13 @@
 </table>
 <button onclick="scrollToTop()" id="scrollTopBtn" title="Do góry">⬆</button>
 <script>
-     var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.listByData.Select(x => x.nazwa)));
+    var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.listByData.Select(x => x.nazwa)));
     var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.listByData.Select(x => x.ilosc)));
+
+    var sum = data.reduce((a, b) => a + b, 0);
+    var avg = sum / data.length;
+    var averageLine = Array(data.length).fill(avg);
+    var avgLabel = 'Średnia: ' + avg.toFixed(2); // zaokrąglamy do 2 miejsc
     const ctx = document.getElementById('myChart').getContext('2d');
 
        new Chart(ctx, {
@@ -105,7 +110,19 @@
                 borderColor: 'rgba(75, 192, 192, 1)',
                   hoverBackgroundColor: 'red', // color when hovered
                 borderWidth: 1
-            }]
+            },
+                {
+        label: 'Średnia',
+        label: avgLabel,   // <-- tu dynamiczna etykieta
+         type: 'line',
+        data: averageLine,
+        borderColor: 'green',
+        borderWidth: 1,           // cienka linia
+        pointRadius: 0,           // bez punktów
+        pointHoverRadius: 0,      // brak efektu hover
+        fill: false,              // bez wypełnienia
+        tension: 0                // linia prosta
+    }]
         },
         options: {
             responsive: false,
@@ -145,15 +162,18 @@
                 const { ctx, data, chartArea: { top }, scales: { x, y } } = chart;
 
                 ctx.save();
-                chart.data.datasets.forEach((dataset, i) => {
-                    chart.getDatasetMeta(i).data.forEach((bar, index) => {
-                        const value = dataset.data[index];
-                        ctx.fillStyle = '#000';
-                        ctx.font = '12px sans-serif';
-                        ctx.textAlign = 'center';
-                        ctx.fillText(value, bar.x, bar.y - 5);
-                    });
-                });
+                   chart.data.datasets.forEach((dataset, i) => {
+        // Pomijamy linię średniej
+        if (dataset.label.startsWith('Średnia:')) return;
+
+        chart.getDatasetMeta(i).data.forEach((bar, index) => {
+            const value = dataset.data[index];
+            ctx.fillStyle = '#000';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(value, bar.x, bar.y - 5);
+        });
+    });
             }
         }]
     });
