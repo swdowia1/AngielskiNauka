@@ -48,9 +48,9 @@ namespace AngielskiNauka
 
                 Quiz[] Slowa = null;
                 if (ang == 0)
-                    Slowa = listastart.Select(k => new Quiz() { Id = k.DaneId, Ang = k.Ang, Pol = k.Pol }).ToArray();
+                    Slowa = listastart.Select(k => new Quiz() { Id = k.DaneId, Ang = k.Ang, Pol = k.Pol ,Poziom=k.Stan}).ToArray();
                 else
-                    Slowa = listastart.Select(k => new Quiz() { Id = k.DaneId, Ang = k.Pol, Pol = k.Ang }).ToArray();
+                    Slowa = listastart.Select(k => new Quiz() { Id = k.DaneId, Ang = k.Pol, Pol = k.Ang,Poziom = k.Stan }).ToArray();
 
                 foreach (var word in Slowa)
                 {
