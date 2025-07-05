@@ -24,7 +24,9 @@
         public string Pol { get; set; }
 
         public string[] Odpowiedzi { get; set; }
-   
+
+        public int Poziom { get; set; }
+
         public Stan stan { get; set; }
    
     }

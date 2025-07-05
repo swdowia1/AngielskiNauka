@@ -136,7 +136,9 @@
 
 <div id="quizContainer" class="quiz-container">
     <button id="fullscreenBtn">🔍</button>
-    <div class="question"> <span id="ang"></span></div>
+    <div class="question"> <span id="ang"></span>
+        <span id="poziom" style="margin-left: 10px;color:darkorange">aaa</span>
+    </div>
     <div class="answers">
         <button onclick="answer(0)" id="pol0"></button>
         <button onclick="answer(1)" id="pol1"></button>
@@ -146,9 +148,7 @@
     <div> Zostało: <span id="zostaloid">0</span> słówek</div>
    
 </div>
-@* <div id="nauka-bar-container" style="margin-top: 30px; height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
-    <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;"></div>
-</div> *@
+
 Stan:
 <div id="nauka-bar-container" style="height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
     <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;text-align:center">
@@ -331,7 +331,15 @@ Stan:
 
     function showData(pos) {
         var d = slownik.slowa[pos];
+        
         $('#ang').text(d.ang);
+        if (d.poziom < 0) {
+            setValue('poziom', '*'.repeat(d.poziom*-1))
+        }
+        else {
+            setValue('poziom', '')
+        }
+        
         $('#pol0').text(d.odpowiedzi[0]);
         $('#pol1').text(d.odpowiedzi[1]);
         $('#pol2').text(d.odpowiedzi[2]);
