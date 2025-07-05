@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-12 d-flex align-items-center">
                     <div id="ang" class="fontfiszka h1 bg-warning text-dark me-3">Ang</div>
-                    <span id="postep"></span>
+                    <span id="poziom" style="margin-left: 10px;color:darkorange">aaa</span>
                 </div>
             </div>
         </div>
@@ -103,7 +103,13 @@
         $("#ang").html(s.Ang);
         $("#pol").html(s.Pol);
         $("#stan").html(pozycja+'/'+slowailosc);
-        setValue('postep',s.Postep)
+       
+         if (s.Postep< 0) {
+            setValue('poziom', '*'.repeat(s.Postep*-1))
+        }
+        else {
+            setValue('poziom', '')
+        }
     }
     function dalej() {
         pos = pos + 1;
