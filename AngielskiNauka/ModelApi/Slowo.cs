@@ -9,6 +9,7 @@
         public string[] Odpowiedzi { get; set; }
         public DateTime Data { get; set; }
         public Stan stan { get; set; }
+        public int Postep { get; set; }
         public int Poziom { get; set; }
     }
     public class WordPair
