@@ -59,7 +59,7 @@ namespace AngielskiNauka.Unit
 
 
 
-        public List<Dane> DaneNauka(int id, int ilosc = 20)
+        public List<Dane> DaneNauka(int id, int? ilosc = 20)
         {
             try
             {

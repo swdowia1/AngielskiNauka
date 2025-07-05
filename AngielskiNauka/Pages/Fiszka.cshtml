@@ -10,13 +10,15 @@
    
     Klawisz: <-- --> w dół idz do pierwszego
     <br />    <br />    <br />
-    <div class="container" onclick="dalej()">
-        <div class="row">
-            <div id="ang" class="fontfiszka col-md-6 h1 bg-warning text-dark">Ang</div>
-              
+    
+        <div class="container" onclick="dalej()">
+            <div class="row">
+                <div class="col-md-12 d-flex align-items-center">
+                    <div id="ang" class="fontfiszka h1 bg-warning text-dark me-3">Ang</div>
+                    <span id="poziom" style="margin-left: 10px;color:darkorange">aaa</span>
+                </div>
+            </div>
         </div>
-    </div>
-     
     <div class="container" onclick="dalej()">
         <div id="divpol" class="row">
             <div class="col-md-6"><span id="pol" class="fontfiszka">pol</span></div>
@@ -101,6 +103,13 @@
         $("#ang").html(s.Ang);
         $("#pol").html(s.Pol);
         $("#stan").html(pozycja+'/'+slowailosc);
+       
+         if (s.Postep< 0) {
+            setValue('poziom', '*'.repeat(s.Postep*-1))
+        }
+        else {
+            setValue('poziom', '')
+        }
     }
     function dalej() {
         pos = pos + 1;

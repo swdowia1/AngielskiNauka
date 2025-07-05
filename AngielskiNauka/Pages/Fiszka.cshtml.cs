@@ -21,12 +21,13 @@ namespace AngielskiNauka.Pages
         {
             poziom = id;
 
-            List = _service.DaneFiszka(id).Select(
+            List = _service.DaneNauka(id,null).Select(
                 (j, index) => new Slowo()
                 {
                     Id = index + 1,
                     Pol = j.Pol,
-                    Ang = j.Ang
+                    Ang = j.Ang,
+                    Postep = j.Stan,
                 }).ToList();
 
 
