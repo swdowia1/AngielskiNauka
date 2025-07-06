@@ -277,6 +277,7 @@ Stan:
             setValue('ok', data.ok + '(' + data.procent + '%)');
 
             const repeatList = document.getElementById('repeat-list');
+            repeatList.innerHTML = '';
             data.repeat.forEach(entry => {
                 const [word, translation] = entry.split(':');
                 const div = document.createElement('div');
