@@ -23,9 +23,10 @@ namespace AngielskiNauka.Pages
            
             Poziom poziom = _db.Pozioms.FirstOrDefault(j => j.PoziomId == id);
             poziomid = id;
+            DateTime dg = new DateTime(2025, 7, 15);
             PoziomName=poziom?.Nazwa ?? "Nie znaleziono poziomu";
             Ile = _db.Ustawienias.FirstOrDefault().Ile;
-            slowa = _db.Danes.Where(j => j.PoziomId == id).OrderBy(k => k.Stan)
+            slowa = _db.Danes.Where(j => j.PoziomId == id && j.DataAkt>dg).OrderBy(k => k.Stan)
                 .ThenBy(j => j.Data)
                 .Select(n => new Dane()
                 {
