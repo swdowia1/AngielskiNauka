@@ -26,7 +26,7 @@ namespace AngielskiNauka.Pages
             DateTime dg = new DateTime(2025, 7, 15);
             PoziomName=poziom?.Nazwa ?? "Nie znaleziono poziomu";
             Ile = _db.Ustawienias.FirstOrDefault().Ile;
-
+         //cos
             slowa = _db.Danes.Where(j => j.PoziomId == id && j.DataAkt>dg).OrderBy(k => k.Stan)
 
                 .ThenBy(j => j.Data)
