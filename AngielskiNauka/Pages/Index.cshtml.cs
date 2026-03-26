@@ -15,12 +15,10 @@ namespace AngielskiNauka.Pages
 
 
         AngService _service;
-        ConfigGlobal _config;
 
-        public IndexModel(AngService service, ConfigGlobal config)
+        public IndexModel(AngService service)
         {
             _service = service;
-            _config = config;
         }
 
         public void OnGet(int? id)
