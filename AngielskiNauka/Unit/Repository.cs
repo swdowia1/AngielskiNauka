@@ -1,6 +1,7 @@
 ﻿using AngielskiNauka.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using SkiaSharp;
 using System.Data;
 using System.Linq.Expressions;
 
@@ -202,7 +203,18 @@ namespace AngielskiNauka.Unit
             }
 
         }
+        public T GetRandom<T>(Expression<Func<T, bool>> predicate) where T : class
+        {
+            var query = _db.Set<T>().Where(predicate);
 
+            var count = query.Count();
+            if (count == 0) return null;
+
+            var rand = new Random();
+            var index = rand.Next(count);
+
+            return query.Skip(index).FirstOrDefault();
+        }
         public void Delete<T>(Expression<Func<T, bool>> predicate) where T : class
         {
             var entity = _db.Set<T>().FirstOrDefault(predicate);

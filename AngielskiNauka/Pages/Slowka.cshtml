@@ -2,4 +2,165 @@
 @model AngielskiNauka.Pages.SlowkaModel
 @{
 }
+<style>
+    .zaokraglony-div {
+        padding: 15px 20px;
+        border-radius: 20px;
+        display: inline-flex; /* <-- kluczowa zmiana */
+        align-items: center;
+        gap: 10px;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        margin-left: 10px; /* odstęp między divami */
+    }
+
+    body {
+        background: #f0f4f8;
+        font-family: 'Arial', sans-serif;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .quiz-container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        text-align: left;
+    }
+
+    .question {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .answers {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+        .answers button {
+            background-color: #e3e9f0;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: left;
+        }
+
+            .answers button:hover {
+                background-color: #c5d3e0;
+                transform: scale(1.02);
+            }
+
+            .answers button:active {
+                background-color: #a5b8cd;
+                transform: scale(0.98);
+            }
+
+    .result {
+        margin-top: 25px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #2b6cb0;
+    }
+
+    .fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: aliceblue;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+        align-items: center;
+        color: black;
+    }
+
+    .summary {
+        margin-bottom: 20px;
+        padding: 10px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+        .summary div {
+            margin: 5px 0;
+        }
+
+    .words {
+        background: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .word {
+        margin: 5px 0;
+    }
+
+        .word strong {
+            color: #2c3e50;
+        }
+</style>
 <h1>Fiszka czwiczenie: @Model.PoziomName</h1>
+<div id="quizContainer" class="quiz-container">
+    <button id="fullscreenBtn">🔍</button>
+    <div class="question">
+        <span id="ang"></span>
+       
+    </div>
+    <div class="answers">
+        <button onclick="answer(0)" id="pol0"></button>
+        <button onclick="answer(1)" id="pol1"></button>
+        <button onclick="answer(2)" id="pol2"></button>
+        <button onclick="answer(3)" id="pol3"></button>
+    </div>
+    
+
+</div>
+<script>
+    var poziom = '@Model.poziomid';
+    console.log(poziom);
+     LoadData();
+       function answer(id) {
+       console.log(id);
+       
+    }
+    function LoadData() {
+           
+            aktualny = 0;
+            poprawne = 0;
+            bledne = 0;
+         
+
+            getjson("api/baza/getslowa/" + poziom, function (data) {
+              
+                console.log(data);
+                d = data;
+
+                $('#ang').text(d.ang);
+       
+
+        $('#pol0').text(d.odpowiedzi[0]);
+        $('#pol1').text(d.odpowiedzi[1]);
+        $('#pol2').text(d.odpowiedzi[2]);
+        $('#pol3').text(d.odpowiedzi[3]);
+               
+            }, function (data) {
+                console.log(data.message);
+                hideLoader();
+            });
+        }
+</script>

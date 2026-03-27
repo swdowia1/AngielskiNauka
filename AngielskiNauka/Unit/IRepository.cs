@@ -28,6 +28,7 @@ namespace AngielskiNauka.Unit
         void Delete<T>(Expression<Func<T, bool>> predicate) where T : class;
         bool Any<T>(Expression<Func<T, bool>> predicate) where T : class;
         int SaveChanges();
+        T GetRandom<T>(Expression<Func<T, bool>> predicate) where T : class;
         Task<int> RunStoredProcedureNonQuery(string storedProcedure, Dictionary<string, object> parameters);
     }
 }
