@@ -131,7 +131,25 @@ namespace AngielskiNauka.Unit
 
             return 0;
         }
+        public Slowo LosoweSlowo(int poziom)
+        {
+            var losowy = _repository.GetRandom<Dane>(d => d.Stan <=0 &&d.PoziomId==poziom);
+            
+            Slowo result = new Slowo() { Ang = losowy.Ang, Pol = losowy.Pol, Id = losowy.DaneId};
+            List<string> odp = new List<string>();
+            odp.Add(losowy.Pol);
+            odp.AddRange(_repository.GetAll<Dane>(d => d.DaneId > losowy.DaneId && d.PoziomId == poziom).Select(k => k.Pol).Take(3).ToList());
 
+
+
+            odp.Losuj();
+            result.Odpowiedzi = odp.ToArray();
+
+
+
+
+            return result;
+        }
         internal void updateword(DaneUpdate dane)
         {
             Dane d = _repository.GetById<Dane>(dane.Id);

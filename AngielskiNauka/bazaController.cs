@@ -1,4 +1,5 @@
 ﻿using AngielskiNauka.ModelApi;
+using AngielskiNauka.Models;
 using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,20 @@ namespace AngielskiNauka
            
 
             return new JsonResult(1);
+        }
+
+        // Czwarta metoda GET zwracająca listę Job
+        [HttpGet("getslowa/{poziom}")]
+        public async Task<ActionResult<Slowo>> getslowa(int poziom)
+        {
+
+            Slowo result = _service.LosoweSlowo(poziom);
+
+            return new JsonResult(result);
+
+
+
+            
         }
     }
 }
