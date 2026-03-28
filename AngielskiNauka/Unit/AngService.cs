@@ -131,11 +131,11 @@ namespace AngielskiNauka.Unit
 
             return 0;
         }
-        public Slowo LosoweSlowo(int poziom)
+        public Fiszka LosoweSlowo(int poziom)
         {
             var losowy = _repository.GetRandom<Dane>(d => d.Stan <=0 &&d.PoziomId==poziom);
-            
-            Slowo result = new Slowo() { Ang = losowy.Ang, Pol = losowy.Pol, Id = losowy.DaneId};
+            List<Dane> d = DaneFiszka(poziom);
+            Fiszka result = new Fiszka() { Ang = losowy.Ang, Pol = losowy.Pol, Id = losowy.DaneId};
             List<string> odp = new List<string>();
             odp.Add(losowy.Pol);
             odp.AddRange(_repository.GetAll<Dane>(d => d.DaneId > losowy.DaneId && d.PoziomId == poziom).Select(k => k.Pol).Take(3).ToList());
@@ -144,7 +144,9 @@ namespace AngielskiNauka.Unit
 
             odp.Losuj();
             result.Odpowiedzi = odp.ToArray();
-
+            result.Mniej = d.Count(k => k.Stan < 0);
+            result.Rowna = d.Count(k => k.Stan ==0);
+            result.Wiecej = d.Count(k =>k.DataAkt.Date==DateTime.Now.Date);
 
 
 
@@ -157,7 +159,26 @@ namespace AngielskiNauka.Unit
             d.Pol = dane.Pol;
             _repository.Update(d);
         }
+        internal string UpdateSlow(int id,bool isOke)
+        {
+           var slowo = _repository.GetById<Dane>(id);
+            slowo.DataAkt = DateTime.UtcNow;
+            if (isOke)
+            {
+                slowo.Stan += 1;
+            }
+            else
+            {
+                slowo.Stan = 0;
+            }
+            _repository.Update(slowo);
+            if (isOke)
+                return "Dobrze";
+            else
+                return $"Źle: {slowo.Ang}:{slowo.Pol}";
 
+
+        }
         internal async void DeleteLevel(int level)
         {
             var parameters = new Dictionary<string, object>

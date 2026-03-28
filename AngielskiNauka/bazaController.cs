@@ -17,29 +17,27 @@ namespace AngielskiNauka
             _service = service;
         }
 
-        // Czwarta metoda GET zwracająca listę Job
+        
         [HttpPost("update")]
         public async Task<ActionResult<int>> update([FromBody] DaneUpdate dane)
         {
-           
-           // classFun.opuznienie(3);
             _service.updateword(dane);
-           
-
             return new JsonResult(1);
         }
-
-        // Czwarta metoda GET zwracająca listę Job
+        [HttpPost("update/{id}/{typ}")]
+        public async Task<ActionResult<string>> Update(int id,int typ)
+        {
+            string result=_service.UpdateSlow(id, typ==1);
+            return new JsonResult(result);
+        }
+        
         [HttpGet("getslowa/{poziom}")]
-        public async Task<ActionResult<Slowo>> getslowa(int poziom)
+        public async Task<ActionResult<Fiszka>> getslowa(int poziom)
         {
 
-            Slowo result = _service.LosoweSlowo(poziom);
+            Fiszka result = _service.LosoweSlowo(poziom);
 
             return new JsonResult(result);
-
-
-
             
         }
     }
