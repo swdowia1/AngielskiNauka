@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model AngielskiNauka.Pages.SlowkaModel
 
 @{
@@ -8,13 +8,13 @@
     .zaokraglony-div {
         padding: 15px 20px;
         border-radius: 20px;
-        display: inline-flex;
+        display: inline-flex; /* <-- kluczowa zmiana */
         align-items: center;
         gap: 10px;
         font-size: 1.1rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         cursor: pointer;
-        margin-left: 10px;
+        margin-left: 10px; /* odstęp między divami */
     }
 
     body {
@@ -94,7 +94,7 @@
         padding: 10px;
         background: #fff;
         border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
         .summary div {
@@ -105,7 +105,7 @@
         background: #fff;
         padding: 10px;
         border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .word {
@@ -121,19 +121,9 @@
 <br />
 
 <partial name="_Info" model="@Model.poziomid" />
-
 <div id="quizContainer" class="quiz-container">
-
     <div class="question">
         <span id="ang"></span>
-<h1>Fiszka czwiczenie: @Model.PoziomName</h1>
-<br />
-<partial name="_Info" model="@Model.poziomid" />
-<div id="quizContainer" class="quiz-container">
-   
-    <div class="question">
-        <span id="ang"></span>
-
     </div>
 
     <div class="answers">
@@ -142,39 +132,9 @@
         <button onclick="answer(2)" id="pol2"></button>
         <button onclick="answer(3)" id="pol3"></button>
     </div>
-
-    <div>
-        <div>
-            <span id="stan"></span>
-        </div>
-
-        <table>
-           
-            <tr>
-                <td>Jeszcze nie powtórzone</td>
-        
-    <table>
-        <tr>
-            <td>Do nauki</td>
-                <td><span id="mniej"></span></td>
-        </tr>
-            <tr>
-                <td>jeszcze nie powtórzone</td>
-                <td style="color:red"><span id="rowna"></span></td>
-            </tr>
-            <tr>
-                <td>Dzisiaj</td>
-                <td><span id="wiecej"></span></td>
-            </tr>
-            <tr>
-                <td>Teraz odpowiedział</td>
-                <td><span id="teraz"></span></td>
-            </tr>
-        </table>
-    </div>
-
+   
 </div>
-Stan:
+ Stan:
 <div id="nauka-bar-container" style="height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
     <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;text-align:center">
         <span id="postepid">0</span>
@@ -182,130 +142,75 @@ Stan:
 </div>
 <script>
     var poziom = '@Model.poziomid';
-    var teraz = 0;
-    var ok=0;
-    var dane = null;
-     $('#teraz').text(teraz);
-
-      aktualizujKolorNauki(100);
-    LoadData();
-
-    function answer(id) {
-        teraz++;
-       
-        wait('Wysłamy odpowiedzi');
-      
-
-         $('#teraz').text(teraz);
-    </table>
-
-</div>
-</div>
-<script>
-    var poziom = '@Model.poziomid';
-    var dane=null;
-    console.log(poziom);
+     var dane=null;
+     var teraz=0;
+     var ok=0;
      LoadData();
-        function answer(id) {
-             wait('Wysłamy odpowiedzi');
-            console.log(dane);
+     aktualizujKolorNauki(100)
+     function answer(id) {
+        teraz++;
+        wait('Wysłamy odpowiedzi');
         if (dane.pol == dane.odpowiedzi[id]) {
+           
+             ok++;
             postjson("api/baza/update/" + dane.id + "/1", null, function (data) {
                 $('#stan').text(data);
                 LoadData();
-                ok++;
-                console.log("OK: " + ok + " / " + teraz);
-                 aktualizujKolorNauki((ok / teraz) * 100);
-                 
+                  aktualizujKolorNauki((ok / teraz) * 100);
             });
-        } else {
+         
+        }
+        else {
+               console.log(id,0);
             postjson("api/baza/update/" + dane.id + "/0", null, function (data) {
                 $('#stan').text(data);
                 LoadData();
-                 aktualizujKolorNauki((ok / teraz) * 100);
-                 console.log("OK: " + ok + " / " + teraz);
+                  aktualizujKolorNauki((ok / teraz) * 100);
             });
         }
-        
-    }
-    function getKolorZPalety(procent) {
-        let r, g;
-        if (procent < 50) {
-            r = 255;
-            g = Math.round(5.1 * procent);
-        } else {
-            g = 255;
-            r = Math.round(510 - 5.1 * procent);
-        }
-        return `rgb(${r},${g},0)`;
-    }
-     function aktualizujKolorNauki(procent) {
-        if (!isNaN(procent)) {
-            setValue('postepid', Math.floor(procent));
-        } else {
-            setValue('postepid', '');
-        }
 
-        const bar = document.getElementById('nauka-bar');
-        bar.style.width = procent + '%';
-        bar.style.backgroundColor = getKolorZPalety(procent);
-        bar.style.transition = 'width 0.5s ease, background-color 0.5s ease';
     }
-    function LoadData() {
-        getjson("api/baza/getslowa/" + poziom, function (data) {
+     function getKolorZPalety(procent) {
+         let r, g;
+         if (procent < 50) {
+             r = 255;
+             g = Math.round(5.1 * procent);
+         } else {
+             g = 255;
+             r = Math.round(510 - 5.1 * procent);
+         }
+         return `rgb(${r},${g},0)`;
+     }
+      function aktualizujKolorNauki(procent) {
+          
+         if (!isNaN(procent)) {
+             setValue('postepid', Math.floor(procent));
+              setValue('postepid', ok+'/'+teraz);
+         } else {
+             setValue('postepid', '');
+         }
 
-        
-            dane = data;
-
+         const bar = document.getElementById('nauka-bar');
+         bar.style.width = procent + '%';
+         bar.style.backgroundColor = getKolorZPalety(procent);
+         bar.style.transition = 'width 0.5s ease, background-color 0.5s ease';
+     }
+      function LoadData() {
+        getjson("api/baza/getslowa/" + poziom, function (data) 
+        {
+            dane=data;
             $('#ang').text(dane.ang);
+            $('#mniej').text(dane.mniej);
             $('#rowna').text(dane.rowna);
             $('#wiecej').text(dane.wiecej);
-           
-
             $('#pol0').text(dane.odpowiedzi[0]);
             $('#pol1').text(dane.odpowiedzi[1]);
             $('#pol2').text(dane.odpowiedzi[2]);
             $('#pol3').text(dane.odpowiedzi[3]);
-
             hideLoader();
-
-        }, function (data) {
-            console.log(data.message);
-            hideLoader();
-        });
-    }
-                  
-            });
-        }
-        else {
-            postjson("api/baza/update/" + dane.id + "/0", null, function (data) {
-                $('#stan').text(data);
-                LoadData();
-                  
-            });
-        }
-        
-    }
-    function LoadData() {
-            getjson("api/baza/getslowa/" + poziom, function (data) {
-
-                console.table(data);
-                dane=data;
-
-              $('#ang').text(dane.ang);
-                    $('#mniej').text(dane.mniej);
-                      $('#rowna').text(dane.rowna);
-        $('#wiecej').text(dane.wiecej);
-        $('#pol0').text(dane.odpowiedzi[0]);
-        $('#pol1').text(dane.odpowiedzi[1]);
-        $('#pol2').text(dane.odpowiedzi[2]);
-        $('#pol3').text(dane.odpowiedzi[3]);
-         hideLoader();
-
-            }, function (data) {
+           }, function (data) {
                 console.log(data.message);
                 hideLoader();
             });
-    }
-
+        }
 </script>
