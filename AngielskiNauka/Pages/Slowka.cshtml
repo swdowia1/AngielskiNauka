@@ -126,6 +126,14 @@
 
     <div class="question">
         <span id="ang"></span>
+<h1>Fiszka czwiczenie: @Model.PoziomName</h1>
+<br />
+<partial name="_Info" model="@Model.poziomid" />
+<div id="quizContainer" class="quiz-container">
+   
+    <div class="question">
+        <span id="ang"></span>
+
     </div>
 
     <div class="answers">
@@ -144,6 +152,14 @@
            
             <tr>
                 <td>Jeszcze nie powtórzone</td>
+        
+    <table>
+        <tr>
+            <td>Do nauki</td>
+                <td><span id="mniej"></span></td>
+        </tr>
+            <tr>
+                <td>jeszcze nie powtórzone</td>
                 <td style="color:red"><span id="rowna"></span></td>
             </tr>
             <tr>
@@ -181,6 +197,18 @@ Stan:
       
 
          $('#teraz').text(teraz);
+    </table>
+
+</div>
+</div>
+<script>
+    var poziom = '@Model.poziomid';
+    var dane=null;
+    console.log(poziom);
+     LoadData();
+        function answer(id) {
+             wait('Wysłamy odpowiedzi');
+            console.log(dane);
         if (dane.pol == dane.odpowiedzi[id]) {
             postjson("api/baza/update/" + dane.id + "/1", null, function (data) {
                 $('#stan').text(data);
@@ -246,4 +274,38 @@ Stan:
             hideLoader();
         });
     }
+                  
+            });
+        }
+        else {
+            postjson("api/baza/update/" + dane.id + "/0", null, function (data) {
+                $('#stan').text(data);
+                LoadData();
+                  
+            });
+        }
+        
+    }
+    function LoadData() {
+            getjson("api/baza/getslowa/" + poziom, function (data) {
+
+                console.table(data);
+                dane=data;
+
+              $('#ang').text(dane.ang);
+                    $('#mniej').text(dane.mniej);
+                      $('#rowna').text(dane.rowna);
+        $('#wiecej').text(dane.wiecej);
+        $('#pol0').text(dane.odpowiedzi[0]);
+        $('#pol1').text(dane.odpowiedzi[1]);
+        $('#pol2').text(dane.odpowiedzi[2]);
+        $('#pol3').text(dane.odpowiedzi[3]);
+         hideLoader();
+
+            }, function (data) {
+                console.log(data.message);
+                hideLoader();
+            });
+    }
+
 </script>
