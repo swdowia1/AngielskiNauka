@@ -132,13 +132,16 @@
         <button onclick="answer(2)" id="pol2"></button>
         <button onclick="answer(3)" id="pol3"></button>
     </div>
-   
+  
 </div>
  Stan:
 <div id="nauka-bar-container" style="height: 25px; border-radius: 15px; background-color: #e0e0e0; overflow: hidden;">
     <div id="nauka-bar" style="height: 100%; width: 0%; border-radius: 15px;text-align:center">
         <span id="postepid">0</span>
     </div>
+</div>
+<div>
+    <span style="color:orangered" id="popraw"></span>
 </div>
 <script>
     var poziom = '@Model.poziomid';
@@ -154,14 +157,20 @@
            
              ok++;
             postjson("api/baza/update/" + dane.id + "/1", null, function (data) {
-                $('#stan').text(data);
-                LoadData();
-                  aktualizujKolorNauki((ok / teraz) * 100);
+            $('#stan').text(data);
+            LoadData();
+            aktualizujKolorNauki((ok / teraz) * 100);
             });
          
         }
         else {
-               console.log(id,0);
+               console.table('sw',dane.pol, dane.ang);
+                const span = document.getElementById("popraw");
+ 
+    span.innerHTML =
+    dane.ang+':'+dane.pol+'<br/>'
+    + span.innerHTML;
+                 
             postjson("api/baza/update/" + dane.id + "/0", null, function (data) {
                 $('#stan').text(data);
                 LoadData();
@@ -209,7 +218,7 @@
             $('#pol3').text(dane.odpowiedzi[3]);
             hideLoader();
            }, function (data) {
-                console.log(data.message);
+              
                 hideLoader();
             });
         }
