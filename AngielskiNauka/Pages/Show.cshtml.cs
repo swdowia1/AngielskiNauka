@@ -23,11 +23,11 @@ namespace AngielskiNauka.Pages
            DateTime dataGranica = new DateTime(2025, 7, 5);
             Poziom poziom = _db.Pozioms.FirstOrDefault(j => j.PoziomId == id);
             poziomid = id;
-            DateTime dg = new DateTime(2025, 7, 15);
+          
             PoziomName=poziom?.Nazwa ?? "Nie znaleziono poziomu";
             Ile = _db.Ustawienias.FirstOrDefault().Ile;
          //cos
-            slowa = _db.Danes.Where(j => j.PoziomId == id && j.DataAkt>dg).OrderBy(k => k.Stan)
+            slowa = _db.Danes.Where(j => j.PoziomId == id).OrderBy(k => k.Stan)
 
                 .ThenBy(j => j.Data)
                 .Select(n => new Dane()
@@ -41,13 +41,13 @@ DataAkt = n.DataAkt,
                 }).ToList();
 
 
-            listByData = slowa
+            listByData = slowa.Where(n => n.DataAkt > dataGranica)
                 .GroupBy(n => n.DataAkt.Date)
                 .Select(g => new Podsumowanie()
                 {
                     nazwa = g.Key.ToString("yyyyMMdd", new System.Globalization.CultureInfo("pl-PL")),
                     ilosc = g.Count()
-                }).OrderByDescending(n => n.nazwa)
+                }).Where(d=>d.nazwa!="20000101").OrderByDescending(n => n.nazwa)
                 .ToList();
 
             listByStatus = slowa

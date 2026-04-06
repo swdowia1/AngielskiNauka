@@ -36,8 +36,7 @@ namespace AngielskiNauka.Pages
                     line.Add(reader.ReadLine());
             }
             char[] separators = new char[] {  ';', (char)8211 };
-
-
+           
             foreach (var item in line)
             {
                 string[] kol = item.Split(separators, StringSplitOptions.RemoveEmptyEntries);
@@ -48,6 +47,7 @@ namespace AngielskiNauka.Pages
                     d.Pol = kol[1].Trim();
                     d.PoziomId = Number;//poziom hania
                     d.Stan = 10;
+                    d.DataAkt =new DateTime(2000,1,1);
                     d.Data = classFun.GetRandomDate();
                     _db.Danes.Add(d);
                 }
