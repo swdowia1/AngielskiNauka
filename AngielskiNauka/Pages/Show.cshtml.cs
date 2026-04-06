@@ -41,7 +41,7 @@ DataAkt = n.DataAkt,
                 }).ToList();
 
 
-            listByData = slowa
+            listByData = slowa.Where(n => n.DataAkt > dataGranica)
                 .GroupBy(n => n.DataAkt.Date)
                 .Select(g => new Podsumowanie()
                 {
