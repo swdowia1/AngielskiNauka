@@ -33,6 +33,7 @@
     }
     public class WordPair
     {
+        public int DaneId { get; set; }
         public string En { get; set; }
         public string Pl { get; set; }
     }

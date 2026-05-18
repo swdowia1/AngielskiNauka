@@ -28,6 +28,7 @@ namespace AngielskiNauka.Pages
 
             wordPairs = listastart.Select(j => new WordPair()
             {
+                DaneId= j.DaneId,
                 En = j.Ang,
                 Pl = j.Pol
             }).ToList();

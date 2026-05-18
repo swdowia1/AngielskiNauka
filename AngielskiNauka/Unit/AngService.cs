@@ -166,10 +166,12 @@ namespace AngielskiNauka.Unit
             if (isOke)
             {
                 slowo.Stan += 1;
+                slowo.Data = slowo.Data.AddMonths(3);
             }
             else
             {
-                slowo.Stan = 0;
+                slowo.Stan -=1;
+                slowo.Data = slowo.Data.AddMonths(-3);
             }
             _repository.Update(slowo);
             if (isOke)
