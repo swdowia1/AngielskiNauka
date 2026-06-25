@@ -8,6 +8,44 @@ namespace AngielskiNauka.ModelApi
 {
     public class FiszkiDocument : IDocument
     {
+        public List<Dane> Fiszki { get; set; } = new();
+
+        public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
+
+        public void Compose(IDocumentContainer container)
+        {
+            container.Page(page =>
+            {
+                page.Size(PageSizes.A4);
+                page.Margin(30);
+
+                page.DefaultTextStyle(x => x.FontSize(16));
+
+                page.Content().Column(column =>
+                {
+                    foreach (var fiszka in Fiszki.Take(100))
+                    {
+                        column.Item()
+                            .BorderBottom(1)
+                            .BorderColor(Colors.Grey.Lighten2)
+                            .PaddingVertical(15)
+                            .Text(text =>
+                            {
+                                text.Span(fiszka.Ang)
+                                    .SemiBold()
+                                    .FontColor(Colors.Blue.Medium);
+
+                                text.Span(" - ");
+
+                                text.Span(fiszka.Pol);
+                            });
+                    }
+                });
+            });
+        }
+    }
+    public class FiszkiDocument1 : IDocument
+    {
         public List<Dane> Fiszki { get; set; }
 
         public DocumentMetadata GetMetadata() => DocumentMetadata.Default;

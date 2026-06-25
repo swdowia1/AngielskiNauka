@@ -54,7 +54,7 @@ namespace AngielskiNauka.Unit
 
         public List<Dane> DaneFiszka(int id)
         {
-            return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k => k.Stan).ToList();
+            return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k => k.Stan).ThenBy(k => k.Data).ToList();
         }
 
 
