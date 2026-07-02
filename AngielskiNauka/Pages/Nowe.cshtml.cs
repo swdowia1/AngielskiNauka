@@ -43,7 +43,7 @@ namespace AngielskiNauka.Pages
                     
                 }
             }
-
+            PreviewData=PreviewData.OrderByDescending(k => k.Uwaga).ToList();
             return Page();
         }
         public IActionResult OnPostSave()
