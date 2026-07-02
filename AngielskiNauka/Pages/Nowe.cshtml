@@ -7,22 +7,7 @@
     <header>Dodawanie słówek</header>
     <main>
 
-        <form method="post" enctype="multipart/form-data">
-            <input type="file" asp-for="Upload" />
-            wybierz poziom
-
-            <select name="number">
-
-                @foreach (var item in Model.poziomy)
-                {
-                    <option value="@item.Id">@item.Name</option>
-                }
-
-
-            </select>
-            <input type="submit" />
-
-        </form>
+        
         <br />
 
 
@@ -52,7 +37,51 @@
         <button class="button" onclick="setIle(100)">100</button>
     </main>
 </div>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" asp-for="Upload" />
 
+    wybierz poziom
+
+    <select asp-for="Number">
+        @foreach (var item in Model.poziomy)
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+    </select>
+
+    <button type="submit" asp-page-handler="Preview">
+        Podgląd
+    </button>
+</form>
+@if (Model.PreviewData != null && Model.PreviewData.Any())
+{
+    <hr />
+
+    <table class="table">
+        <tr>
+            <th>Angielski</th>
+            <th>Polski</th>
+        </tr>
+
+        @foreach (var item in Model.PreviewData)
+        {
+            <tr>
+                <td>@item.LP</td>
+                <td>@item.ANG</td>
+                <td>@item.POL</td>
+                <td>@item.Linia</td>
+                <td style="color:red">@item.Uwaga</td>
+            </tr>
+        }
+    </table>
+
+    <form method="post">
+        <button type="submit" asp-page-handler="Save"
+                class="btn btn-success">
+            Zapisz do bazy
+        </button>
+    </form>
+}
 <script>
     function setIle(ile) {
         wait('ustawiamy ile ma być słów');
