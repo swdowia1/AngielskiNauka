@@ -9,6 +9,8 @@ namespace AngielskiNauka.Pages
     {
         AaaswswContext _db;
         public List<vString> poziomy;
+        [BindProperty]
+        public List<Upload> PreviewData { get; set; } = new();
         public int Ile { get; set; }
         public NoweModel(AaaswswContext db)
         {
@@ -23,37 +25,34 @@ namespace AngielskiNauka.Pages
         public void OnGet()
         {
         }
-
-        public async Task OnPostAsync()
+        public async Task<IActionResult> OnPostPreviewAsync()
         {
-            //dodajemy dla hannii
-            var file = Upload.FileName;
+            PreviewData = new List<Upload>();
 
-            List<string> line = new List<string>();
             using (var reader = new StreamReader(Upload.OpenReadStream()))
             {
-                while (reader.Peek() >= 0)
-                    line.Add(reader.ReadLine());
-            }
-            char[] separators = new char[] {  ';', (char)8211 };
-           
-            foreach (var item in line)
-            {
-                string[] kol = item.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                if (kol.Length == 2)
+                int lp = 1;
+                while (!reader.EndOfStream)
                 {
-                    Dane d = new Dane();
-                    d.Ang = kol[0].Trim();
-                    d.Pol = kol[1].Trim();
-                    d.PoziomId = Number;//poziom hania
-                    d.Stan = 10;
-                    d.DataAkt =new DateTime(2000,1,1);
-                    d.Data = classFun.GetRandomDate();
-                    _db.Danes.Add(d);
+                    var line = await reader.ReadLineAsync();
+
+                   
+                    
+                        PreviewData.Add(new Upload(line,lp));
+                    lp++;
+                    
                 }
             }
-            _db.SaveChanges();
+            PreviewData=PreviewData.OrderByDescending(k => k.Uwaga).ToList();
+            return Page();
         }
+        public IActionResult OnPostSave()
+        {
+            int gg = Number;
+
+            return RedirectToPage();
+        }
+       
 
     }
 }

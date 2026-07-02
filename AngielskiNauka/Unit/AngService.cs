@@ -54,7 +54,7 @@ namespace AngielskiNauka.Unit
 
         public List<Dane> DaneFiszka(int id)
         {
-            return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k => k.Stan).ToList();
+            return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k => k.Stan).ThenBy(k => k.Data).ToList();
         }
 
 
@@ -166,10 +166,12 @@ namespace AngielskiNauka.Unit
             if (isOke)
             {
                 slowo.Stan += 1;
+                slowo.Data = slowo.Data.AddMonths(3);
             }
             else
             {
-                slowo.Stan = 0;
+                slowo.Stan -=1;
+                slowo.Data = slowo.Data.AddMonths(-3);
             }
             _repository.Update(slowo);
             if (isOke)

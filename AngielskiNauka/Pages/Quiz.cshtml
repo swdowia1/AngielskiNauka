@@ -91,6 +91,8 @@
             div.className = "word";
             div.textContent = pair.en;
             div.dataset.word = pair.en;
+            div.dataset.id = pair.daneId;
+
             div.onclick = () => selectEnglish(div);
             englishCol.appendChild(div);
         });
@@ -107,6 +109,7 @@
 
 
     function selectEnglish(div) {
+        
         if (div.classList.contains("matched")) return;
 
         document.querySelectorAll(".word").forEach(el => el.classList.remove("selected"));
@@ -115,15 +118,21 @@
     }
 
     function selectPolish(div) {
+        
         if (!selectedEN || div.classList.contains("matched")) return;
 
         const enWord = selectedEN.dataset.word;
         const correctMatch = div.dataset.match;
 
         if (enWord === correctMatch) {
+            console.log(selectedEN.dataset.id);
+             
             const matchedEN = selectedEN;
             const matchedPL = div;
-
+             wait('Wysłamy odpowiedzi');
+             postjson("/api/baza/update/" + selectedEN.dataset.id + "/1", null, function (data) {
+             hideLoader();
+            });
             // Opóźnione usunięcie, aby użytkownik widział wynik
             setTimeout(() => {
                 matchedEN.remove();
