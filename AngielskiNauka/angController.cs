@@ -2,8 +2,10 @@
 using AngielskiNauka.Models;
 using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using QuestPDF.Fluent;
 using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,12 +18,14 @@ namespace AngielskiNauka
     {
         AngService _service;
         ConfigGlobal _config;
+        private readonly IHubContext<ChatHub> _hubContext;
         private readonly ILogger<angController> _logger;
-        public angController(AngService service, ConfigGlobal config, ILogger<angController> logger)
+        public angController(AngService service, ConfigGlobal config, ILogger<angController> logger, IHubContext<ChatHub> hubContext)
         {
             _service = service;
             _config = config;
             _logger = logger;
+            _hubContext = hubContext;
         }
 
 
@@ -117,7 +121,7 @@ namespace AngielskiNauka
             wynik.Repeat= value.Slowa.Where(j => j.stan == Stan.zle).Select(k => k.Ang + ":" + k.Pol).ToList();
             wynik.Ok = ok.Count;
             wynik.Procent = (100 / _service.Ile()) * ok.Count;
-
+             _hubContext.Clients.All.SendAsync("TestKoniec",$"Koniec wynik:{wynik.Ok} na {value.Slowa.Length} --> {wynik.Procent}%");
             return new JsonResult(wynik);
           
         }
