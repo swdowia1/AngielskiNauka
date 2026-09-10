@@ -5,7 +5,16 @@
     const connection = new signalR.HubConnectionBuilder()
         .withUrl("/chathub")
         .build();
+    connection.on("TestKoniec", function (message) {
 
+        $("#signalrText").text(message);
+
+        $("#signalrMessage")
+            .css("display", "flex")
+            .hide()
+            .fadeIn(300);
+
+    });
     connection.on("ReceiveMessage", (status, ang, pol) => {
         console.log("Odebrano wiadomość:", status, ang, pol);
 
@@ -35,5 +44,49 @@
         })
         .catch(err => console.error(err.toString()));
 </script>
-
+<div id="signalrMessage" class="signalr-message">
+    <div class="signalr-icon">✓</div>
+    <div>
+        <div class="signalr-title">Zadanie zakończone</div>
+        <div id="signalrText" class="signalr-text"></div>
+    </div>
+</div>
 <div id="taskList"></div>
+<style>
+    .signalr-message {
+        display: none;
+        align-items: center;
+        gap: 15px;
+        padding: 16px 22px;
+        margin: 20px 0;
+        border-radius: 10px;
+        background: #e8f5e9;
+        border: 1px solid #81c784;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        font-family: Arial, sans-serif;
+    }
+
+    .signalr-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #4caf50;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .signalr-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .signalr-text {
+        color: #555;
+        font-size: 14px;
+    }
+</style>
