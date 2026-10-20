@@ -2,7 +2,9 @@
 {
     public class Upload
     {
-        
+        public Upload()
+        {
+        }
 
         public Upload(string line,int lp)
         {

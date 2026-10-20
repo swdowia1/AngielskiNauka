@@ -2,11 +2,14 @@ using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
+
 
 namespace AngielskiNauka.Pages
 {
     public class NoweModel : PageModel
     {
+        private const string SessionKey = "Slowka";
         AaaswswContext _db;
         public List<vString> poziomy;
         [BindProperty]
@@ -17,6 +20,28 @@ namespace AngielskiNauka.Pages
             _db = db;
             poziomy = _db.Pozioms.Select(k => new vString() { Id = k.PoziomId, Name = k.Nazwa }).ToList();
             Ile = _db.Ustawienias.FirstOrDefault().Ile;
+        }
+        private void OdczytajPodgladZSession()
+        {
+            var json = HttpContext.Session.GetString(SessionKey);
+
+            PreviewData = string.IsNullOrEmpty(json)
+                ? new List<Upload>()
+                : JsonSerializer.Deserialize<List<Upload>>(json) ?? new List<Upload>();
+        }
+        private void ZapiszSlowkaDoSession()
+        {
+            var slowka = PreviewData
+                .Where(x =>
+                    string.IsNullOrWhiteSpace(x.Uwaga) &&
+                    !string.IsNullOrWhiteSpace(x.ANG) &&
+                    !string.IsNullOrWhiteSpace(x.POL))
+                .Select(x => x)
+                .ToList();
+
+            HttpContext.Session.SetString(
+                SessionKey,
+                JsonSerializer.Serialize(slowka));
         }
         [BindProperty]
         public int Number { get; set; }
@@ -44,12 +69,45 @@ namespace AngielskiNauka.Pages
                 }
             }
             PreviewData=PreviewData.OrderByDescending(k => k.Uwaga).ToList();
+            ZapiszSlowkaDoSession();
             return Page();
         }
-        public IActionResult OnPostSave()
+        public async Task<IActionResult> OnPostSave()
         {
-            int gg = Number;
-            //komentarz
+            OdczytajPodgladZSession();
+
+            var poprawne = PreviewData
+                .Where(x =>
+                    string.IsNullOrWhiteSpace(x.Uwaga) &&
+                    !string.IsNullOrWhiteSpace(x.ANG) &&
+                    !string.IsNullOrWhiteSpace(x.POL))
+                .ToList();
+
+            if (poprawne.Count == 0)
+            {
+                TempData["Message"] = "Brak poprawnych s³ówek do zapisania.";
+                return RedirectToPage();
+            }
+
+            foreach (var item in poprawne)
+            {
+                _db.Danes.Add(new Dane
+                {
+                    Ang = item.ANG,
+                    Pol = item.POL,
+                    Data = DateTime.Now,
+                    DataAkt = DateTime.Now,
+                    Stan = 1,
+                    PoziomId = Number
+                });
+            }
+
+            await _db.SaveChangesAsync();
+
+            HttpContext.Session.Remove(SessionKey);
+
+            TempData["Message"] = $"Zapisano {poprawne.Count} s³ówek.";
+
             return RedirectToPage();
         }
        

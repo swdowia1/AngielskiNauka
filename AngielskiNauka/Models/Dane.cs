@@ -16,3 +16,8 @@ public partial class Dane
 
     public virtual Poziom Poziom { get; set; } = null!;
 }
+public class SlowkoSession
+{
+    public string ANG { get; set; } = string.Empty;
+    public string POL { get; set; } = string.Empty;
+}
