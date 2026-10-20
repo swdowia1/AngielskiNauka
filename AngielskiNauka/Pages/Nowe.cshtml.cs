@@ -69,44 +69,11 @@ namespace AngielskiNauka.Pages
                 }
             }
             PreviewData=PreviewData.OrderByDescending(k => k.Uwaga).ToList();
-            ZapiszSlowkaDoSession();
             return Page();
         }
-        public async Task<IActionResult> OnPostSave()
+        public IActionResult OnPostSave()
         {
-            OdczytajPodgladZSession();
-
-            var poprawne = PreviewData
-                .Where(x =>
-                    string.IsNullOrWhiteSpace(x.Uwaga) &&
-                    !string.IsNullOrWhiteSpace(x.ANG) &&
-                    !string.IsNullOrWhiteSpace(x.POL))
-                .ToList();
-
-            if (poprawne.Count == 0)
-            {
-                TempData["Message"] = "Brak poprawnych s³ówek do zapisania.";
-                return RedirectToPage();
-            }
-
-            foreach (var item in poprawne)
-            {
-                _db.Danes.Add(new Dane
-                {
-                    Ang = item.ANG,
-                    Pol = item.POL,
-                    Data = DateTime.Now,
-                    DataAkt = DateTime.Now,
-                    Stan = 1,
-                    PoziomId = Number
-                });
-            }
-
-            await _db.SaveChangesAsync();
-
-            HttpContext.Session.Remove(SessionKey);
-
-            TempData["Message"] = $"Zapisano {poprawne.Count} s³ówek.";
+            int gg = Number;
 
             return RedirectToPage();
         }
