@@ -2,11 +2,14 @@ using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
+
 
 namespace AngielskiNauka.Pages
 {
     public class NoweModel : PageModel
     {
+        private const string SessionKey = "Slowka";
         AaaswswContext _db;
         public List<vString> poziomy;
         [BindProperty]
@@ -17,6 +20,28 @@ namespace AngielskiNauka.Pages
             _db = db;
             poziomy = _db.Pozioms.Select(k => new vString() { Id = k.PoziomId, Name = k.Nazwa }).ToList();
             Ile = _db.Ustawienias.FirstOrDefault().Ile;
+        }
+        private void OdczytajPodgladZSession()
+        {
+            var json = HttpContext.Session.GetString(SessionKey);
+
+            PreviewData = string.IsNullOrEmpty(json)
+                ? new List<Upload>()
+                : JsonSerializer.Deserialize<List<Upload>>(json) ?? new List<Upload>();
+        }
+        private void ZapiszSlowkaDoSession()
+        {
+            var slowka = PreviewData
+                .Where(x =>
+                    string.IsNullOrWhiteSpace(x.Uwaga) &&
+                    !string.IsNullOrWhiteSpace(x.ANG) &&
+                    !string.IsNullOrWhiteSpace(x.POL))
+                .Select(x => x)
+                .ToList();
+
+            HttpContext.Session.SetString(
+                SessionKey,
+                JsonSerializer.Serialize(slowka));
         }
         [BindProperty]
         public int Number { get; set; }

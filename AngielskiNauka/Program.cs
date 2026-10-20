@@ -54,7 +54,12 @@ builder.Services.Configure<RequestLocalizationOptions>(
      
         options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
     });
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.AddMvc()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization(options =>
@@ -68,6 +73,7 @@ builder.Services.AddMvc()
 
 
 var app = builder.Build();
+app.UseSession();
 //app.MapHub<TaskHub>("/taskHub");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
