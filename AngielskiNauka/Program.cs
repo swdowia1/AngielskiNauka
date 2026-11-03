@@ -2,7 +2,6 @@ using AngielskiNauka;
 using AngielskiNauka.ModelApi;
 using AngielskiNauka.Models;
 using AngielskiNauka.Resources;
-using AngielskiNauka.Serwisy;
 using AngielskiNauka.Unit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -26,11 +25,8 @@ builder.Services.AddDbContext<AaaswswContext>(options =>
 builder.Services.AddSingleton<LocService>();
 builder.Services.AddSingleton<ConfigGlobal>();
 builder.Services.AddScoped<IRepository, Repository>();
-builder.Services.AddScoped<AngService>();  //Localizations languages
-//builder.Services.AddScoped<TaskService>();  //Localizations languages
-builder.Services.AddSingleton<RabbitMQSend>();
-//builder.Services.AddHostedService<RabbitMqBackgroundConsumer>();
-//IDataCache
+builder.Services.AddScoped<AngService>();  
+
 
 builder.Services.AddSignalR();
 
