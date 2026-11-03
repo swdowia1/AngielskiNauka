@@ -64,7 +64,7 @@ namespace AngielskiNauka.Unit
             try
             {
 
-
+                _logger.LogInformation($"Fetching data for PoziomId: {id} with limit: {ilosc}");
                 return _repository.GetAll<Dane>(
                 w => w.PoziomId == id,
            new List<Expression<Func<Dane, object>>>
