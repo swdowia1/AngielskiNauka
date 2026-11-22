@@ -46,12 +46,7 @@ namespace AngielskiNauka.Unit
         }
 
 
-        public decimal Faktura(List<decimal> dane)
-        {
-
-            return dane.Sum(k => (Math.Floor(k * 100) / 100));
-        }
-
+       
         public List<Dane> DaneFiszka(int id)
         {
             return _repository.GetAll<Dane>(k => k.PoziomId == id).OrderBy(k => k.Stan).ThenBy(k => k.Data).ToList();
