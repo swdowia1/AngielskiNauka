@@ -69,12 +69,33 @@ namespace AngielskiNauka.Pages
                 }
             }
             PreviewData=PreviewData.OrderByDescending(k => k.Uwaga).ToList();
+            ZapiszSlowkaDoSession();
             return Page();
         }
         public IActionResult OnPostSave()
         {
-            int gg = Number;
+           
+            OdczytajPodgladZSession();
 
+            foreach (var item in PreviewData)
+            {
+                if (!string.IsNullOrWhiteSpace(item.Uwaga))
+                    continue;
+
+                var dane = new Dane
+                {
+                    Ang = item.ANG,
+                    Pol = item.POL,
+                    Data = DateTime.UtcNow,
+                    DataAkt = DateTime.UtcNow,
+                    Stan = 0,
+                    PoziomId = Number
+                };
+
+                _db.Danes.Add(dane);
+            }
+
+           _db.SaveChanges();
             return RedirectToPage();
         }
        

@@ -4,13 +4,13 @@
     {
         
 
-        public Upload(string line,int lp)
+        public Upload(string linia,int lp)
         {
-           Linia = line;
+           Linia = linia;
            LP = lp;
             char[] separators = { ';', (char)8211, (char)45 };
 
-            string[] kol = line.Split(separators,
+            string[] kol = linia.Split(separators,
                 StringSplitOptions.RemoveEmptyEntries);
             
             if (kol.Length == 2)
