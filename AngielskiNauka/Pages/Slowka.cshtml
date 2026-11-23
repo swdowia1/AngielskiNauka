@@ -5,6 +5,53 @@
 }
 
 <style>
+    .podsumowanie {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 15px 0;
+    }
+
+        .podsumowanie .stan-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 90px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            border: 1px solid #eee;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+            .podsumowanie .stan-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,.12);
+            }
+
+        .podsumowanie .stan-nazwa {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .podsumowanie .stan-ilosc {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .podsumowanie .stan-0 {
+            border-left: 4px solid #dc3545;
+        }
+
+        .podsumowanie .stan-1 {
+            border-left: 4px solid #ffc107;
+        }
+
+        .podsumowanie .stan-2 {
+            border-left: 4px solid #198754;
+        }
     .zaokraglony-div {
         padding: 15px 20px;
         border-radius: 20px;
@@ -140,6 +187,7 @@
         <span id="postepid">0</span>
     </div>
 </div>
+<div id="podsumowanie" class="podsumowanie"></div>
 <div>
     <span style="color:orangered" id="popraw"></span>
 </div>
@@ -216,6 +264,16 @@
             $('#pol1').text(dane.odpowiedzi[1]);
             $('#pol2').text(dane.odpowiedzi[2]);
             $('#pol3').text(dane.odpowiedzi[3]);
+    $('#podsumowanie').empty();
+
+               $.each(dane.stan, function (stan, ilosc) {
+        $('#podsumowanie').append(`
+            <div class="stan-item stan-${stan}">
+                <span class="stan-nazwa">Stan ${stan}</span>
+                <span class="stan-ilosc">${ilosc}</span>
+            </div>
+        `);
+    });
             hideLoader();
            }, function (data) {
               

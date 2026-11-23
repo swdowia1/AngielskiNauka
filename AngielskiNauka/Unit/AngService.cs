@@ -128,9 +128,29 @@ namespace AngielskiNauka.Unit
         }
         public Fiszka LosoweSlowo(int poziom)
         {
-            var losowy = _repository.GetRandom<Dane>(d => d.Stan <=0 &&d.PoziomId==poziom);
+            var losowy1 = _repository.GetRandom<Dane>(d => d.Stan <0 &&d.PoziomId==poziom);
+            var losowy = _repository.GetAll<Dane>(
+    x => x.PoziomId == poziom && x.Stan < 0,
+    new List<Expression<Func<Dane, object>>>
+    {
+        x => x.DataAkt
+    },
+    take: 10).FirstOrDefault();
+            if (losowy == null)
+            {
+                losowy = _repository.GetAll<Dane>(
+   x => x.PoziomId == poziom,
+   new List<Expression<Func<Dane, object>>>
+   {
+        x => x.DataAkt
+   },
+   take: 10).FirstOrDefault();
+            }
             List<Dane> d = DaneFiszka(poziom);
             Fiszka result = new Fiszka() { Ang = losowy.Ang, Pol = losowy.Pol, Id = losowy.DaneId};
+            result.Stan = d
+       .GroupBy(x => x.Stan)
+       .ToDictionary(x => x.Key, x => x.Count());
             List<string> odp = new List<string>();
             odp.Add(losowy.Pol);
             odp.AddRange(_repository.GetAll<Dane>(d => d.DaneId > losowy.DaneId && d.PoziomId == poziom).Select(k => k.Pol).Take(3).ToList());
@@ -160,12 +180,12 @@ namespace AngielskiNauka.Unit
             slowo.DataAkt = DateTime.UtcNow;
             if (isOke)
             {
-                slowo.Stan += 1;
+                slowo.Stan = 1;
                 slowo.Data = slowo.Data.AddMonths(3);
             }
             else
             {
-                slowo.Stan -=1;
+                slowo.Stan =1;
                 slowo.Data = slowo.Data.AddMonths(-3);
             }
             _repository.Update(slowo);
