@@ -18,6 +18,10 @@
         /// powtarzam
         /// </summary>
         public int Wiecej { get; set; }
+        /// <summary>
+        /// Stan -> ilość
+        /// </summary>
+        public Dictionary<int, int> Stan { get; set; } = new();
     }
     public class Slowo
     {
